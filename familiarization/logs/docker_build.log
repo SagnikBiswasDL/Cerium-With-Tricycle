@@ -1,0 +1,126 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.06kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/nvidia/cuda:13.3.0-devel-ubuntu22.04
+#2 DONE 0.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/nvidia/cuda:13.3.0-devel-ubuntu22.04@sha256:e7cb11515d3931675b57eb26c5e70055e702a4d51320c60ebcd899380ee3c7d5
+#4 resolve docker.io/nvidia/cuda:13.3.0-devel-ubuntu22.04@sha256:e7cb11515d3931675b57eb26c5e70055e702a4d51320c60ebcd899380ee3c7d5 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 72B done
+#5 DONE 0.0s
+
+#6 [2/7] RUN apt-get update && apt-get install -y --no-install-recommends         apt-transport-https         build-essential         ca-certificates         cmake         git         g++-12         gnupg         make         m4         software-properties-common         wget         zlib1g-dev     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/7] COPY scripts /scripts
+#7 CACHED
+
+#8 [4/7] RUN bash /scripts/install_seal.sh
+#8 CACHED
+
+#9 [5/7] RUN add-apt-repository -y ppa:deadsnakes/ppa     && apt-get update     && apt-get install -y --no-install-recommends         python3.10-dev         python3.12-dev         python3.10-venv         python3.12-venv     && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [6/7] RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py     && python3.10 /tmp/get-pip.py     && python3.12 /tmp/get-pip.py     && rm /tmp/get-pip.py
+#10 3130.4 Collecting pip
+#10 3130.7   Downloading pip-26.2.2-py3-none-any.whl.metadata (4.6 kB)
+#10 3130.9 Collecting setuptools
+#10 3131.0   Downloading setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+#10 3131.0 Collecting wheel
+#10 3131.0   Downloading wheel-0.48.0-py3-none-any.whl.metadata (2.3 kB)
+#10 3131.0 Collecting packaging>=24.0 (from wheel)
+#10 3131.1   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#10 3131.2 Downloading pip-26.2.2-py3-none-any.whl (1.8 MB)
+#10 3131.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 8.4 MB/s  0:00:00
+#10 3131.6 Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+#10 3131.6    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 876.3/876.3 kB 25.9 MB/s  0:00:00
+#10 3131.6 Downloading wheel-0.48.0-py3-none-any.whl (33 kB)
+#10 3131.7 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#10 3131.8 Installing collected packages: setuptools, pip, packaging, wheel
+#10 3132.2 
+#10 3132.2 Successfully installed packaging-26.3 pip-26.2.2 setuptools-84.2.1 wheel-0.48.0
+#10 3132.2 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#10 3132.8 Collecting pip
+#10 3132.8   Using cached pip-26.2.2-py3-none-any.whl.metadata (4.6 kB)
+#10 3132.8 Using cached pip-26.2.2-py3-none-any.whl (1.8 MB)
+#10 3132.8 Installing collected packages: pip
+#10 3133.1 Successfully installed pip-26.2.2
+#10 3133.1 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#10 DONE 3133.1s
+
+#11 [7/7] RUN apt-get update     && apt-get install -y --allow-change-held-packages --no-install-recommends         libnccl2=2.30.7-1+cuda13.3         libnccl-dev=2.30.7-1+cuda13.3     && rm -rf /var/lib/apt/lists/*
+#11 0.230 Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  InRelease [1576 B]
+#11 0.651 Get:2 http://ports.ubuntu.com/ubuntu-ports jammy InRelease [270 kB]
+#11 0.653 Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  Packages [2504 kB]
+#11 0.959 Get:4 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu jammy InRelease [18.1 kB]
+#11 1.250 Get:5 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu jammy/main arm64 Packages [49.9 kB]
+#11 1.370 Get:6 http://ports.ubuntu.com/ubuntu-ports jammy-updates InRelease [128 kB]
+#11 1.479 Get:7 http://ports.ubuntu.com/ubuntu-ports jammy-backports InRelease [127 kB]
+#11 1.586 Get:8 http://ports.ubuntu.com/ubuntu-ports jammy-security InRelease [129 kB]
+#11 1.692 Get:9 http://ports.ubuntu.com/ubuntu-ports jammy/multiverse arm64 Packages [224 kB]
+#11 1.753 Get:10 http://ports.ubuntu.com/ubuntu-ports jammy/main arm64 Packages [1758 kB]
+#11 1.962 Get:11 http://ports.ubuntu.com/ubuntu-ports jammy/restricted arm64 Packages [24.2 kB]
+#11 1.962 Get:12 http://ports.ubuntu.com/ubuntu-ports jammy/universe arm64 Packages [17.2 MB]
+#11 2.619 Get:13 http://ports.ubuntu.com/ubuntu-ports jammy-updates/multiverse arm64 Packages [81.6 kB]
+#11 2.620 Get:14 http://ports.ubuntu.com/ubuntu-ports jammy-updates/restricted arm64 Packages [8359 kB]
+#11 2.803 Get:15 http://ports.ubuntu.com/ubuntu-ports jammy-updates/universe arm64 Packages [1717 kB]
+#11 2.848 Get:16 http://ports.ubuntu.com/ubuntu-ports jammy-updates/main arm64 Packages [4567 kB]
+#11 2.976 Get:17 http://ports.ubuntu.com/ubuntu-ports jammy-backports/main arm64 Packages [82.5 kB]
+#11 2.978 Get:18 http://ports.ubuntu.com/ubuntu-ports jammy-backports/universe arm64 Packages [33.7 kB]
+#11 2.979 Get:19 http://ports.ubuntu.com/ubuntu-ports jammy-security/universe arm64 Packages [1421 kB]
+#11 3.017 Get:20 http://ports.ubuntu.com/ubuntu-ports jammy-security/restricted arm64 Packages [8061 kB]
+#11 3.234 Get:21 http://ports.ubuntu.com/ubuntu-ports jammy-security/multiverse arm64 Packages [75.6 kB]
+#11 3.235 Get:22 http://ports.ubuntu.com/ubuntu-ports jammy-security/main arm64 Packages [4253 kB]
+#11 3.615 Fetched 51.1 MB in 3s (14.7 MB/s)
+#11 3.615 Reading package lists...
+#11 4.067 Reading package lists...
+#11 4.539 Building dependency tree...
+#11 4.648 Reading state information...
+#11 4.754 The following NEW packages will be installed:
+#11 4.754   libnccl-dev libnccl2
+#11 5.151 0 upgraded, 2 newly installed, 0 to remove and 80 not upgraded.
+#11 5.151 Need to get 411 MB of archives.
+#11 5.151 After this operation, 641 MB of additional disk space will be used.
+#11 5.151 Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  libnccl2 2.30.7-1+cuda13.3 [201 MB]
+#11 119.8 Ign:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  libnccl2 2.30.7-1+cuda13.3
+#11 120.2 Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  libnccl-dev 2.30.7-1+cuda13.3 [210 MB]
+#11 1076.6 Ign:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  libnccl-dev 2.30.7-1+cuda13.3
+#11 1077.6 Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  libnccl2 2.30.7-1+cuda13.3 [201 MB]
+#11 1081.8 Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/sbsa  libnccl-dev 2.30.7-1+cuda13.3 [210 MB]
+#11 1087.6 debconf: delaying package configuration, since apt-utils is not installed
+#11 1087.6 Fetched 100 MB in 1min 40s (999 kB/s)
+#11 1087.6 Selecting previously unselected package libnccl2.
+#11 1087.6 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 27698 files and directories currently installed.)
+#11 1087.7 Preparing to unpack .../libnccl2_2.30.7-1+cuda13.3_arm64.deb ...
+#11 1087.7 Unpacking libnccl2 (2.30.7-1+cuda13.3) ...
+#11 1089.9 Selecting previously unselected package libnccl-dev.
+#11 1089.9 Preparing to unpack .../libnccl-dev_2.30.7-1+cuda13.3_arm64.deb ...
+#11 1089.9 Unpacking libnccl-dev (2.30.7-1+cuda13.3) ...
+#11 1092.5 Setting up libnccl2 (2.30.7-1+cuda13.3) ...
+#11 1092.5 Setting up libnccl-dev (2.30.7-1+cuda13.3) ...
+#11 1092.5 Processing triggers for libc-bin (2.35-0ubuntu3.13) ...
+#11 DONE 1092.8s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 1041.9s done
+#12 exporting manifest sha256:5164d197b3331df58180a5dadb1e5e56992adbd13d4615b7fc4c30c931fb8231 done
+#12 exporting config sha256:e111fd6c4f2de472261fa6250e7e21a174ce8857537a2a79cde951ece27420c7 done
+#12 exporting attestation manifest sha256:d1c7e9ee8e1fbc6bb8700041fa133e7dd62f39147a334f2864067b4f44aa0f17 done
+#12 exporting manifest list sha256:1e62d1539f2b1ae609dcceb61fe2f31c0843ce8fa2590a540fe7988eeff005df done
+#12 naming to docker.io/cerium/build-cu13.3:v1 done
+#12 unpacking to docker.io/cerium/build-cu13.3:v1
+#12 unpacking to docker.io/cerium/build-cu13.3:v1 3.3s done
+#12 DONE 1045.3s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/k3zugd51otmacs5bk025cxpu6

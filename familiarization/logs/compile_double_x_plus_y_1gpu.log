@@ -1,0 +1,69 @@
+Compiling double_x_plus_y for 1 GPU(s)...
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.3.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+WARNING: The NVIDIA Driver was not detected.  GPU functionality will not be available.
+   Use the NVIDIA Container Toolkit to start this container with GPU support; see
+   https://docs.nvidia.com/datacenter/cloud-native/ .
+
+double_x_plus_y z: scale=56 bits, level=12
+Performing Horizontal Fusion with BLOCK_SIZE: 1024
+Completed Block: 0/0
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.3.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+WARNING: The NVIDIA Driver was not detected.  GPU functionality will not be available.
+   Use the NVIDIA Container Toolkit to start this container with GPU support; see
+   https://docs.nvidia.com/datacenter/cloud-native/ .
+
+make: Entering directory '/Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples'
+mkdir -p /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build
+mkdir -p /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output
+mkdir -p /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/partition_0
+
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_90,code=sm_90 -gencode=arch=compute_100,code=sm_100 -I/Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/partition_0/function_map.cu -o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/partition_0/function_map.o
+
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_90,code=sm_90 -gencode=arch=compute_100,code=sm_100 -I/Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/partition_0/function_map_cugraph.cu -o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/partition_0/function_map_cugraph.o
+
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_90,code=sm_90 -gencode=arch=compute_100,code=sm_100 -I/Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/partition_0/kernels_0.cu -o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/partition_0/kernels_0.o
+/Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/common_function.o
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus" -ccbin g++ -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_90,code=sm_90 -gencode=arch=compute_100,code=sm_100 -I/Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/cerium/compiler/backend/kernels  -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177 /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/cerium/compiler/backend/kernels/function.cu -o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/common_function.o
+cp /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/partition_0/ll.functions /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/functions0
+cp /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/partition_0/inputs0 /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/inputs0
+cp /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/program_inputs /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/program_inputs
+cp /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/partition_0/inputs_remapable0 /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/inputs_remapable0
+cp /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/remapable_inputs /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/remapable_inputs
+cp /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/calls /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/calls
+cp /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/compile_config /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/compile_config
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_sud_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_ntt_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_sud_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_ntt_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_sud_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_ntt_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus" -ccbin g++ -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_90,code=sm_90 -gencode=arch=compute_100,code=sm_100 -shared  /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/partition_0/function_map.o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/partition_0/function_map_cugraph.o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/partition_0/kernels_0.o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/build/common_function.o -lcudart -o /Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples/double_x_plus_y/outputs/double_x_plus_y/main_1gpus/output/function_map_0.so
+make: Leaving directory '/Users/sagnikbiswas/Desktop/Cerium/Cerium-With-Tricycle/Cerium/examples'

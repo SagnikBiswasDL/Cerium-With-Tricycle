@@ -1,0 +1,4 @@
+.DS_Store
+# Local clone of upstream CMU-CAOS/Cerium; new examples are kept in cerium_examples/.
+/Cerium/
+__pycache__/
