@@ -1,0 +1,35 @@
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:379][IOGenerator]: Generating Evalkeys:/workspace/cerium_work/Cerium/examples/weighted_sum/outputs/weighted_sum/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:613][IOGenerator]: Generating Plaintext Inputs:/workspace/cerium_work/Cerium/examples/weighted_sum/outputs/weighted_sum/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:208][Program]: Making CeriumFunction: main_1gpus: vregs=1024 bcus=128 num_gpus_compiled=1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:261][Program]: [0]: Allocating Register File Memory: size = 1024 vregs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:265][Program]: [0]: Allocating BCUs: size = 128 bcus
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:291][CeriumFunction:main_1gpus]: Generating Inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:729][CeriumFunction:main_1gpus]: Copying Inputs to Device
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:887][CeriumFunction:main_1gpus]: Launching Threadfn 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1098][CeriumFunction:main_1gpus]: Calculating Remapable Size for tid: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1133][CeriumFunction:main_1gpus]: Calculated Remapable Size for tid: 0 size: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:427][Program]: main_1gpus: Create Cudagraph = True
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:679][CeriumFunction:main_1gpus]: Created Register File:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:681][CeriumFunction:main_1gpus]: Created BCU Units:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:640][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:650][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:684][CeriumFunction:main_1gpus]: Creating Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:687][CeriumFunction:main_1gpus]: Created Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:689][CeriumFunction:main_1gpus]: Loaded Function Map:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:699][CeriumFunction:main_1gpus]: Creating Cuda Graphs tid:0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1095][CeriumFunction:main_1gpus]: Completed CUDA Graph Creation:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:438][Program]: Returning CeriumFunctions
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:299][IOGenerator]: Generating Ciphertexts:/workspace/cerium_work/Cerium/examples/weighted_sum/outputs/weighted_sum/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:961][CeriumFunction:main_1gpus]: Copying Ciphertext Inputs To GPU
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+------------------ Completed -------------------------
+Iterations Run = 1
+Total Execution Time = 0 milliseconds
+Average Execution Time = 0 milliseconds
+expected first 8 slots: [26.  7.  3. 11. 10. 20. 30. 12.]
+actual first 8 slots:   [26.00000002+6.71298613e-06j  7.0000008 -1.03013272e-05j
+  3.0000173 +1.06310647e-05j 10.99998595-4.97462058e-06j
+ 10.00000241+1.12155386e-05j 19.99999557-6.21154798e-06j
+ 29.999985  -2.08247387e-05j 11.99999611-6.34470762e-06j]
+maximum absolute error: 6.117e-05
+------------------------------------------------------

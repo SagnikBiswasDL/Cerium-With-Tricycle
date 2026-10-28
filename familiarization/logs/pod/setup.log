@@ -1,0 +1,1883 @@
+[setup_pod] Installing CUDA 13.3 toolkit, g++-12, Python 3.12 headers
+W: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+cmake is already the newest version (3.28.3-1build7).
+make is already the newest version (4.3-4.1build2).
+The following package was automatically installed and is no longer required:
+  libwayland-server0
+Use 'apt autoremove' to remove it.
+The following additional packages will be installed:
+  cccl-13-3 cpp-12 cuda-command-line-tools-13-3 cuda-compiler-13-3
+  cuda-crt-13-3 cuda-ctadvisor-13-3 cuda-cudart-13-3 cuda-cudart-dev-13-3
+  cuda-culibos-dev-13-3 cuda-cuobjdump-13-3 cuda-cupti-13-3
+  cuda-cupti-dev-13-3 cuda-cuxxfilt-13-3 cuda-documentation-13-3
+  cuda-driver-dev-13-3 cuda-gdb-13-3 cuda-libraries-13-3
+  cuda-libraries-dev-13-3 cuda-nsight-compute-13-3 cuda-nsight-systems-13-3
+  cuda-nvcc-13-3 cuda-nvdisasm-13-3 cuda-nvml-dev-13-3 cuda-nvprune-13-3
+  cuda-nvrtc-13-3 cuda-nvrtc-dev-13-3 cuda-nvtx-13-3 cuda-opencl-13-3
+  cuda-profiler-api-13-3 cuda-sandbox-dev-13-3 cuda-sanitizer-13-3
+  cuda-tileiras-13-3 cuda-toolkit-13-3-config-common
+  cuda-toolkit-13-config-common cuda-toolkit-config-common cuda-tools-13-3
+  cuda-visual-tools-13-3 gcc-12 gcc-12-base gds-tools-13-3 git-man
+  libcublas-13-3 libcublas-dev-13-3 libcufft-13-3 libcufft-dev-13-3
+  libcufile-13-3 libcufile-dev-13-3 libcuobjclient-13-3
+  libcuobjclient-dev-13-3 libcurand-13-3 libcurand-dev-13-3 libcusolver-13-3
+  libcusolver-dev-13-3 libcusparse-13-3 libcusparse-dev-13-3 libdrm-amdgpu1
+  libdrm-common libdrm-intel1 libdrm2 libegl-mesa0 libegl1 libgbm1
+  libgcc-12-dev libgl1-mesa-dri libglx-mesa0 libnpp-13-3 libnpp-dev-13-3
+  libnspr4 libnss3 libnvfatbin-13-3 libnvfatbin-dev-13-3 libnvjitlink-13-3
+  libnvjitlink-dev-13-3 libnvjpeg-13-3 libnvjpeg-dev-13-3
+  libnvptxcompiler-13-3 libnvvm-13-3 libopengl0 libpython3.12-dev
+  libpython3.12-minimal libpython3.12-stdlib libpython3.12t64 libstdc++-12-dev
+  libxcb-cursor0 libxcb-dri2-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1
+  libxcb-render-util0 libxcb-util1 libxcb-xinerama0 libxcb-xinput0 libxcb-xkb1
+  libxkbcommon-x11-0 libxtst6 mesa-libgallium nsight-compute-2026.2.1
+  nsight-systems-2026.1.3 python3.12 python3.12-minimal zlib1g
+Suggested packages:
+  gcc-12-locales cpp-12-doc g++-12-multilib gcc-12-doc gcc-12-multilib
+  gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui
+  gitk gitweb git-cvs git-mediawiki git-svn libstdc++-12-doc m4-doc
+  python3.12-doc binfmt-support
+Recommended packages:
+  less
+The following NEW packages will be installed:
+  cccl-13-3 cpp-12 cuda-command-line-tools-13-3 cuda-compiler-13-3
+  cuda-crt-13-3 cuda-ctadvisor-13-3 cuda-cudart-13-3 cuda-cudart-dev-13-3
+  cuda-culibos-dev-13-3 cuda-cuobjdump-13-3 cuda-cupti-13-3
+  cuda-cupti-dev-13-3 cuda-cuxxfilt-13-3 cuda-documentation-13-3
+  cuda-driver-dev-13-3 cuda-gdb-13-3 cuda-libraries-13-3
+  cuda-libraries-dev-13-3 cuda-nsight-compute-13-3 cuda-nsight-systems-13-3
+  cuda-nvcc-13-3 cuda-nvdisasm-13-3 cuda-nvml-dev-13-3 cuda-nvprune-13-3
+  cuda-nvrtc-13-3 cuda-nvrtc-dev-13-3 cuda-nvtx-13-3 cuda-opencl-13-3
+  cuda-profiler-api-13-3 cuda-sandbox-dev-13-3 cuda-sanitizer-13-3
+  cuda-tileiras-13-3 cuda-toolkit-13-3 cuda-toolkit-13-3-config-common
+  cuda-toolkit-13-config-common cuda-tools-13-3 cuda-visual-tools-13-3 g++-12
+  gcc-12 gcc-12-base gds-tools-13-3 libcublas-13-3 libcublas-dev-13-3
+  libcufft-13-3 libcufft-dev-13-3 libcufile-13-3 libcufile-dev-13-3
+  libcuobjclient-13-3 libcuobjclient-dev-13-3 libcurand-13-3
+  libcurand-dev-13-3 libcusolver-13-3 libcusolver-dev-13-3 libcusparse-13-3
+  libcusparse-dev-13-3 libegl-mesa0 libegl1 libgcc-12-dev libnpp-13-3
+  libnpp-dev-13-3 libnspr4 libnss3 libnvfatbin-13-3 libnvfatbin-dev-13-3
+  libnvjitlink-13-3 libnvjitlink-dev-13-3 libnvjpeg-13-3 libnvjpeg-dev-13-3
+  libnvptxcompiler-13-3 libnvvm-13-3 libopengl0 libstdc++-12-dev
+  libxcb-cursor0 libxcb-dri2-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1
+  libxcb-render-util0 libxcb-util1 libxcb-xinerama0 libxcb-xinput0 libxcb-xkb1
+  libxkbcommon-x11-0 libxtst6 m4 nsight-compute-2026.2.1
+  nsight-systems-2026.1.3
+The following packages will be upgraded:
+  cuda-toolkit-config-common git git-man libdrm-amdgpu1 libdrm-common
+  libdrm-intel1 libdrm2 libgbm1 libgl1-mesa-dri libglx-mesa0 libpython3.12-dev
+  libpython3.12-minimal libpython3.12-stdlib libpython3.12t64 mesa-libgallium
+  python3.12 python3.12-dev python3.12-minimal python3.12-venv zlib1g
+  zlib1g-dev
+21 upgraded, 87 newly installed, 0 to remove and 257 not upgraded.
+Need to get 3256 MB of archives.
+After this operation, 6555 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g-dev amd64 1:1.3.dfsg-3.1ubuntu2.3 [894 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g amd64 1:1.3.dfsg-3.1ubuntu2.3 [63.2 kB]
+Get:3 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-dev amd64 3.12.3-1ubuntu0.17 [498 kB]
+Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-dev amd64 3.12.3-1ubuntu0.17 [5684 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12t64 amd64 3.12.3-1ubuntu0.17 [2348 kB]
+Get:6 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3.12-venv amd64 3.12.3-1ubuntu0.17 [5684 B]
+Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12 amd64 3.12.3-1ubuntu0.17 [651 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-stdlib amd64 3.12.3-1ubuntu0.17 [2071 kB]
+Get:9 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-minimal amd64 3.12.3-1ubuntu0.17 [2335 kB]
+Get:10 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-minimal amd64 3.12.3-1ubuntu0.17 [839 kB]
+Get:11 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libdrm-common all 2.4.125-1ubuntu0.1~24.04.2 [9250 B]
+Get:12 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libdrm2 amd64 2.4.125-1ubuntu0.1~24.04.2 [41.4 kB]
+Get:13 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 gcc-12-base amd64 12.4.0-2ubuntu1~24.04.1 [46.8 kB]
+Get:14 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 cpp-12 amd64 12.4.0-2ubuntu1~24.04.1 [10.8 MB]
+Get:15 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-xinerama0 amd64 1.15-1ubuntu2 [5410 B]
+Get:16 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-icccm4 amd64 0.4.1-1.1build3 [10.8 kB]
+Get:17 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-util1 amd64 0.4.0-1build3 [10.7 kB]
+Get:18 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-image0 amd64 0.4.0-2build1 [10.8 kB]
+Get:19 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-keysyms1 amd64 0.4.0-1build4 [7956 B]
+Get:20 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-render-util0 amd64 0.3.9-1build4 [9608 B]
+Get:21 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-xkb1 amd64 1.15-1ubuntu2 [32.3 kB]
+Get:22 http://archive.ubuntu.com/ubuntu noble/main amd64 libxkbcommon-x11-0 amd64 1.6.0-1build1 [14.5 kB]
+Get:23 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-xinput0 amd64 1.15-1ubuntu2 [33.2 kB]
+Get:24 http://archive.ubuntu.com/ubuntu noble/universe amd64 libxcb-cursor0 amd64 0.1.4-1build1 [10.7 kB]
+Get:25 http://archive.ubuntu.com/ubuntu noble/main amd64 libnspr4 amd64 2:4.35-1.1build1 [117 kB]
+Get:26 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cccl-13-3 13.3.3.4.1-1 [1317 kB]
+Get:27 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libnss3 amd64 2:3.98-1ubuntu0.3 [1445 kB]
+Get:28 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libxtst6 amd64 2:1.2.3-1.1ubuntu0.1 [12.6 kB]
+Get:29 http://archive.ubuntu.com/ubuntu noble/main amd64 libopengl0 amd64 1.7.0-1build1 [32.8 kB]
+Get:30 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.4 [38.0 kB]
+Get:31 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.4 [110 kB]
+Get:32 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libdrm-amdgpu1 amd64 2.4.125-1ubuntu0.1~24.04.2 [21.4 kB]
+Get:33 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libdrm-intel1 amd64 2.4.125-1ubuntu0.1~24.04.2 [63.9 kB]
+Get:34 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.4 [34.2 kB]
+Get:35 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.4 [10.8 MB]
+Get:36 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libegl-mesa0 amd64 25.2.8-0ubuntu0.24.04.4 [117 kB]
+Get:37 http://archive.ubuntu.com/ubuntu noble/main amd64 libegl1 amd64 1.7.0-1build1 [28.7 kB]
+Get:38 http://archive.ubuntu.com/ubuntu noble/main amd64 libxcb-dri2-0 amd64 1.15-1ubuntu2 [7222 B]
+Get:39 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 libgcc-12-dev amd64 12.4.0-2ubuntu1~24.04.1 [2577 kB]
+Get:40 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 gcc-12 amd64 12.4.0-2ubuntu1~24.04.1 [21.7 MB]
+Get:41 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 libstdc++-12-dev amd64 12.4.0-2ubuntu1~24.04.1 [2195 kB]
+Get:42 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 g++-12 amd64 12.4.0-2ubuntu1~24.04.1 [12.1 MB]
+Get:43 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-cupti-13-3 13.3.75-1 [14.5 MB]
+Get:44 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 git-man all 1:2.43.0-1ubuntu7.4 [1101 kB]
+Get:45 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 git amd64 1:2.43.0-1ubuntu7.4 [3681 kB]
+Get:46 http://archive.ubuntu.com/ubuntu noble/main amd64 m4 amd64 1.4.19-4build1 [244 kB]
+Get:47 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-cupti-dev-13-3 13.3.75-1 [2644 kB]
+Get:48 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nvdisasm-13-3 13.3.73-1 [4661 kB]
+Get:49 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-cuobjdump-13-3 13.3.73-1 [281 kB]
+Get:50 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-gdb-13-3 13.3.73-1 [27.4 MB]
+Get:51 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nvtx-13-3 13.3.29-1 [101 kB]
+Get:52 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-sanitizer-13-3 13.3.75-1 [11.2 MB]
+Get:53 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-command-line-tools-13-3 13.3.1-1 [2530 B]
+Get:54 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-cuxxfilt-13-3 13.3.29-1 [56.3 kB]
+Get:55 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-toolkit-config-common 13.4.92-1 [17.4 kB]
+Get:56 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-toolkit-13-config-common 13.4.92-1 [17.4 kB]
+Get:57 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-toolkit-13-3-config-common 13.3.29-1 [17.4 kB]
+Get:58 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-cudart-13-3 13.3.29-1 [182 kB]
+Get:59 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-culibos-dev-13-3 13.3.33-1 [23.9 kB]
+Get:60 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-driver-dev-13-3 13.3.29-1 [31.1 kB]
+Get:61 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-cudart-dev-13-3 13.3.29-1 [1462 kB]
+Get:62 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvvm-13-3 13.3.73-1 [49.5 MB]
+Get:63 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-crt-13-3 13.3.73-1 [102 kB]
+Get:64 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvptxcompiler-13-3 13.3.73-1 [10.2 MB]
+Get:65 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nvcc-13-3 13.3.73-1 [31.6 MB]
+Get:66 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nvprune-13-3 13.3.29-1 [527 kB]
+Get:67 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-tileiras-13-3 13.3.36-1 [26.2 MB]
+Get:68 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-ctadvisor-13-3 13.3.33-1 [787 kB]
+Get:69 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-compiler-13-3 13.3.1-1 [2542 B]
+Get:70 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-documentation-13-3 13.3.73-1 [50.9 kB]
+Get:71 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nvrtc-13-3 13.3.33-1 [37.1 MB]
+Get:72 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-opencl-13-3 13.3.27-1 [24.9 kB]
+Get:73 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcublas-13-3 13.6.0.2-1 [380 MB]
+Get:74 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcufft-13-3 12.3.0.29-1 [147 MB]
+Get:75 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcufile-13-3 1.18.1.6-1 [1028 kB]
+Get:76 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcuobjclient-13-3 1.2.0.68-1 [62.2 kB]
+Get:77 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcurand-13-3 10.4.3.29-1 [43.4 MB]
+Get:78 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcusolver-13-3 12.2.6.9-1 [199 MB]
+Get:79 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcusparse-13-3 12.8.2.51-1 [145 MB]
+Get:80 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnpp-13-3 13.1.2.81-1 [117 MB]
+Get:81 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvjitlink-13-3 13.3.33-1 [29.5 MB]
+Get:82 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvfatbin-13-3 13.3.29-1 [427 kB]
+Get:83 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvjpeg-13-3 13.2.1.68-1 [3361 kB]
+Get:84 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-libraries-13-3 13.3.1-1 [2626 B]
+Get:85 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-profiler-api-13-3 13.3.27-1 [19.6 kB]
+Get:86 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nvrtc-dev-13-3 13.3.33-1 [32.6 MB]
+Get:87 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-sandbox-dev-13-3 13.3.29-1 [32.8 kB]
+Get:88 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcublas-dev-13-3 13.6.0.2-1 [438 MB]
+Get:89 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcufft-dev-13-3 12.3.0.29-1 [147 MB]
+Get:90 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcufile-dev-13-3 1.18.1.6-1 [3104 kB]
+Get:91 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcuobjclient-dev-13-3 1.2.0.68-1 [20.4 kB]
+Get:92 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcurand-dev-13-3 10.4.3.29-1 [43.5 MB]
+Get:93 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcusolver-dev-13-3 12.2.6.9-1 [122 MB]
+Get:94 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libcusparse-dev-13-3 12.8.2.51-1 [148 MB]
+Get:95 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnpp-dev-13-3 13.1.2.81-1 [115 MB]
+Get:96 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvjitlink-dev-13-3 13.3.33-1 [26.7 MB]
+Get:97 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvfatbin-dev-13-3 13.3.29-1 [295 kB]
+Get:98 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnvjpeg-dev-13-3 13.2.1.68-1 [3089 kB]
+Get:99 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-libraries-dev-13-3 13.3.1-1 [2670 B]
+Get:100 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  nsight-compute-2026.2.1 2026.2.1.5-1 [345 MB]
+Get:101 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nsight-compute-13-3 13.3.1-1 [3752 B]
+Get:102 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  nsight-systems-2026.1.3 2026.1.3.425-261338342291v0 [422 MB]
+Get:103 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nsight-systems-13-3 13.3.1-1 [3348 B]
+Get:104 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-nvml-dev-13-3 13.3.29-1 [153 kB]
+Get:105 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-visual-tools-13-3 13.3.1-1 [2922 B]
+Get:106 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  gds-tools-13-3 1.18.1.6-1 [40.8 MB]
+Get:107 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-tools-13-3 13.3.1-1 [2462 B]
+Get:108 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  cuda-toolkit-13-3 13.3.1-1 [3340 B]
+debconf: delaying package configuration, since apt-utils is not installed
+Fetched 3256 MB in 33s (99.6 MB/s)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 49062 files and directories currently installed.)
+Preparing to unpack .../zlib1g-dev_1%3a1.3.dfsg-3.1ubuntu2.3_amd64.deb ...
+Unpacking zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.3) over (1:1.3.dfsg-3.1ubuntu2.1) ...
+Preparing to unpack .../zlib1g_1%3a1.3.dfsg-3.1ubuntu2.3_amd64.deb ...
+Unpacking zlib1g:amd64 (1:1.3.dfsg-3.1ubuntu2.3) over (1:1.3.dfsg-3.1ubuntu2.1) ...
+Setting up zlib1g:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 49062 files and directories currently installed.)
+Preparing to unpack .../000-python3.12-dev_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking python3.12-dev (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../001-libpython3.12-dev_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../002-libpython3.12t64_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12t64:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../003-python3.12-venv_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking python3.12-venv (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../004-python3.12_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking python3.12 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../005-libpython3.12-stdlib_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../006-python3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking python3.12-minimal (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../007-libpython3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+Unpacking libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.8) ...
+Preparing to unpack .../008-libdrm-common_2.4.125-1ubuntu0.1~24.04.2_all.deb ...
+Unpacking libdrm-common (2.4.125-1ubuntu0.1~24.04.2) over (2.4.122-1~ubuntu0.24.04.1) ...
+Preparing to unpack .../009-libdrm2_2.4.125-1ubuntu0.1~24.04.2_amd64.deb ...
+Unpacking libdrm2:amd64 (2.4.125-1ubuntu0.1~24.04.2) over (2.4.122-1~ubuntu0.24.04.1) ...
+Selecting previously unselected package cccl-13-3.
+Preparing to unpack .../010-cccl-13-3_13.3.3.4.1-1_amd64.deb ...
+Unpacking cccl-13-3 (13.3.3.4.1-1) ...
+Selecting previously unselected package gcc-12-base:amd64.
+Preparing to unpack .../011-gcc-12-base_12.4.0-2ubuntu1~24.04.1_amd64.deb ...
+Unpacking gcc-12-base:amd64 (12.4.0-2ubuntu1~24.04.1) ...
+Selecting previously unselected package cpp-12.
+Preparing to unpack .../012-cpp-12_12.4.0-2ubuntu1~24.04.1_amd64.deb ...
+Unpacking cpp-12 (12.4.0-2ubuntu1~24.04.1) ...
+Selecting previously unselected package cuda-cupti-13-3.
+Preparing to unpack .../013-cuda-cupti-13-3_13.3.75-1_amd64.deb ...
+Unpacking cuda-cupti-13-3 (13.3.75-1) ...
+Selecting previously unselected package cuda-cupti-dev-13-3.
+Preparing to unpack .../014-cuda-cupti-dev-13-3_13.3.75-1_amd64.deb ...
+Unpacking cuda-cupti-dev-13-3 (13.3.75-1) ...
+Selecting previously unselected package cuda-nvdisasm-13-3.
+Preparing to unpack .../015-cuda-nvdisasm-13-3_13.3.73-1_amd64.deb ...
+Unpacking cuda-nvdisasm-13-3 (13.3.73-1) ...
+Selecting previously unselected package cuda-cuobjdump-13-3.
+Preparing to unpack .../016-cuda-cuobjdump-13-3_13.3.73-1_amd64.deb ...
+Unpacking cuda-cuobjdump-13-3 (13.3.73-1) ...
+Selecting previously unselected package cuda-gdb-13-3.
+Preparing to unpack .../017-cuda-gdb-13-3_13.3.73-1_amd64.deb ...
+Unpacking cuda-gdb-13-3 (13.3.73-1) ...
+Selecting previously unselected package cuda-nvtx-13-3.
+Preparing to unpack .../018-cuda-nvtx-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-nvtx-13-3 (13.3.29-1) ...
+Selecting previously unselected package cuda-sanitizer-13-3.
+Preparing to unpack .../019-cuda-sanitizer-13-3_13.3.75-1_amd64.deb ...
+Unpacking cuda-sanitizer-13-3 (13.3.75-1) ...
+Selecting previously unselected package cuda-command-line-tools-13-3.
+Preparing to unpack .../020-cuda-command-line-tools-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-command-line-tools-13-3 (13.3.1-1) ...
+Selecting previously unselected package cuda-cuxxfilt-13-3.
+Preparing to unpack .../021-cuda-cuxxfilt-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-cuxxfilt-13-3 (13.3.29-1) ...
+Preparing to unpack .../022-cuda-toolkit-config-common_13.4.92-1_all.deb ...
+Unpacking cuda-toolkit-config-common (13.4.92-1) over (13.0.88-1) ...
+Selecting previously unselected package cuda-toolkit-13-config-common.
+Preparing to unpack .../023-cuda-toolkit-13-config-common_13.4.92-1_all.deb ...
+Unpacking cuda-toolkit-13-config-common (13.4.92-1) ...
+Selecting previously unselected package cuda-toolkit-13-3-config-common.
+Preparing to unpack .../024-cuda-toolkit-13-3-config-common_13.3.29-1_all.deb ...
+Unpacking cuda-toolkit-13-3-config-common (13.3.29-1) ...
+Selecting previously unselected package cuda-cudart-13-3.
+Preparing to unpack .../025-cuda-cudart-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-cudart-13-3 (13.3.29-1) ...
+Selecting previously unselected package cuda-culibos-dev-13-3.
+Preparing to unpack .../026-cuda-culibos-dev-13-3_13.3.33-1_amd64.deb ...
+Unpacking cuda-culibos-dev-13-3 (13.3.33-1) ...
+Selecting previously unselected package cuda-driver-dev-13-3.
+Preparing to unpack .../027-cuda-driver-dev-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-driver-dev-13-3 (13.3.29-1) ...
+Selecting previously unselected package cuda-cudart-dev-13-3.
+Preparing to unpack .../028-cuda-cudart-dev-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-cudart-dev-13-3 (13.3.29-1) ...
+Selecting previously unselected package libnvvm-13-3.
+Preparing to unpack .../029-libnvvm-13-3_13.3.73-1_amd64.deb ...
+Unpacking libnvvm-13-3 (13.3.73-1) ...
+Selecting previously unselected package cuda-crt-13-3.
+Preparing to unpack .../030-cuda-crt-13-3_13.3.73-1_amd64.deb ...
+Unpacking cuda-crt-13-3 (13.3.73-1) ...
+Selecting previously unselected package libnvptxcompiler-13-3.
+Preparing to unpack .../031-libnvptxcompiler-13-3_13.3.73-1_amd64.deb ...
+Unpacking libnvptxcompiler-13-3 (13.3.73-1) ...
+Selecting previously unselected package cuda-nvcc-13-3.
+Preparing to unpack .../032-cuda-nvcc-13-3_13.3.73-1_amd64.deb ...
+Unpacking cuda-nvcc-13-3 (13.3.73-1) ...
+Selecting previously unselected package cuda-nvprune-13-3.
+Preparing to unpack .../033-cuda-nvprune-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-nvprune-13-3 (13.3.29-1) ...
+Selecting previously unselected package cuda-tileiras-13-3.
+Preparing to unpack .../034-cuda-tileiras-13-3_13.3.36-1_amd64.deb ...
+Unpacking cuda-tileiras-13-3 (13.3.36-1) ...
+Selecting previously unselected package cuda-ctadvisor-13-3.
+Preparing to unpack .../035-cuda-ctadvisor-13-3_13.3.33-1_amd64.deb ...
+Unpacking cuda-ctadvisor-13-3 (13.3.33-1) ...
+Selecting previously unselected package cuda-compiler-13-3.
+Preparing to unpack .../036-cuda-compiler-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-compiler-13-3 (13.3.1-1) ...
+Selecting previously unselected package cuda-documentation-13-3.
+Preparing to unpack .../037-cuda-documentation-13-3_13.3.73-1_amd64.deb ...
+Unpacking cuda-documentation-13-3 (13.3.73-1) ...
+Selecting previously unselected package cuda-nvrtc-13-3.
+Preparing to unpack .../038-cuda-nvrtc-13-3_13.3.33-1_amd64.deb ...
+Unpacking cuda-nvrtc-13-3 (13.3.33-1) ...
+Selecting previously unselected package cuda-opencl-13-3.
+Preparing to unpack .../039-cuda-opencl-13-3_13.3.27-1_amd64.deb ...
+Unpacking cuda-opencl-13-3 (13.3.27-1) ...
+Selecting previously unselected package libcublas-13-3.
+Preparing to unpack .../040-libcublas-13-3_13.6.0.2-1_amd64.deb ...
+Unpacking libcublas-13-3 (13.6.0.2-1) ...
+Selecting previously unselected package libcufft-13-3.
+Preparing to unpack .../041-libcufft-13-3_12.3.0.29-1_amd64.deb ...
+Unpacking libcufft-13-3 (12.3.0.29-1) ...
+Selecting previously unselected package libcufile-13-3.
+Preparing to unpack .../042-libcufile-13-3_1.18.1.6-1_amd64.deb ...
+Unpacking libcufile-13-3 (1.18.1.6-1) ...
+Selecting previously unselected package libcuobjclient-13-3.
+Preparing to unpack .../043-libcuobjclient-13-3_1.2.0.68-1_amd64.deb ...
+Unpacking libcuobjclient-13-3 (1.2.0.68-1) ...
+Selecting previously unselected package libcurand-13-3.
+Preparing to unpack .../044-libcurand-13-3_10.4.3.29-1_amd64.deb ...
+Unpacking libcurand-13-3 (10.4.3.29-1) ...
+Selecting previously unselected package libcusolver-13-3.
+Preparing to unpack .../045-libcusolver-13-3_12.2.6.9-1_amd64.deb ...
+Unpacking libcusolver-13-3 (12.2.6.9-1) ...
+Selecting previously unselected package libcusparse-13-3.
+Preparing to unpack .../046-libcusparse-13-3_12.8.2.51-1_amd64.deb ...
+Unpacking libcusparse-13-3 (12.8.2.51-1) ...
+Selecting previously unselected package libnpp-13-3.
+Preparing to unpack .../047-libnpp-13-3_13.1.2.81-1_amd64.deb ...
+Unpacking libnpp-13-3 (13.1.2.81-1) ...
+Selecting previously unselected package libnvjitlink-13-3.
+Preparing to unpack .../048-libnvjitlink-13-3_13.3.33-1_amd64.deb ...
+Unpacking libnvjitlink-13-3 (13.3.33-1) ...
+Selecting previously unselected package libnvfatbin-13-3.
+Preparing to unpack .../049-libnvfatbin-13-3_13.3.29-1_amd64.deb ...
+Unpacking libnvfatbin-13-3 (13.3.29-1) ...
+Selecting previously unselected package libnvjpeg-13-3.
+Preparing to unpack .../050-libnvjpeg-13-3_13.2.1.68-1_amd64.deb ...
+Unpacking libnvjpeg-13-3 (13.2.1.68-1) ...
+Selecting previously unselected package cuda-libraries-13-3.
+Preparing to unpack .../051-cuda-libraries-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-libraries-13-3 (13.3.1-1) ...
+Selecting previously unselected package cuda-profiler-api-13-3.
+Preparing to unpack .../052-cuda-profiler-api-13-3_13.3.27-1_amd64.deb ...
+Unpacking cuda-profiler-api-13-3 (13.3.27-1) ...
+Selecting previously unselected package cuda-nvrtc-dev-13-3.
+Preparing to unpack .../053-cuda-nvrtc-dev-13-3_13.3.33-1_amd64.deb ...
+Unpacking cuda-nvrtc-dev-13-3 (13.3.33-1) ...
+Selecting previously unselected package cuda-sandbox-dev-13-3.
+Preparing to unpack .../054-cuda-sandbox-dev-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-sandbox-dev-13-3 (13.3.29-1) ...
+Selecting previously unselected package libcublas-dev-13-3.
+Preparing to unpack .../055-libcublas-dev-13-3_13.6.0.2-1_amd64.deb ...
+Unpacking libcublas-dev-13-3 (13.6.0.2-1) ...
+Selecting previously unselected package libcufft-dev-13-3.
+Preparing to unpack .../056-libcufft-dev-13-3_12.3.0.29-1_amd64.deb ...
+Unpacking libcufft-dev-13-3 (12.3.0.29-1) ...
+Selecting previously unselected package libcufile-dev-13-3.
+Preparing to unpack .../057-libcufile-dev-13-3_1.18.1.6-1_amd64.deb ...
+Unpacking libcufile-dev-13-3 (1.18.1.6-1) ...
+Selecting previously unselected package libcuobjclient-dev-13-3.
+Preparing to unpack .../058-libcuobjclient-dev-13-3_1.2.0.68-1_amd64.deb ...
+Unpacking libcuobjclient-dev-13-3 (1.2.0.68-1) ...
+Selecting previously unselected package libcurand-dev-13-3.
+Preparing to unpack .../059-libcurand-dev-13-3_10.4.3.29-1_amd64.deb ...
+Unpacking libcurand-dev-13-3 (10.4.3.29-1) ...
+Selecting previously unselected package libcusolver-dev-13-3.
+Preparing to unpack .../060-libcusolver-dev-13-3_12.2.6.9-1_amd64.deb ...
+Unpacking libcusolver-dev-13-3 (12.2.6.9-1) ...
+Selecting previously unselected package libcusparse-dev-13-3.
+Preparing to unpack .../061-libcusparse-dev-13-3_12.8.2.51-1_amd64.deb ...
+Unpacking libcusparse-dev-13-3 (12.8.2.51-1) ...
+Selecting previously unselected package libnpp-dev-13-3.
+Preparing to unpack .../062-libnpp-dev-13-3_13.1.2.81-1_amd64.deb ...
+Unpacking libnpp-dev-13-3 (13.1.2.81-1) ...
+Selecting previously unselected package libnvjitlink-dev-13-3.
+Preparing to unpack .../063-libnvjitlink-dev-13-3_13.3.33-1_amd64.deb ...
+Unpacking libnvjitlink-dev-13-3 (13.3.33-1) ...
+Selecting previously unselected package libnvfatbin-dev-13-3.
+Preparing to unpack .../064-libnvfatbin-dev-13-3_13.3.29-1_amd64.deb ...
+Unpacking libnvfatbin-dev-13-3 (13.3.29-1) ...
+Selecting previously unselected package libnvjpeg-dev-13-3.
+Preparing to unpack .../065-libnvjpeg-dev-13-3_13.2.1.68-1_amd64.deb ...
+Unpacking libnvjpeg-dev-13-3 (13.2.1.68-1) ...
+Selecting previously unselected package cuda-libraries-dev-13-3.
+Preparing to unpack .../066-cuda-libraries-dev-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-libraries-dev-13-3 (13.3.1-1) ...
+Selecting previously unselected package nsight-compute-2026.2.1.
+Preparing to unpack .../067-nsight-compute-2026.2.1_2026.2.1.5-1_amd64.deb ...
+Unpacking nsight-compute-2026.2.1 (2026.2.1.5-1) ...
+Selecting previously unselected package cuda-nsight-compute-13-3.
+Preparing to unpack .../068-cuda-nsight-compute-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-nsight-compute-13-3 (13.3.1-1) ...
+Selecting previously unselected package libxcb-xinerama0:amd64.
+Preparing to unpack .../069-libxcb-xinerama0_1.15-1ubuntu2_amd64.deb ...
+Unpacking libxcb-xinerama0:amd64 (1.15-1ubuntu2) ...
+Selecting previously unselected package libxcb-icccm4:amd64.
+Preparing to unpack .../070-libxcb-icccm4_0.4.1-1.1build3_amd64.deb ...
+Unpacking libxcb-icccm4:amd64 (0.4.1-1.1build3) ...
+Selecting previously unselected package libxcb-util1:amd64.
+Preparing to unpack .../071-libxcb-util1_0.4.0-1build3_amd64.deb ...
+Unpacking libxcb-util1:amd64 (0.4.0-1build3) ...
+Selecting previously unselected package libxcb-image0:amd64.
+Preparing to unpack .../072-libxcb-image0_0.4.0-2build1_amd64.deb ...
+Unpacking libxcb-image0:amd64 (0.4.0-2build1) ...
+Selecting previously unselected package libxcb-keysyms1:amd64.
+Preparing to unpack .../073-libxcb-keysyms1_0.4.0-1build4_amd64.deb ...
+Unpacking libxcb-keysyms1:amd64 (0.4.0-1build4) ...
+Selecting previously unselected package libxcb-render-util0:amd64.
+Preparing to unpack .../074-libxcb-render-util0_0.3.9-1build4_amd64.deb ...
+Unpacking libxcb-render-util0:amd64 (0.3.9-1build4) ...
+Selecting previously unselected package libxcb-xkb1:amd64.
+Preparing to unpack .../075-libxcb-xkb1_1.15-1ubuntu2_amd64.deb ...
+Unpacking libxcb-xkb1:amd64 (1.15-1ubuntu2) ...
+Selecting previously unselected package libxkbcommon-x11-0:amd64.
+Preparing to unpack .../076-libxkbcommon-x11-0_1.6.0-1build1_amd64.deb ...
+Unpacking libxkbcommon-x11-0:amd64 (1.6.0-1build1) ...
+Selecting previously unselected package libxcb-xinput0:amd64.
+Preparing to unpack .../077-libxcb-xinput0_1.15-1ubuntu2_amd64.deb ...
+Unpacking libxcb-xinput0:amd64 (1.15-1ubuntu2) ...
+Selecting previously unselected package libxcb-cursor0:amd64.
+Preparing to unpack .../078-libxcb-cursor0_0.1.4-1build1_amd64.deb ...
+Unpacking libxcb-cursor0:amd64 (0.1.4-1build1) ...
+Selecting previously unselected package libnspr4:amd64.
+Preparing to unpack .../079-libnspr4_2%3a4.35-1.1build1_amd64.deb ...
+Unpacking libnspr4:amd64 (2:4.35-1.1build1) ...
+Selecting previously unselected package libnss3:amd64.
+Preparing to unpack .../080-libnss3_2%3a3.98-1ubuntu0.3_amd64.deb ...
+Unpacking libnss3:amd64 (2:3.98-1ubuntu0.3) ...
+Selecting previously unselected package libxtst6:amd64.
+Preparing to unpack .../081-libxtst6_2%3a1.2.3-1.1ubuntu0.1_amd64.deb ...
+Unpacking libxtst6:amd64 (2:1.2.3-1.1ubuntu0.1) ...
+Selecting previously unselected package libopengl0:amd64.
+Preparing to unpack .../082-libopengl0_1.7.0-1build1_amd64.deb ...
+Unpacking libopengl0:amd64 (1.7.0-1build1) ...
+Preparing to unpack .../083-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.0.7-0ubuntu0.24.04.2) ...
+Preparing to unpack .../084-libglx-mesa0_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.0.7-0ubuntu0.24.04.2) ...
+Preparing to unpack .../085-libdrm-amdgpu1_2.4.125-1ubuntu0.1~24.04.2_amd64.deb ...
+Unpacking libdrm-amdgpu1:amd64 (2.4.125-1ubuntu0.1~24.04.2) over (2.4.122-1~ubuntu0.24.04.1) ...
+Preparing to unpack .../086-libdrm-intel1_2.4.125-1ubuntu0.1~24.04.2_amd64.deb ...
+Unpacking libdrm-intel1:amd64 (2.4.125-1ubuntu0.1~24.04.2) over (2.4.122-1~ubuntu0.24.04.1) ...
+Preparing to unpack .../087-libgbm1_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.0.7-0ubuntu0.24.04.2) ...
+Preparing to unpack .../088-mesa-libgallium_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.0.7-0ubuntu0.24.04.2) ...
+Selecting previously unselected package libegl-mesa0:amd64.
+Preparing to unpack .../089-libegl-mesa0_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+Unpacking libegl-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+Selecting previously unselected package libegl1:amd64.
+Preparing to unpack .../090-libegl1_1.7.0-1build1_amd64.deb ...
+Unpacking libegl1:amd64 (1.7.0-1build1) ...
+Selecting previously unselected package libxcb-dri2-0:amd64.
+Preparing to unpack .../091-libxcb-dri2-0_1.15-1ubuntu2_amd64.deb ...
+Unpacking libxcb-dri2-0:amd64 (1.15-1ubuntu2) ...
+Selecting previously unselected package nsight-systems-2026.1.3.
+Preparing to unpack .../092-nsight-systems-2026.1.3_2026.1.3.425-261338342291v0_amd64.deb ...
+Unpacking nsight-systems-2026.1.3 (2026.1.3.425-261338342291v0) ...
+Selecting previously unselected package cuda-nsight-systems-13-3.
+Preparing to unpack .../093-cuda-nsight-systems-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-nsight-systems-13-3 (13.3.1-1) ...
+Selecting previously unselected package cuda-nvml-dev-13-3.
+Preparing to unpack .../094-cuda-nvml-dev-13-3_13.3.29-1_amd64.deb ...
+Unpacking cuda-nvml-dev-13-3 (13.3.29-1) ...
+Selecting previously unselected package cuda-visual-tools-13-3.
+Preparing to unpack .../095-cuda-visual-tools-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-visual-tools-13-3 (13.3.1-1) ...
+Selecting previously unselected package gds-tools-13-3.
+Preparing to unpack .../096-gds-tools-13-3_1.18.1.6-1_amd64.deb ...
+Unpacking gds-tools-13-3 (1.18.1.6-1) ...
+Selecting previously unselected package cuda-tools-13-3.
+Preparing to unpack .../097-cuda-tools-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-tools-13-3 (13.3.1-1) ...
+Selecting previously unselected package cuda-toolkit-13-3.
+Preparing to unpack .../098-cuda-toolkit-13-3_13.3.1-1_amd64.deb ...
+Unpacking cuda-toolkit-13-3 (13.3.1-1) ...
+Selecting previously unselected package libgcc-12-dev:amd64.
+Preparing to unpack .../099-libgcc-12-dev_12.4.0-2ubuntu1~24.04.1_amd64.deb ...
+Unpacking libgcc-12-dev:amd64 (12.4.0-2ubuntu1~24.04.1) ...
+Selecting previously unselected package gcc-12.
+Preparing to unpack .../100-gcc-12_12.4.0-2ubuntu1~24.04.1_amd64.deb ...
+Unpacking gcc-12 (12.4.0-2ubuntu1~24.04.1) ...
+Selecting previously unselected package libstdc++-12-dev:amd64.
+Preparing to unpack .../101-libstdc++-12-dev_12.4.0-2ubuntu1~24.04.1_amd64.deb ...
+Unpacking libstdc++-12-dev:amd64 (12.4.0-2ubuntu1~24.04.1) ...
+Selecting previously unselected package g++-12.
+Preparing to unpack .../102-g++-12_12.4.0-2ubuntu1~24.04.1_amd64.deb ...
+Unpacking g++-12 (12.4.0-2ubuntu1~24.04.1) ...
+Preparing to unpack .../103-git-man_1%3a2.43.0-1ubuntu7.4_all.deb ...
+Unpacking git-man (1:2.43.0-1ubuntu7.4) over (1:2.43.0-1ubuntu7.3) ...
+Preparing to unpack .../104-git_1%3a2.43.0-1ubuntu7.4_amd64.deb ...
+Unpacking git (1:2.43.0-1ubuntu7.4) over (1:2.43.0-1ubuntu7.3) ...
+Selecting previously unselected package m4.
+Preparing to unpack .../105-m4_1.4.19-4build1_amd64.deb ...
+Unpacking m4 (1.4.19-4build1) ...
+Setting up cuda-toolkit-config-common (13.4.92-1) ...
+Setting up nsight-compute-2026.2.1 (2026.2.1.5-1) ...
+Setting up libxcb-xinput0:amd64 (1.15-1ubuntu2) ...
+Setting up cuda-ctadvisor-13-3 (13.3.33-1) ...
+Setting up libxtst6:amd64 (2:1.2.3-1.1ubuntu0.1) ...
+Setting up cuda-sandbox-dev-13-3 (13.3.29-1) ...
+Setting up libxcb-keysyms1:amd64 (0.4.0-1build4) ...
+Setting up libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up gds-tools-13-3 (1.18.1.6-1) ...
+Setting up m4 (1.4.19-4build1) ...
+Setting up libxcb-render-util0:amd64 (0.3.9-1build4) ...
+Setting up libxcb-icccm4:amd64 (0.4.1-1.1build3) ...
+Setting up cuda-cuxxfilt-13-3 (13.3.29-1) ...
+Setting up cuda-toolkit-13-config-common (13.4.92-1) ...
+Setting up libopengl0:amd64 (1.7.0-1build1) ...
+Setting up cuda-cuobjdump-13-3 (13.3.73-1) ...
+Setting up libxcb-util1:amd64 (0.4.0-1build3) ...
+Setting up libxcb-xkb1:amd64 (1.15-1ubuntu2) ...
+Setting up libxcb-image0:amd64 (0.4.0-2build1) ...
+Setting up gcc-12-base:amd64 (12.4.0-2ubuntu1~24.04.1) ...
+Setting up cuda-sanitizer-13-3 (13.3.75-1) ...
+Setting up cuda-nvprune-13-3 (13.3.29-1) ...
+Setting up libxcb-xinerama0:amd64 (1.15-1ubuntu2) ...
+Setting up libnvptxcompiler-13-3 (13.3.73-1) ...
+Setting up cuda-culibos-dev-13-3 (13.3.33-1) ...
+Setting up libnspr4:amd64 (2:4.35-1.1build1) ...
+Setting up libxcb-cursor0:amd64 (0.1.4-1build1) ...
+Setting up cuda-nvrtc-13-3 (13.3.33-1) ...
+Setting up libgcc-12-dev:amd64 (12.4.0-2ubuntu1~24.04.1) ...
+Setting up libxkbcommon-x11-0:amd64 (1.6.0-1build1) ...
+Setting up cuda-nsight-compute-13-3 (13.3.1-1) ...
+Setting up cuda-cupti-13-3 (13.3.75-1) ...
+Setting up cuda-nvml-dev-13-3 (13.3.29-1) ...
+Setting up cuda-driver-dev-13-3 (13.3.29-1) ...
+Setting up libxcb-dri2-0:amd64 (1.15-1ubuntu2) ...
+Setting up zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+Setting up cccl-13-3 (13.3.3.4.1-1) ...
+Setting up cuda-toolkit-13-3-config-common (13.3.29-1) ...
+Setting alternatives
+update-alternatives: using /usr/local/cuda-13.3 to provide /usr/local/cuda (cuda) in auto mode
+update-alternatives: using /usr/local/cuda-13.3 to provide /usr/local/cuda-13 (cuda-13) in auto mode
+Setting up cuda-profiler-api-13-3 (13.3.27-1) ...
+Setting up git-man (1:2.43.0-1ubuntu7.4) ...
+Setting up cuda-nvdisasm-13-3 (13.3.73-1) ...
+Setting up cuda-gdb-13-3 (13.3.73-1) ...
+Setting up cuda-documentation-13-3 (13.3.73-1) ...
+Setting up cuda-nvtx-13-3 (13.3.29-1) ...
+Setting up libdrm-common (2.4.125-1ubuntu0.1~24.04.2) ...
+Setting up libnvvm-13-3 (13.3.73-1) ...
+Setting up python3.12-minimal (3.12.3-1ubuntu0.17) ...
+Setting up cuda-cupti-dev-13-3 (13.3.75-1) ...
+Setting up cpp-12 (12.4.0-2ubuntu1~24.04.1) ...
+Setting up libnvfatbin-13-3 (13.3.29-1) ...
+Setting up libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up libnpp-13-3 (13.1.2.81-1) ...
+Setting up libstdc++-12-dev:amd64 (12.4.0-2ubuntu1~24.04.1) ...
+Setting up libcublas-13-3 (13.6.0.2-1) ...
+Setting up cuda-cudart-13-3 (13.3.29-1) ...
+Setting up libcusolver-13-3 (12.2.6.9-1) ...
+Setting up python3.12 (3.12.3-1ubuntu0.17) ...
+Setting up cuda-opencl-13-3 (13.3.27-1) ...
+Setting up libnss3:amd64 (2:3.98-1ubuntu0.3) ...
+Setting up libcurand-13-3 (10.4.3.29-1) ...
+Setting up libcufft-13-3 (12.3.0.29-1) ...
+Setting up libcufile-13-3 (1.18.1.6-1) ...
+Setting alternatives
+update-alternatives: using /usr/local/cuda-13.3/gds/cufile.json to provide /etc/cufile.json (cufile.json) in auto mode
+Setting up libcublas-dev-13-3 (13.6.0.2-1) ...
+Setting up libcufile-dev-13-3 (1.18.1.6-1) ...
+Setting up libpython3.12t64:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up cuda-nvrtc-dev-13-3 (13.3.33-1) ...
+Setting up gcc-12 (12.4.0-2ubuntu1~24.04.1) ...
+Setting up libcuobjclient-13-3 (1.2.0.68-1) ...
+Setting up libcusparse-13-3 (12.8.2.51-1) ...
+Setting up libnvjitlink-13-3 (13.3.33-1) ...
+Setting up libnvfatbin-dev-13-3 (13.3.29-1) ...
+Setting up git (1:2.43.0-1ubuntu7.4) ...
+Setting up libnvjpeg-13-3 (13.2.1.68-1) ...
+Setting up libdrm2:amd64 (2.4.125-1ubuntu0.1~24.04.2) ...
+Setting up cuda-command-line-tools-13-3 (13.3.1-1) ...
+Setting up libcurand-dev-13-3 (10.4.3.29-1) ...
+Setting up libcusolver-dev-13-3 (12.2.6.9-1) ...
+Setting up libnvjitlink-dev-13-3 (13.3.33-1) ...
+Setting up cuda-cudart-dev-13-3 (13.3.29-1) ...
+Setting up libnpp-dev-13-3 (13.1.2.81-1) ...
+Setting up libdrm-amdgpu1:amd64 (2.4.125-1ubuntu0.1~24.04.2) ...
+Setting up g++-12 (12.4.0-2ubuntu1~24.04.1) ...
+Setting up cuda-libraries-13-3 (13.3.1-1) ...
+Setting up libcuobjclient-dev-13-3 (1.2.0.68-1) ...
+Setting up libcufft-dev-13-3 (12.3.0.29-1) ...
+Setting up python3.12-venv (3.12.3-1ubuntu0.17) ...
+Setting up libcusparse-dev-13-3 (12.8.2.51-1) ...
+Setting up libdrm-intel1:amd64 (2.4.125-1ubuntu0.1~24.04.2) ...
+Setting up libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17) ...
+Setting up cuda-crt-13-3 (13.3.73-1) ...
+Setting up libnvjpeg-dev-13-3 (13.2.1.68-1) ...
+Setting up python3.12-dev (3.12.3-1ubuntu0.17) ...
+Setting up cuda-libraries-dev-13-3 (13.3.1-1) ...
+Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+Setting up cuda-nvcc-13-3 (13.3.73-1) ...
+Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+Setting up libegl-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+Setting up libegl1:amd64 (1.7.0-1build1) ...
+Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+Setting up cuda-tileiras-13-3 (13.3.36-1) ...
+Setting up nsight-systems-2026.1.3 (2026.1.3.425-261338342291v0) ...
+update-alternatives: using /opt/nvidia/nsight-systems/2026.1.3/target-linux-x64/nsys to provide /usr/local/bin/nsys (nsys) in auto mode
+update-alternatives: using /opt/nvidia/nsight-systems/2026.1.3/host-linux-x64/nsys-ui to provide /usr/local/bin/nsys-ui (nsys-ui) in auto mode
+Setting up cuda-compiler-13-3 (13.3.1-1) ...
+Setting up cuda-nsight-systems-13-3 (13.3.1-1) ...
+Setting up cuda-visual-tools-13-3 (13.3.1-1) ...
+Setting up cuda-tools-13-3 (13.3.1-1) ...
+Setting up cuda-toolkit-13-3 (13.3.1-1) ...
+Processing triggers for systemd (255.4-1ubuntu8.11) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.6) ...
+[setup_pod] Restoring /usr/local/cuda -> /usr/local/cuda-12.8
+update-alternatives: using /usr/local/cuda-12.8 to provide /usr/local/cuda (cuda) in manual mode
+[setup_pod] Fetching NCCL 2.30.7-1+cuda13.3
+Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnccl2 2.30.7-1+cuda13.3 [201 MB]
+Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  libnccl-dev 2.30.7-1+cuda13.3 [210 MB]
+Fetched 411 MB in 33s (12.6 MB/s)
+W: Download is performed unsandboxed as root as file '/tmp/tmp.wSlEGGTUEp/libnccl2_2.30.7-1+cuda13.3_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+[setup_pod] Building SEAL v4.1.1
+-- Build type (CMAKE_BUILD_TYPE): Release
+-- The CXX compiler identification is GNU 13.3.0
+-- The C compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Microsoft SEAL debug mode: OFF
+-- SEAL_USE_CXX17: ON
+-- SEAL_BUILD_DEPS: ON
+-- SEAL_USE_MSGSL: ON
+-- Microsoft GSL: download ...
+-- SEAL_USE_ZLIB: ON
+-- ZLIB: download ...
+CMake Deprecation Warning at build/thirdparty/zlib-src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of off64_t
+-- Check size of off64_t - done
+-- Looking for fseeko
+-- Looking for fseeko - found
+-- Looking for unistd.h
+-- Looking for unistd.h - found
+-- Renaming
+--     /workspace/cerium_work/deps/SEAL/build/thirdparty/zlib-src/zconf.h
+-- to 'zconf.h.included' because this file is included with zlib
+-- but CMake generates it automatically in the build directory.
+-- SEAL_USE_ZSTD: ON
+-- Zstandard: download ...
+CMake Deprecation Warning at build/thirdparty/zstd-src/build/cmake/CMakeLists.txt:10 (cmake_minimum_required):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- ZSTD VERSION: 1.5.2
+-- Performing Test CXX_FLAG_STD_CPLUSPLUS11
+-- Performing Test CXX_FLAG_STD_CPLUSPLUS11 - Success
+-- Performing Test C_FLAG_STD_C99
+-- Performing Test C_FLAG_STD_C99 - Success
+-- Performing Test C_FLAG_WALL
+-- Performing Test C_FLAG_WALL - Success
+-- Performing Test CXX_FLAG_WALL
+-- Performing Test CXX_FLAG_WALL - Success
+-- Performing Test C_FLAG_WEXTRA
+-- Performing Test C_FLAG_WEXTRA - Success
+-- Performing Test CXX_FLAG_WEXTRA
+-- Performing Test CXX_FLAG_WEXTRA - Success
+-- Performing Test C_FLAG_WUNDEF
+-- Performing Test C_FLAG_WUNDEF - Success
+-- Performing Test CXX_FLAG_WUNDEF
+-- Performing Test CXX_FLAG_WUNDEF - Success
+-- Performing Test C_FLAG_WSHADOW
+-- Performing Test C_FLAG_WSHADOW - Success
+-- Performing Test CXX_FLAG_WSHADOW
+-- Performing Test CXX_FLAG_WSHADOW - Success
+-- Performing Test C_FLAG_WCAST_ALIGN
+-- Performing Test C_FLAG_WCAST_ALIGN - Success
+-- Performing Test CXX_FLAG_WCAST_ALIGN
+-- Performing Test CXX_FLAG_WCAST_ALIGN - Success
+-- Performing Test C_FLAG_WCAST_QUAL
+-- Performing Test C_FLAG_WCAST_QUAL - Success
+-- Performing Test CXX_FLAG_WCAST_QUAL
+-- Performing Test CXX_FLAG_WCAST_QUAL - Success
+-- Performing Test C_FLAG_WSTRICT_PROTOTYPES
+-- Performing Test C_FLAG_WSTRICT_PROTOTYPES - Success
+-- CMAKE_INSTALL_PREFIX: /workspace/cerium_work/deps/seal-v4.1.1
+-- CMAKE_INSTALL_LIBDIR: lib
+-- ZSTD_LEGACY_SUPPORT not defined!
+-- ZSTD_MULTITHREAD_SUPPORT is disabled
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- SEAL_USE_INTEL_HEXL: OFF
+-- BUILD_SHARED_LIBS: OFF
+-- SEAL_THROW_ON_TRANSPARENT_CIPHERTEXT: ON
+-- SEAL_USE_GAUSSIAN_NOISE: OFF
+-- SEAL_DEFAULT_PRNG: Blake2xb
+-- SEAL_AVOID_BRANCHING: OFF
+-- x86intrin.h - found
+-- SEAL_USE_INTRIN: ON
+-- Performing Test SEAL_MEMSET_S_FOUND
+-- Performing Test SEAL_MEMSET_S_FOUND - Failed
+-- Looking for explicit_bzero
+-- Looking for explicit_bzero - found
+-- Looking for explicit_memset
+-- Looking for explicit_memset - not found
+-- SEAL_USE_MEMSET_S: OFF
+-- SEAL_USE_EXPLICIT_BZERO: ON
+-- SEAL_USE_EXPLICIT_MEMSET: OFF
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- SEAL_BUILD_SEAL_C: OFF
+-- SEAL_BUILD_EXAMPLES: OFF
+-- SEAL_BUILD_TESTS: OFF
+-- SEAL_BUILD_BENCH: OFF
+-- Configuring done (16.6s)
+-- Generating done (0.4s)
+-- Build files have been written to: /workspace/cerium_work/deps/SEAL/build
+[  6%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/adler32.o
+[  6%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/compress.o
+[  6%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/gzlib.o
+[  7%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/crc32.o
+[  8%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/gzclose.o
+[  8%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/deflate.o
+[ 13%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/gzread.o
+[ 15%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/inflate.o
+[ 16%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/infback.o
+[ 16%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/inffast.o
+[ 16%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/inftrees.o
+[ 17%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/uncompr.o
+[ 17%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/zutil.o
+[ 25%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/debug.c.o
+[ 26%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/error_private.c.o
+[ 26%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/entropy_common.c.o
+[ 26%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/xxhash.c.o
+[ 27%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/trees.o
+[ 27%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/pool.c.o
+[ 27%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/fse_decompress.c.o
+[ 27%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/threading.c.o
+[ 35%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_compress.c.o
+[ 36%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/huf_compress.c.o
+[ 31%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/common/zstd_common.c.o
+[ 31%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/fse_compress.c.o
+[ 37%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_compress_superblock.c.o
+[ 36%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_fast.c.o
+[ 36%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/hist.c.o
+[ 37%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_compress_sequences.c.o
+[ 37%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_compress_literals.c.o
+[ 40%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_double_fast.c.o
+[ 40%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_lazy.c.o
+[ 48%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/dictBuilder/cover.c.o
+[ 43%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_opt.c.o
+[ 43%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstd_ldm.c.o
+[ 49%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/decompress/zstd_decompress.c.o
+[ 49%] Building ASM object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/decompress/huf_decompress_amd64.S.o
+[ 48%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/decompress/huf_decompress.c.o
+[ 49%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/decompress/zstd_ddict.c.o
+[ 51%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/decompress/zstd_decompress_block.c.o
+[ 49%] Building C object thirdparty/zlib-build/CMakeFiles/zlibstatic.dir/gzwrite.o
+[ 51%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/dictBuilder/divsufsort.c.o
+[ 51%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/dictBuilder/fastcover.c.o
+[ 51%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/dictBuilder/zdict.c.o
+[ 51%] Building C object thirdparty/zstd-build/lib/CMakeFiles/libzstd_static.dir/__/__/__/lib/compress/zstdmt_compress.c.o
+[ 53%] Linking C static library ../../lib/libz.a
+[ 53%] Built target zlibstatic
+[ 54%] Linking C static library ../../../lib/libzstd.a
+[ 54%] Built target libzstd_static
+[ 55%] Building CXX object CMakeFiles/seal.dir/native/src/seal/ciphertext.cpp.o
+[ 58%] Building CXX object CMakeFiles/seal.dir/native/src/seal/batchencoder.cpp.o
+[ 60%] Building CXX object CMakeFiles/seal.dir/native/src/seal/ckks.cpp.o
+[ 63%] Building CXX object CMakeFiles/seal.dir/native/src/seal/context.cpp.o
+[ 63%] Building CXX object CMakeFiles/seal.dir/native/src/seal/decryptor.cpp.o
+[ 67%] Building CXX object CMakeFiles/seal.dir/native/src/seal/encryptionparams.cpp.o
+[ 68%] Building CXX object CMakeFiles/seal.dir/native/src/seal/encryptor.cpp.o
+[ 69%] Building CXX object CMakeFiles/seal.dir/native/src/seal/memorymanager.cpp.o
+[ 67%] Building CXX object CMakeFiles/seal.dir/native/src/seal/modulus.cpp.o
+[ 68%] Building CXX object CMakeFiles/seal.dir/native/src/seal/evaluator.cpp.o
+[ 72%] Building CXX object CMakeFiles/seal.dir/native/src/seal/kswitchkeys.cpp.o
+[ 70%] Building CXX object CMakeFiles/seal.dir/native/src/seal/keygenerator.cpp.o
+[ 74%] Building CXX object CMakeFiles/seal.dir/native/src/seal/randomgen.cpp.o
+[ 73%] Building CXX object CMakeFiles/seal.dir/native/src/seal/plaintext.cpp.o
+[ 75%] Building CXX object CMakeFiles/seal.dir/native/src/seal/serialization.cpp.o
+[ 77%] Building CXX object CMakeFiles/seal.dir/native/src/seal/valcheck.cpp.o
+[ 79%] Building C object CMakeFiles/seal.dir/native/src/seal/util/blake2xb.c.o
+[ 77%] Building C object CMakeFiles/seal.dir/native/src/seal/util/blake2b.c.o
+[ 82%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/common.cpp.o
+[ 79%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/clipnormal.cpp.o
+[ 79%] Building C object CMakeFiles/seal.dir/native/src/seal/util/fips202.c.o
+[ 82%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/croots.cpp.o
+[ 89%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/iterator.cpp.o
+[ 84%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/globals.cpp.o
+[ 92%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/rns.cpp.o
+[ 89%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/hash.cpp.o
+[ 89%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/mempool.cpp.o
+[ 89%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/scalingvariant.cpp.o
+[ 94%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/streambuf.cpp.o
+[ 92%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/numth.cpp.o
+[ 92%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/rlwe.cpp.o
+[ 92%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/polyarithsmallmod.cpp.o
+[ 94%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/ntt.cpp.o
+[ 97%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintarithmod.cpp.o
+[ 97%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintarith.cpp.o
+[ 98%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintarithsmallmod.cpp.o
+[ 98%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintcore.cpp.o
+[ 98%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/ztools.cpp.o
+[ 98%] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/galois.cpp.o
+[100%] Linking CXX static library lib/libseal-4.1.a
+[100%] Built target seal
+-- Install configuration: "Release"
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/config.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/lib/libseal-4.1.a
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/lib/cmake/SEAL-4.1/SEALTargets.cmake
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/lib/cmake/SEAL-4.1/SEALTargets-release.cmake
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/lib/cmake/SEAL-4.1/SEALConfig.cmake
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/lib/cmake/SEAL-4.1/SEALConfigVersion.cmake
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/util
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/string_span
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/span_ext
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/span
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/pointers
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/narrow
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/gsl_util
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/gsl_narrow
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/gsl_byte
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/gsl_assert
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/gsl_algorithm
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/gsl
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/byte
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/assert
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/gsl/algorithm
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/lib/pkgconfig/seal.pc
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/batchencoder.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/ciphertext.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/ckks.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/modulus.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/context.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/decryptor.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/dynarray.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/encryptionparams.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/encryptor.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/evaluator.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/galoiskeys.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/keygenerator.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/kswitchkeys.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/memorymanager.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/plaintext.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/publickey.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/randomgen.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/randomtostd.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/relinkeys.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/seal.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/secretkey.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/serializable.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/serialization.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/valcheck.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/version.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/blake2.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/blake2-impl.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/clang.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/clipnormal.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/common.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/croots.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/defines.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/dwthandler.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/fips202.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/galois.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/gcc.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/globals.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/hash.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/hestdparms.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/iterator.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/locks.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/mempool.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/msvc.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/numth.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/pointer.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/polyarithsmallmod.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/polycore.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/rlwe.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/rns.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/scalingvariant.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/ntt.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/streambuf.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/uintarith.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/uintarithmod.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/uintarithsmallmod.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/uintcore.h
+-- Installing: /workspace/cerium_work/deps/seal-v4.1.1/include/SEAL-4.1/seal/util/ztools.h
+[setup_pod] Cloning Cerium
+Cloning into '/workspace/cerium_work/Cerium'...
+Updating files:  50% (235/463)Updating files:  51% (237/463)Updating files:  52% (241/463)Updating files:  53% (246/463)Updating files:  54% (251/463)Updating files:  55% (255/463)Updating files:  56% (260/463)Updating files:  57% (264/463)Updating files:  58% (269/463)Updating files:  59% (274/463)Updating files:  60% (278/463)Updating files:  61% (283/463)Updating files:  62% (288/463)Updating files:  63% (292/463)Updating files:  64% (297/463)Updating files:  65% (301/463)Updating files:  66% (306/463)Updating files:  67% (311/463)Updating files:  68% (315/463)Updating files:  69% (320/463)Updating files:  70% (325/463)Updating files:  71% (329/463)Updating files:  72% (334/463)Updating files:  73% (338/463)Updating files:  74% (343/463)Updating files:  75% (348/463)Updating files:  76% (352/463)Updating files:  77% (357/463)Updating files:  78% (362/463)Updating files:  79% (366/463)Updating files:  80% (371/463)Updating files:  81% (376/463)Updating files:  82% (380/463)Updating files:  83% (385/463)Updating files:  84% (389/463)Updating files:  85% (394/463)Updating files:  86% (399/463)Updating files:  87% (403/463)Updating files:  88% (408/463)Updating files:  89% (413/463)Updating files:  90% (417/463)Updating files:  91% (422/463)Updating files:  92% (426/463)Updating files:  93% (431/463)Updating files:  94% (436/463)Updating files:  95% (440/463)Updating files:  96% (445/463)Updating files:  97% (450/463)Updating files:  98% (454/463)Updating files:  99% (459/463)Updating files: 100% (463/463)Updating files: 100% (463/463), done.
+Submodule 'third_party/pybind11' (https://github.com/pybind/pybind11) registered for path 'third_party/pybind11'
+Cloning into '/workspace/cerium_work/Cerium/third_party/pybind11'...
+Submodule path 'third_party/pybind11': checked out '6079989cf70555d213add249cfb36dad14519791'
+[setup_pod] Building Cerium for CUDA arch 90
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Python3: /usr/bin/python3.12 (found version "3.12.3") found components: Interpreter Development Development.Module Development.Embed 
+-- pybind11 v3.1.0 
+-- Performing Test HAS_FLTO_AUTO
+-- Performing Test HAS_FLTO_AUTO - Success
+-- Module support is disabled.
+-- Version: 9.1.0
+-- Build type: Release
+-- CXX_STANDARD: 17
+-- Performing Test has_std_17_flag
+-- Performing Test has_std_17_flag - Success
+-- Performing Test has_std_1z_flag
+-- Performing Test has_std_1z_flag - Success
+-- Required features: cxx_variadic_templates
+-- The CUDA compiler identification is NVIDIA 13.3.73
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/cuda-13.3/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Found CUDAToolkit: /usr/local/cuda-13.3/targets/x86_64-linux/include (found version "13.3.73") 
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found NCCL: /workspace/cerium_work/deps/nccl-2.30.7-1+cuda13.3/usr/include  
+-- Found NCCL (include: /workspace/cerium_work/deps/nccl-2.30.7-1+cuda13.3/usr/include, library:
+  /workspace/cerium_work/deps/nccl-2.30.7-1+cuda13.3/usr/lib/x86_64-linux-gnu/libnccl.so)
+-- Microsoft SEAL -> Version 4.1.1 detected
+-- Microsoft SEAL -> Targets available: SEAL::seal
+-- Configuring done (6.9s)
+-- Generating done (0.4s)
+-- Build files have been written to: /workspace/cerium_work/Cerium/build
+[ 11%] Building CXX object _deps/fmtlib-build/CMakeFiles/fmt.dir/src/format.cc.o
+[ 19%] Building CXX object _deps/fmtlib-build/CMakeFiles/fmt.dir/src/os.cc.o
+[ 19%] Building CUDA object cerium/runtime/cuda/CMakeFiles/CeriumRuntimeCuda.dir/cuda_ops.cu.o
+[ 21%] Building CUDA object cerium/runtime/cuda/CMakeFiles/CeriumRuntimeCuda.dir/nccl_ops.cu.o
+[ 21%] Building CXX object cerium/runtime/execution/CMakeFiles/CeriumRuntimeExec.dir/evaluator.cpp.o
+[ 21%] Building CXX object cerium/runtime/execution/CMakeFiles/CeriumRuntimeExec.dir/function.cpp.o
+[ 21%] Building CXX object cerium/runtime/execution/CMakeFiles/CeriumRuntimeExec.dir/function_execution.cpp.o
+[ 21%] Building CXX object cerium/runtime/execution/CMakeFiles/CeriumRuntimeExec.dir/program.cpp.o
+[ 21%] Building CUDA object cerium/runtime/cuda/CMakeFiles/CeriumRuntimeCuda.dir/memory_manager_cuda.cu.o
+[ 21%] Building CXX object cerium/runtime/execution/CMakeFiles/CeriumRuntimeExec.dir/function_io.cpp.o
+[ 21%] Building CUDA object cerium/runtime/execution/CMakeFiles/CeriumRuntimeExec.dir/device_utils.cu.o
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_pointer.h:22,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_limb.h:18,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.h:21,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:18:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h: In constructor ‘Cerium::Runtime::MemoryManagerCUDA::MemoryManagerCUDA(size_t, MemoryType)’:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:31:65: warning: ‘Cerium::Runtime::MemoryManagerCUDA::memory_type’ will be initialized after [-Wreorder]
+   31 |   enum class MemoryType { Device, Host, HostPageable, Managed } memory_type;
+      |                                                                 ^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:34:49: warning:   base ‘Cerium::Runtime::MemoryManager’ [-Wreorder]
+   34 |       : memory_type(memory_type), MemoryManager() {
+      |                                                 ^
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:33:3: warning:   when initialized here [-Wreorder]
+   33 |   MemoryManagerCUDA(size_t pool_size, MemoryType memory_type)
+      |   ^~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_pointer.h:22,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_limb.h:18,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.h:21,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:18:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h: In constructor ‘Cerium::Runtime::MemoryManagerCUDA::MemoryManagerCUDA(size_t, MemoryType)’:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:31:65: warning: ‘Cerium::Runtime::MemoryManagerCUDA::memory_type’ will be initialized after [-Wreorder]
+   31 |   enum class MemoryType { Device, Host, HostPageable, Managed } memory_type;
+      |                                                                 ^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:34:49: warning:   base ‘Cerium::Runtime::MemoryManager’ [-Wreorder]
+   34 |       : memory_type(memory_type), MemoryManager() {
+      |                                                 ^
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:33:3: warning:   when initialized here [-Wreorder]
+   33 |   MemoryManagerCUDA(size_t pool_size, MemoryType memory_type)
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(35): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*elm_function_t)(
+            ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(42): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*int_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(47): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*ntt_function_t)(cudaStream_t &stream,
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(54): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*sud_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(60): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*rsv_function_t)(cudaStream_t &stream,
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(67): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*bco_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(77): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*elm_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(84): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*int_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(90): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*ntt_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(95): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*sud_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(102): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*rsv_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(107): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*bco_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(310): warning #167-D: argument of type "Cerium::Runtime::LimbDataType **" (aka "unsigned int **") is incompatible with parameter of type "const uint32_t **"
+    auto output_ptr = PTX::ldu_global_u32_ptr(&outputs[j]);
+                                              ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(326): warning #167-D: argument of type "Cerium::Runtime::LimbDataType **" (aka "unsigned int **") is incompatible with parameter of type "const uint32_t **"
+    auto output_ptr = PTX::ldu_global_u32_ptr(&outputs[j]);
+                                              ^
+
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/utils/logger.h:25,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:28:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h: In member function ‘virtual int Cerium::Runtime::Utils::Prefixbuf::overflow(int)’:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h:40:31: warning: comparison of integer expressions of different signedness: ‘std::__cxx11::basic_string<char>::size_type’ {aka ‘long unsigned int’} and ‘std::streamsize’ {aka ‘long int’} [-Wsign-compare]
+   40 |           write_prefix.size() !=
+      |           ~~~~~~~~~~~~~~~~~~~~^~
+   41 |               this->sbuf->sputn(&write_prefix[0], write_prefix.size())) {
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_pointer.h:22,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_limb.h:18,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.h:21,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:32:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h: In constructor ‘Cerium::Runtime::MemoryManagerCUDA::MemoryManagerCUDA(size_t, MemoryType)’:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:31:65: warning: ‘Cerium::Runtime::MemoryManagerCUDA::memory_type’ will be initialized after [-Wreorder]
+   31 |   enum class MemoryType { Device, Host, HostPageable, Managed } memory_type;
+      |                                                                 ^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:34:49: warning:   base ‘Cerium::Runtime::MemoryManager’ [-Wreorder]
+   34 |       : memory_type(memory_type), MemoryManager() {
+      |                                                 ^
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:33:3: warning:   when initialized here [-Wreorder]
+   33 |   MemoryManagerCUDA(size_t pool_size, MemoryType memory_type)
+      |   ^~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:33:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h: In constructor ‘Cerium::Runtime::DeviceBaseConverter::DeviceBaseConverter(const Cerium::Runtime::Context&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:73:15: warning: ‘Cerium::Runtime::DeviceBaseConverter::coeff_count_’ will be initialized after [-Wreorder]
+   73 |   std::size_t coeff_count_;
+      |               ^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:66:17: warning:   ‘uint64_t Cerium::Runtime::DeviceBaseConverter::writes_completed_’ [-Wreorder]
+   66 |   std::uint64_t writes_completed_;
+      |                 ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:34:3: warning:   when initialized here [-Wreorder]
+   34 |   DeviceBaseConverter(const Context &context)
+      |   ^~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:40:23: warning: unused variable ‘ptr’ [-Wunused-variable]
+   40 |     LimbT::Element_t *ptr = nullptr;
+      |                       ^~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp: In member function ‘void Cerium::Runtime::Evaluator::init()’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:40:8: warning: unused variable ‘num_rns_bases’ [-Wunused-variable]
+   40 |   auto num_rns_bases = context_.num_rns_bases();
+      |        ^~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:41:15: warning: unused variable ‘rns_bases_’ [-Wunused-variable]
+   41 |   const auto &rns_bases_ = context_.rns_bases();
+      |               ^~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h: In constructor ‘Cerium::Runtime::EvaluatorContext::EvaluatorContext(const Cerium::Runtime::Context&, uint32_t, uint32_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:107:15: warning: ‘Cerium::Runtime::EvaluatorContext::coeff_count_power_’ will be initialized after [-Wreorder]
+  107 |   std::size_t coeff_count_power_;
+      |               ^~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:103:12: warning:   ‘uint32_t Cerium::Runtime::EvaluatorContext::device_id’ [-Wreorder]
+  103 |   uint32_t device_id{0};
+      |            ^~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:262:1: warning:   when initialized here [-Wreorder]
+  262 | EvaluatorContext::EvaluatorContext(const Context &context, uint32_t device_id,
+      | ^~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h: In constructor ‘Cerium::Runtime::Evaluator::Evaluator(const Cerium::Runtime::Context&, std::shared_ptr<Cerium::Runtime::EvaluatorContext>)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:298:15: warning: ‘Cerium::Runtime::Evaluator::coeff_count_power_’ will be initialized after [-Wreorder]
+  298 |   std::size_t coeff_count_power_;
+      |               ^~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:296:37: warning:   ‘std::shared_ptr<Cerium::Runtime::EvaluatorContext> Cerium::Runtime::Evaluator::evaluator_context_’ [-Wreorder]
+  296 |   std::shared_ptr<EvaluatorContext> evaluator_context_;
+      |                                     ^~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:271:1: warning:   when initialized here [-Wreorder]
+  271 | Evaluator::Evaluator(const Context &context,
+      | ^~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(35): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*elm_function_t)(
+            ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(42): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*int_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(47): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*ntt_function_t)(cudaStream_t &stream,
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(54): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*sud_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(60): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*rsv_function_t)(cudaStream_t &stream,
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp: In member function ‘void Cerium::Runtime::Evaluator::print_memory_location(const uint32_t**, size_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:374:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  374 |   for (int i = 0; i < num_inputs; i++) {
+      |                   ~~^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(67): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*bco_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(77): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*elm_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(84): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*int_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(90): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*ntt_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(95): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*sud_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(102): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*rsv_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(107): warning #815-D: type qualifier on return type is meaningless
+    typedef const void (*bco_function_t)(
+            ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp: In member function ‘void Cerium::Runtime::Evaluator::fn_ewi(const Cerium::Runtime::CUDA::StreamPtr&, std::vector<void*>&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:454:8: warning: unused variable ‘num_inputs’ [-Wunused-variable]
+  454 |   auto num_inputs = (size_t)args[8];
+      |        ^~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:455:8: warning: unused variable ‘num_outputs’ [-Wunused-variable]
+  455 |   auto num_outputs = (size_t)args[9];
+      |        ^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(310): warning #167-D: argument of type "Cerium::Runtime::LimbDataType **" (aka "unsigned int **") is incompatible with parameter of type "const uint32_t **"
+    auto output_ptr = PTX::ldu_global_u32_ptr(&outputs[j]);
+                                              ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/device_utils.cu(326): warning #167-D: argument of type "Cerium::Runtime::LimbDataType **" (aka "unsigned int **") is incompatible with parameter of type "const uint32_t **"
+    auto output_ptr = PTX::ldu_global_u32_ptr(&outputs[j]);
+                                              ^
+
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp: In member function ‘std::vector<void*> Cerium::Runtime::Evaluator::fn_rsv_args(void*, std::vector<unsigned int*>&, const std::vector<unsigned int*>&, const std::vector<unsigned int>&, const std::vector<unsigned int>&, uint64_t, uint32_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:835:22: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+  835 |   function_args[6] = (void *)barrett_k;
+      |                      ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp: In member function ‘void Cerium::Runtime::Evaluator::drm(const Cerium::Runtime::CUDA::StreamPtr&, std::vector<void*>&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:1238:8: warning: unused variable ‘bases_device’ [-Wunused-variable]
+ 1238 |   auto bases_device = (uint32_t *)args[5];
+      |        ^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp: In member function ‘std::vector<void*> Cerium::Runtime::Evaluator::ard_args(std::vector<unsigned int*>&, std::vector<unsigned int*>, size_t, size_t, size_t, const std::vector<unsigned int>&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:1438:8: warning: unused variable ‘n’ [-Wunused-variable]
+ 1438 |   auto n = context_.n();
+      |        ^
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp: In member function ‘Cerium::Runtime::LimbBase<Cerium::Runtime::DevicePointer>::Element_t* Cerium::Runtime::DeviceBaseConverter::get_pointer(uint32_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:1487:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<long unsigned int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1487 |   for (auto i = 0; i < input_rns_base_ids_.size(); i++) {
+      |                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.cpp:1492:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<long unsigned int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1492 |   for (auto i = 0; i < output_rns_base_ids_.size(); i++) {
+      |                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_pointer.h:22,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_limb.h:18,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:41,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:16:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h: In constructor ‘Cerium::Runtime::MemoryManagerCUDA::MemoryManagerCUDA(size_t, MemoryType)’:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:31:65: warning: ‘Cerium::Runtime::MemoryManagerCUDA::memory_type’ will be initialized after [-Wreorder]
+   31 |   enum class MemoryType { Device, Host, HostPageable, Managed } memory_type;
+      |                                                                 ^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:34:49: warning:   base ‘Cerium::Runtime::MemoryManager’ [-Wreorder]
+   34 |       : memory_type(memory_type), MemoryManager() {
+      |                                                 ^
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:33:3: warning:   when initialized here [-Wreorder]
+   33 |   MemoryManagerCUDA(size_t pool_size, MemoryType memory_type)
+      |   ^~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_pointer.h:22,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/cuda/device_limb.h:18,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:41,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/program.h:17,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:16:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h: In constructor ‘Cerium::Runtime::MemoryManagerCUDA::MemoryManagerCUDA(size_t, MemoryType)’:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:31:65: warning: ‘Cerium::Runtime::MemoryManagerCUDA::memory_type’ will be initialized after [-Wreorder]
+   31 |   enum class MemoryType { Device, Host, HostPageable, Managed } memory_type;
+      |                                                                 ^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:34:49: warning:   base ‘Cerium::Runtime::MemoryManager’ [-Wreorder]
+   34 |       : memory_type(memory_type), MemoryManager() {
+      |                                                 ^
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/memory_manager_cuda.h:33:3: warning:   when initialized here [-Wreorder]
+   33 |   MemoryManagerCUDA(size_t pool_size, MemoryType memory_type)
+      |   ^~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:42:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h: In constructor ‘Cerium::Runtime::DeviceBaseConverter::DeviceBaseConverter(const Cerium::Runtime::Context&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:73:15: warning: ‘Cerium::Runtime::DeviceBaseConverter::coeff_count_’ will be initialized after [-Wreorder]
+   73 |   std::size_t coeff_count_;
+      |               ^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:66:17: warning:   ‘uint64_t Cerium::Runtime::DeviceBaseConverter::writes_completed_’ [-Wreorder]
+   66 |   std::uint64_t writes_completed_;
+      |                 ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:34:3: warning:   when initialized here [-Wreorder]
+   34 |   DeviceBaseConverter(const Context &context)
+      |   ^~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:40:23: warning: unused variable ‘ptr’ [-Wunused-variable]
+   40 |     LimbT::Element_t *ptr = nullptr;
+      |                       ^~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:42:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h: In constructor ‘Cerium::Runtime::DeviceBaseConverter::DeviceBaseConverter(const Cerium::Runtime::Context&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:73:15: warning: ‘Cerium::Runtime::DeviceBaseConverter::coeff_count_’ will be initialized after [-Wreorder]
+   73 |   std::size_t coeff_count_;
+      |               ^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:66:17: warning:   ‘uint64_t Cerium::Runtime::DeviceBaseConverter::writes_completed_’ [-Wreorder]
+   66 |   std::uint64_t writes_completed_;
+      |                 ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:34:3: warning:   when initialized here [-Wreorder]
+   34 |   DeviceBaseConverter(const Context &context)
+      |   ^~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:40:23: warning: unused variable ‘ptr’ [-Wunused-variable]
+   40 |     LimbT::Element_t *ptr = nullptr;
+      |                       ^~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:42,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:19:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h: In constructor ‘Cerium::Runtime::DeviceBaseConverter::DeviceBaseConverter(const Cerium::Runtime::Context&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:73:15: warning: ‘Cerium::Runtime::DeviceBaseConverter::coeff_count_’ will be initialized after [-Wreorder]
+   73 |   std::size_t coeff_count_;
+      |               ^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:66:17: warning:   ‘uint64_t Cerium::Runtime::DeviceBaseConverter::writes_completed_’ [-Wreorder]
+   66 |   std::uint64_t writes_completed_;
+      |                 ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:34:3: warning:   when initialized here [-Wreorder]
+   34 |   DeviceBaseConverter(const Context &context)
+      |   ^~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:40:23: warning: unused variable ‘ptr’ [-Wunused-variable]
+   40 |     LimbT::Element_t *ptr = nullptr;
+      |                       ^~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/utils/logger.h:25,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:44:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h: In member function ‘virtual int Cerium::Runtime::Utils::Prefixbuf::overflow(int)’:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h:40:31: warning: comparison of integer expressions of different signedness: ‘std::__cxx11::basic_string<char>::size_type’ {aka ‘long unsigned int’} and ‘std::streamsize’ {aka ‘long int’} [-Wsign-compare]
+   40 |           write_prefix.size() !=
+      |           ~~~~~~~~~~~~~~~~~~~~^~
+   41 |               this->sbuf->sputn(&write_prefix[0], write_prefix.size())) {
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/utils/logger.h:25,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:44:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h: In member function ‘virtual int Cerium::Runtime::Utils::Prefixbuf::overflow(int)’:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h:40:31: warning: comparison of integer expressions of different signedness: ‘std::__cxx11::basic_string<char>::size_type’ {aka ‘long unsigned int’} and ‘std::streamsize’ {aka ‘long int’} [-Wsign-compare]
+   40 |           write_prefix.size() !=
+      |           ~~~~~~~~~~~~~~~~~~~~^~
+   41 |               this->sbuf->sputn(&write_prefix[0], write_prefix.size())) {
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/utils/logger.h:25,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:44:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h: In member function ‘virtual int Cerium::Runtime::Utils::Prefixbuf::overflow(int)’:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h:40:31: warning: comparison of integer expressions of different signedness: ‘std::__cxx11::basic_string<char>::size_type’ {aka ‘long unsigned int’} and ‘std::streamsize’ {aka ‘long int’} [-Wsign-compare]
+   40 |           write_prefix.size() !=
+      |           ~~~~~~~~~~~~~~~~~~~~^~
+   41 |               this->sbuf->sputn(&write_prefix[0], write_prefix.size())) {
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:42,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:19:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h: In constructor ‘Cerium::Runtime::DeviceBaseConverter::DeviceBaseConverter(const Cerium::Runtime::Context&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:73:15: warning: ‘Cerium::Runtime::DeviceBaseConverter::coeff_count_’ will be initialized after [-Wreorder]
+   73 |   std::size_t coeff_count_;
+      |               ^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:66:17: warning:   ‘uint64_t Cerium::Runtime::DeviceBaseConverter::writes_completed_’ [-Wreorder]
+   66 |   std::uint64_t writes_completed_;
+      |                 ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:34:3: warning:   when initialized here [-Wreorder]
+   34 |   DeviceBaseConverter(const Context &context)
+      |   ^~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/evaluator.h:40:23: warning: unused variable ‘ptr’ [-Wunused-variable]
+   40 |     LimbT::Element_t *ptr = nullptr;
+      |                       ^~~
+In file included from /workspace/cerium_work/Cerium/cerium/runtime/utils/logger.h:25,
+                 from /workspace/cerium_work/Cerium/cerium/runtime/execution/function.h:44:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h: In member function ‘virtual int Cerium::Runtime::Utils::Prefixbuf::overflow(int)’:
+/workspace/cerium_work/Cerium/cerium/runtime/utils/prefixbuf.h:40:31: warning: comparison of integer expressions of different signedness: ‘std::__cxx11::basic_string<char>::size_type’ {aka ‘long unsigned int’} and ‘std::streamsize’ {aka ‘long int’} [-Wsign-compare]
+   40 |           write_prefix.size() !=
+      |           ~~~~~~~~~~~~~~~~~~~~^~
+   41 |               this->sbuf->sputn(&write_prefix[0], write_prefix.size())) {
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp: In member function ‘std::vector<std::__cxx11::basic_string<char> > Cerium::Runtime::Program::get_calls(const std::string&, const std::string&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:99:8: warning: variable ‘completed’ set but not used [-Wunused-but-set-variable]
+   99 |   bool completed = false;
+      |        ^~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp: In member function ‘std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > Cerium::Runtime::Program::get_config(const std::string&, const std::string&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:133:8: warning: variable ‘completed’ set but not used [-Wunused-but-set-variable]
+  133 |   bool completed = false;
+      |        ^~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:273:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  273 |     for (int j = 0; j < max_depth_bcu; j++) {
+      |                     ~~^~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp: In member function ‘std::map<std::__cxx11::basic_string<char>, std::shared_ptr<Cerium::Runtime::CeriumFunction> > Cerium::Runtime::Program::make_cerium_functions(uint32_t, const std::map<std::__cxx11::basic_string<char>, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > >&, const Cerium::Runtime::Utils::RawInputsWrapperPtr&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:281:26: warning: comparison of integer expressions of different signedness: ‘int’ and ‘uint32_t’ {aka ‘unsigned int’} [-Wsign-compare]
+  281 |   for (auto tid = 0; tid < num_gpus; tid++) {
+      |                      ~~~~^~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:284:26: warning: comparison of integer expressions of different signedness: ‘int’ and ‘uint32_t’ {aka ‘unsigned int’} [-Wsign-compare]
+  284 |   for (auto tid = 0; tid < num_gpus; tid++) {
+      |                      ~~~~^~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:299:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘uint32_t’ {aka ‘unsigned int’} [-Wsign-compare]
+  299 |     for (auto i = 0; i < num_gpus; i++) {
+      |                      ~~^~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:303:25: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  303 |       for (int j = 0; j < metadata.num_bcus; j++) {
+      |                       ~~^~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:289:10: warning: unused variable ‘use_uvm’ [-Wunused-variable]
+  289 |     bool use_uvm = false;
+      |          ^~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:290:10: warning: unused variable ‘generate_plaintexts’ [-Wunused-variable]
+  290 |     bool generate_plaintexts = false;
+      |          ^~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:291:10: warning: unused variable ‘generate_evalkeys’ [-Wunused-variable]
+  291 |     bool generate_evalkeys = false;
+      |          ^~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp: In member function ‘Cerium::Runtime::LimbBase<Cerium::Runtime::DevicePointer>::Element_t* Cerium::Runtime::CeriumFunction::get_pointer_from_term(const Term&, bool, size_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:477:19: warning: variable ‘modulus’ set but not used [-Wunused-but-set-variable]
+  477 |     seal::Modulus modulus = context_.get_rns_modulus(0);
+      |                   ^~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp: In member function ‘std::vector<std::shared_ptr<Cerium::Runtime::CUDA::Node> > Cerium::Runtime::CeriumFunction::get_true_deps_from_term(const Term&, size_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:517:10: warning: unused variable ‘limb_idx’ [-Wunused-variable]
+  517 |     auto limb_idx = std::stoul(term.string.substr(lpos + 1, rpos - lpos - 1));
+      |          ^~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp: In member function ‘std::vector<std::shared_ptr<Cerium::Runtime::CUDA::Node> > Cerium::Runtime::CeriumFunction::get_false_deps_from_term(const Term&, size_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:550:10: warning: unused variable ‘limb_idx’ [-Wunused-variable]
+  550 |     auto limb_idx = std::stoul(term.string.substr(lpos + 1, rpos - lpos - 1));
+      |          ^~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp: In member function ‘auto Cerium::Runtime::CeriumFunction::compute_rsv_factors(const std::vector<unsigned int>&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:69:13: warning: unused variable ‘temp_data_64’ [-Wunused-variable]
+   69 |   uint64_t *temp_data_64 = (uint64_t *)factors.data();
+      |             ^~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:142:14: warning: unused variable ‘kernel_idx’ [-Wunused-variable]
+  142 |       size_t kernel_idx = kernel_args_[tid].size();
+      |              ^~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:143:12: warning: unused variable ‘is_comm’ [-Wunused-variable]
+  143 |       bool is_comm = (fn.kernel_type == KernelType::Drm ||
+      |            ^~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In member function ‘void Cerium::Runtime::CeriumFunction::handle_evalkey_stream(std::ifstream&, const std::string&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:248:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::__cxx11::basic_string<char> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  248 |   for (auto i = 0; i < evk_ids.size(); i++) {
+      |                    ~~^~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp: In member function ‘void Cerium::Runtime::CeriumFunction::run_program_multithread_threadfn(std::size_t, const Cerium::Runtime::CUDA::StreamPtr&, const Cerium::Runtime::CUDA::StreamPtr&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:550:20: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<void*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  550 |       while (count < args.size() && (int64_t)args[count] != -1) {
+      |              ~~~~~~^~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:573:20: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<void*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  573 |       while (count < args.size() && (int64_t)args[count] != -1) {
+      |              ~~~~~~^~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:630:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘uint64_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  630 |     for (int i = 0; i < NUM_ITERS; i++) {
+      |                     ~~^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp: In member function ‘void Cerium::Runtime::CeriumFunction::run_program_multithread()’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:618:8: warning: variable ‘thread_fn1’ set but not used [-Wunused-but-set-variable]
+  618 |   auto thread_fn1 = [&](const std::size_t tid) {
+      |        ^~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:336:25: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::__cxx11::basic_string<char> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  336 |       for (int i = 0; i < scalars_str.size(); i++) {
+      |                       ~~^~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp: In member function ‘void Cerium::Runtime::CeriumFunction::update_term_reads(const Term&, size_t, const Cerium::Runtime::CUDA::NodePtr&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:585:10: warning: unused variable ‘limb_idx’ [-Wunused-variable]
+  585 |     auto limb_idx = std::stoul(term.string.substr(lpos + 1, rpos - lpos - 1));
+      |          ^~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:308:12: warning: unused variable ‘lpos’ [-Wunused-variable]
+  308 |     size_t lpos = 0;
+      |            ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:309:12: warning: unused variable ‘rpos’ [-Wunused-variable]
+  309 |     size_t rpos = 0;
+      |            ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp: In member function ‘void Cerium::Runtime::CeriumFunction::update_term_writes(const Term&, size_t, const Cerium::Runtime::CUDA::NodePtr&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:607:10: warning: unused variable ‘limb_idx’ [-Wunused-variable]
+  607 |     auto limb_idx = std::stoul(term.string.substr(lpos + 1, rpos - lpos - 1));
+      |          ^~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp: In member function ‘std::vector<unsigned int> Cerium::Runtime::CeriumFunction::compute_sud_factors(const size_t&, const std::optional<unsigned int>&, const std::vector<unsigned int>&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:696:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<long unsigned int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  696 |     for (auto i = 0; i < output_base_ids.size(); i++) {
+      |                      ~~^~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:719:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<seal::Modulus>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  719 |     for (auto i = 0; i < rns_bases.size(); i++) {
+      |                      ~~^~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp: In member function ‘std::vector<unsigned int> Cerium::Runtime::CeriumFunction::compute_pmu_factors(const std::vector<unsigned int>&)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:747:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<seal::Modulus>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  747 |   for (auto i = 0; i < rns_bases.size(); i++) {
+      |                    ~~^~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:427:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::__cxx11::basic_string<char> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  427 |       for (int i = tid; i < plaintexts_str.size(); i += NUM_THREADS) {
+      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:437:14: warning: unused variable ‘elt_size’ [-Wunused-variable]
+  437 |         auto elt_size = std::stoi(type_.substr(pos + 1));
+      |              ^~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:425:13: warning: unused variable ‘local_program_memory_scalar_’ [-Wunused-variable]
+  425 |       auto &local_program_memory_scalar_ =
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:456:30: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  456 |     for (size_t tid = 0; tid < NUM_THREADS; tid++) {
+      |                          ~~~~^~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:463:30: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  463 |     for (size_t tid = 0; tid < NUM_THREADS; tid++) {
+      |                          ~~~~^~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:392:12: warning: unused variable ‘lpos’ [-Wunused-variable]
+  392 |     size_t lpos = 0;
+      |            ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:393:12: warning: unused variable ‘rpos’ [-Wunused-variable]
+  393 |     size_t rpos = 0;
+      |            ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:635:12: warning: unused variable ‘lpos’ [-Wunused-variable]
+  635 |     size_t lpos = 0;
+      |            ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:636:12: warning: unused variable ‘rpos’ [-Wunused-variable]
+  636 |     size_t rpos = 0;
+      |            ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:703:25: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::__cxx11::basic_string<char> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  703 |     for (int i = tid; i < plaintexts_file_names.size(); i += NUM_THREADS) {
+      |                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In member function ‘void Cerium::Runtime::CeriumFunction::generate_remapable_inputs_and_copy_to_device_batch(const std::string&, const std::vector<std::__cxx11::basic_string<char> >&, const std::vector<std::__cxx11::basic_string<char> >&, const std::string&, size_t, bool)’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:714:24: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  714 |   for (size_t i = 0; i < NUM_THREADS; i++) {
+      |                      ~~^~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:721:24: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  721 |   for (size_t i = 0; i < NUM_THREADS; i++) {
+      |                      ~~^~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1110:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘uint64_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1110 |     for (int i = 1; i < NUM_ITERS; i++) {
+      |                     ~~^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:753:13: warning: unused variable ‘var’ [-Wunused-variable]
+  753 |       auto &var = parse.var;
+      |             ^~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:794:13: warning: unused variable ‘var’ [-Wunused-variable]
+  794 |       auto &var = parse.var;
+      |             ^~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:839:13: warning: unused variable ‘var’ [-Wunused-variable]
+  839 |       auto &var = parse.var;
+      |             ^~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:840:13: warning: unused variable ‘type’ [-Wunused-variable]
+  840 |       auto &type = parse.type;
+      |             ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:988:14: warning: unused variable ‘requires_ntt_count’ [-Wunused-variable]
+  988 |       size_t requires_ntt_count = 0;
+      |              ^~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In lambda function:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1245:26: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1245 |       for (auto i = 0; i < context_.num_rns_bases(); i++) {
+      |                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1265:13: warning: unused variable ‘term’ [-Wunused-variable]
+ 1265 |       auto &term = parse.term;
+      |             ^~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1271:12: warning: unused variable ‘elt_size’ [-Wunused-variable]
+ 1271 |       auto elt_size = std::stoi(type_.substr(pos + 1));
+      |            ^~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1275:14: warning: unused variable ‘requires_ntt_count’ [-Wunused-variable]
+ 1275 |       size_t requires_ntt_count = 0;
+      |              ^~~~~~~~~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp: In member function ‘std::map<std::__cxx11::basic_string<char>, std::pair<std::shared_ptr<Cerium::Runtime::RnsPolynomial>, std::shared_ptr<Cerium::Runtime::RnsPolynomial> > > Cerium::Runtime::CeriumFunction::get_program_outputs()’:
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1428:19: warning: moving a local object in a return statement prevents copy elision [-Wpessimizing-move]
+ 1428 |   return std::move(outputs);
+      |          ~~~~~~~~~^~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1428:19: note: remove ‘std::move’ call
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/nccl_ops.cu: In function ‘void Cerium::Runtime::CUDA::NCCL::ncclInit(size_t)’:
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/nccl_ops.cu:197:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  197 |   for (int n = 0; n < NUM_COMMS; n++) {
+      |                 ~~^~~~~~~~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/nccl_ops.cu:219:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  219 |         for (int k = 0; k < dev; k++) {
+      |                 ~~^~~~~
+/workspace/cerium_work/Cerium/cerium/runtime/cuda/nccl_ops.cu:224:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  224 |         for (int k = 0; k < dev; k++) {
+      |                 ~~^~~~~
+[ 23%] Linking CXX static library libfmt.a
+[ 23%] Built target fmt
+[ 28%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/keyswitch_pass.cc.o
+[ 34%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/cuda_kernel.cc.o
+[ 34%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/terms.cc.o
+[ 40%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/limb.cc.o
+[ 44%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/logger.cc.o
+[ 48%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/cerium.cc.o
+[ 44%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/register.cc.o
+[ 50%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/compiler_keyswitch.cc.o
+[ 48%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/compiler.cc.o
+[ 48%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/compiler_dispatch.cc.o
+[ 50%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/compiler_partition.cc.o
+[ 51%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/compiler_rescale.cc.o
+[ 51%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/compiler_io.cc.o
+[ 51%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/compiler_fusion.cc.o
+[ 51%] Building CXX object cerium/compiler/backend/CMakeFiles/CeriumCompilerBackend.dir/keyswitch_digits.cc.o
+[ 51%] Built target CeriumRuntimeCuda
+[ 51%] Built target CeriumRuntimeExec
+[ 61%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/context.cpp.o
+[ 61%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/utils/string.cpp.o
+[ 65%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/math/ntt.cpp.o
+[ 65%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/math/galois.cpp.o
+[ 67%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/memory/memory_manager.cpp.o
+[ 67%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/io/ckks-encoder.cpp.o
+[ 67%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/io/generator.cpp.o
+[ 67%] Building CXX object cerium/runtime/CMakeFiles/CeriumRuntime.dir/io/ckks-encryptor.cpp.o
+[ 69%] Linking CXX shared library libCeriumRuntime.so
+[ 69%] Built target CeriumRuntime
+[ 71%] Building CXX object cerium/python/cerium/runtime/CMakeFiles/cerium_runtime_py_12.dir/wrapper.cpp.o
+[ 71%] Built target CeriumCompilerBackend
+[ 78%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/version.cpp.o
+[ 78%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/util/mkdir.cc.o
+[ 78%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/cerium.cpp.o
+[ 78%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/util/logging.cpp.o
+[ 88%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/frontend/program.cpp.o
+[ 88%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/frontend/term.cpp.o
+[ 88%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/frontend/attribute_list.cpp.o
+[ 88%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/frontend/function.cpp.o
+[ 88%] Building CXX object cerium/compiler/CMakeFiles/CeriumCompiler.dir/frontend/attributes.cpp.o
+[ 90%] Linking CXX static library libCeriumCompiler.a
+[ 90%] Built target CeriumCompiler
+[ 96%] Building CXX object cerium/python/cerium/compiler/CMakeFiles/cerium_compiler_py_12.dir/wrapper.cpp.o
+[ 96%] Building CXX object cerium/python/cerium/compiler/CMakeFiles/cerium_compiler_py_12.dir/__/__/compiler/util/mkdir.cc.o
+[ 96%] Building CXX object cerium/python/cerium/compiler/CMakeFiles/cerium_compiler_py_12.dir/__/__/compiler/util/logging.cpp.o
+[ 98%] Linking CXX shared module _cerium_compiler.cpython-312-x86_64-linux-gnu.so
+[100%] Linking CXX shared module _cerium_runtime.cpython-312-x86_64-linux-gnu.so
+[100%] Built target cerium_compiler_py_12
+[100%] Built target cerium_runtime_py_12
+[100%] Built target python_12
+[setup_pod] Installing Python requirements
+Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cu130
+Obtaining file:///workspace/cerium_work/Cerium/build/cerium/python (from -r requirements.txt (line 2))
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Collecting annotated-doc==0.0.5 (from -r requirements.txt (line 3))
+  Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+Collecting annotated-types==0.8.0 (from -r requirements.txt (line 4))
+  Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+Collecting anyio==4.14.2 (from -r requirements.txt (line 5))
+  Downloading anyio-4.14.2-py3-none-any.whl.metadata (4.6 kB)
+Collecting certifi==2026.7.22 (from -r requirements.txt (line 7))
+  Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+Collecting charset-normalizer==3.4.9 (from -r requirements.txt (line 8))
+  Downloading charset_normalizer-3.4.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (41 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.7/41.7 kB 3.9 MB/s eta 0:00:00
+Collecting click==8.4.2 (from -r requirements.txt (line 9))
+  Downloading click-8.4.2-py3-none-any.whl.metadata (2.6 kB)
+Collecting cuda-bindings==13.0.3 (from -r requirements.txt (line 10))
+  Downloading cuda_bindings-13.0.3-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (2.3 kB)
+Collecting cuda-pathfinder==1.2.2 (from -r requirements.txt (line 11))
+  Downloading cuda_pathfinder-1.2.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting cuda-toolkit==13.0.3.0 (from -r requirements.txt (line 12))
+  Downloading https://pypi.nvidia.com/cuda-toolkit/cuda_toolkit-13.0.3.0-py2.py3-none-any.whl (2.5 kB)
+Collecting exceptiongroup==1.3.1 (from -r requirements.txt (line 13))
+  Downloading exceptiongroup-1.3.1-py3-none-any.whl.metadata (6.7 kB)
+Collecting fairscale==0.4.13 (from -r requirements.txt (line 14))
+  Downloading fairscale-0.4.13.tar.gz (266 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 266.3/266.3 kB 14.7 MB/s eta 0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting filelock==3.29.0 (from -r requirements.txt (line 15))
+  Downloading filelock-3.29.0-py3-none-any.whl.metadata (2.0 kB)
+Collecting fire==0.7.1 (from -r requirements.txt (line 16))
+  Downloading fire-0.7.1-py3-none-any.whl.metadata (5.8 kB)
+Collecting fsspec==2026.4.0 (from -r requirements.txt (line 17))
+  Downloading fsspec-2026.4.0-py3-none-any.whl.metadata (10 kB)
+Collecting h11==0.16.0 (from -r requirements.txt (line 18))
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting hf-xet==1.6.0 (from -r requirements.txt (line 19))
+  Downloading hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Collecting httpcore==1.0.9 (from -r requirements.txt (line 20))
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting httpx==0.28.1 (from -r requirements.txt (line 21))
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting huggingface_hub==1.26.1 (from -r requirements.txt (line 22))
+  Downloading huggingface_hub-1.26.1-py3-none-any.whl.metadata (16 kB)
+Collecting idna==3.18 (from -r requirements.txt (line 23))
+  Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+Collecting Jinja2==3.1.6 (from -r requirements.txt (line 24))
+  Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting markdown-it-py==4.2.0 (from -r requirements.txt (line 25))
+  Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+Collecting MarkupSafe==3.0.3 (from -r requirements.txt (line 26))
+  Downloading https://download.pytorch.org/whl/markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Collecting matplotlib==3.10.8 (from -r requirements.txt (line 27))
+  Downloading matplotlib-3.10.8-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (52 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 52.8/52.8 kB 31.4 MB/s eta 0:00:00
+Collecting mdurl==0.1.2 (from -r requirements.txt (line 28))
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Collecting mpmath==1.3.0 (from -r requirements.txt (line 29))
+  Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting networkx==3.4.2 (from -r requirements.txt (line 30))
+  Downloading networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
+Collecting numpy==2.2.6 (from -r requirements.txt (line 31))
+  Downloading numpy-2.2.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 39.2 MB/s eta 0:00:00
+Collecting nvidia-cublas==13.1.1.3 (from -r requirements.txt (line 32))
+  Downloading https://pypi.nvidia.com/nvidia-cublas/nvidia_cublas-13.1.1.3-py3-none-manylinux_2_27_x86_64.whl (423.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 423.1/423.1 MB 155.1 MB/s eta 0:00:00
+Collecting nvidia-cuda-cupti==13.0.85 (from -r requirements.txt (line 33))
+  Downloading https://pypi.nvidia.com/nvidia-cuda-cupti/nvidia_cuda_cupti-13.0.85-py3-none-manylinux_2_25_x86_64.whl (10.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.7/10.7 MB 387.2 MB/s eta 0:00:00
+Collecting nvidia-cuda-nvrtc==13.0.88 (from -r requirements.txt (line 34))
+  Downloading https://pypi.nvidia.com/nvidia-cuda-nvrtc/nvidia_cuda_nvrtc-13.0.88-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (90.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.2/90.2 MB 278.0 MB/s eta 0:00:00
+Collecting nvidia-cuda-runtime==13.0.96 (from -r requirements.txt (line 35))
+  Downloading https://pypi.nvidia.com/nvidia-cuda-runtime/nvidia_cuda_runtime-13.0.96-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 412.7 MB/s eta 0:00:00
+Collecting nvidia-cudnn-cu13==9.20.0.48 (from -r requirements.txt (line 36))
+  Downloading https://pypi.nvidia.com/nvidia-cudnn-cu13/nvidia_cudnn_cu13-9.20.0.48-py3-none-manylinux_2_27_x86_64.whl (366.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 366.2/366.2 MB 160.3 MB/s eta 0:00:00
+Collecting nvidia-cufft==12.0.0.61 (from -r requirements.txt (line 37))
+  Downloading https://pypi.nvidia.com/nvidia-cufft/nvidia_cufft-12.0.0.61-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (214.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 214.1/214.1 MB 222.9 MB/s eta 0:00:00
+Collecting nvidia-cufile==1.15.1.6 (from -r requirements.txt (line 38))
+  Downloading https://pypi.nvidia.com/nvidia-cufile/nvidia_cufile-1.15.1.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 410.7 MB/s eta 0:00:00
+Collecting nvidia-curand==10.4.0.35 (from -r requirements.txt (line 39))
+  Downloading https://pypi.nvidia.com/nvidia-curand/nvidia_curand-10.4.0.35-py3-none-manylinux_2_27_x86_64.whl (59.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.5/59.5 MB 287.5 MB/s eta 0:00:00
+Collecting nvidia-cusolver==12.0.4.66 (from -r requirements.txt (line 40))
+  Downloading https://pypi.nvidia.com/nvidia-cusolver/nvidia_cusolver-12.0.4.66-py3-none-manylinux_2_27_x86_64.whl (200.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 200.9/200.9 MB 219.5 MB/s eta 0:00:00
+Collecting nvidia-cusparse==12.6.3.3 (from -r requirements.txt (line 41))
+  Downloading https://pypi.nvidia.com/nvidia-cusparse/nvidia_cusparse-12.6.3.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (145.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 145.9/145.9 MB 251.8 MB/s eta 0:00:00
+Collecting nvidia-cusparselt-cu13==0.8.1 (from -r requirements.txt (line 42))
+  Downloading https://pypi.nvidia.com/nvidia-cusparselt-cu13/nvidia_cusparselt_cu13-0.8.1-py3-none-manylinux2014_x86_64.whl (170.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 170.1/170.1 MB 223.0 MB/s eta 0:00:00
+Collecting nvidia-nccl-cu13==2.29.7 (from -r requirements.txt (line 43))
+  Downloading https://pypi.nvidia.com/nvidia-nccl-cu13/nvidia_nccl_cu13-2.29.7-py3-none-manylinux_2_18_x86_64.whl (206.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 206.0/206.0 MB 210.6 MB/s eta 0:00:00
+Collecting nvidia-nvjitlink==13.2.78 (from -r requirements.txt (line 44))
+  Downloading https://pypi.nvidia.com/nvidia-nvjitlink/nvidia_nvjitlink-13.2.78-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (41.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.4/41.4 MB 309.4 MB/s eta 0:00:00
+Collecting nvidia-nvshmem-cu13==3.4.5 (from -r requirements.txt (line 45))
+  Downloading https://pypi.nvidia.com/nvidia-nvshmem-cu13/nvidia_nvshmem_cu13-3.4.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (60.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.4/60.4 MB 284.0 MB/s eta 0:00:00
+Collecting nvidia-nvtx==13.0.85 (from -r requirements.txt (line 46))
+  Downloading https://pypi.nvidia.com/nvidia-nvtx/nvidia_nvtx-13.0.85-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.whl (148 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 148.0/148.0 kB 252.0 MB/s eta 0:00:00
+Collecting packaging==26.3 (from -r requirements.txt (line 47))
+  Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pillow==12.2.0 (from -r requirements.txt (line 48))
+  Downloading pillow-12.2.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting psutil==7.2.2 (from -r requirements.txt (line 49))
+  Downloading psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl.metadata (22 kB)
+Collecting pydantic==2.13.4 (from -r requirements.txt (line 50))
+  Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 109.4/109.4 kB 66.2 MB/s eta 0:00:00
+Collecting pydantic_core==2.46.4 (from -r requirements.txt (line 51))
+  Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+Collecting Pygments==2.20.0 (from -r requirements.txt (line 52))
+  Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting PyYAML==6.0.3 (from -r requirements.txt (line 53))
+  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Collecting regex==2026.7.19 (from -r requirements.txt (line 54))
+  Downloading regex-2026.7.19-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.5/40.5 kB 23.0 MB/s eta 0:00:00
+Collecting requests==2.34.2 (from -r requirements.txt (line 55))
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting rich==15.0.0 (from -r requirements.txt (line 56))
+  Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+Collecting safetensors==0.8.0 (from -r requirements.txt (line 57))
+  Downloading safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+Collecting shellingham==1.5.4 (from -r requirements.txt (line 58))
+  Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+Collecting sympy==1.14.0 (from -r requirements.txt (line 59))
+  Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting termcolor==3.3.0 (from -r requirements.txt (line 60))
+  Downloading termcolor-3.3.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting tiktoken==0.13.0 (from -r requirements.txt (line 61))
+  Downloading tiktoken-0.13.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.7 kB)
+Collecting tokenizers==0.22.2 (from -r requirements.txt (line 62))
+  Downloading tokenizers-0.22.2-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+Collecting torch==2.13.0+cu130 (from -r requirements.txt (line 63))
+  Downloading https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (38 kB)
+Collecting torchaudio==2.11.0+cu130 (from -r requirements.txt (line 64))
+  Downloading https://download-r2.pytorch.org/whl/cu130/torchaudio-2.11.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.9 kB)
+Collecting torchvision==0.28.0+cu130 (from -r requirements.txt (line 65))
+  Downloading https://download-r2.pytorch.org/whl/cu130/torchvision-0.28.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (5.6 kB)
+Collecting tqdm==4.68.4 (from -r requirements.txt (line 66))
+  Downloading tqdm-4.68.4-py3-none-any.whl.metadata (57 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.4/57.4 kB 36.9 MB/s eta 0:00:00
+Collecting transformers==5.14.1 (from -r requirements.txt (line 67))
+  Downloading transformers-5.14.1-py3-none-any.whl.metadata (32 kB)
+Collecting triton==3.7.1 (from -r requirements.txt (line 68))
+  Downloading https://download-r2.pytorch.org/whl/triton-3.7.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+Collecting typer==0.27.1 (from -r requirements.txt (line 69))
+  Downloading typer-0.27.1-py3-none-any.whl.metadata (16 kB)
+Collecting typing-inspection==0.4.2 (from -r requirements.txt (line 70))
+  Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+Collecting typing_extensions==4.15.0 (from -r requirements.txt (line 71))
+  Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting urllib3==2.7.0 (from -r requirements.txt (line 72))
+  Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+Collecting contourpy>=1.0.1 (from matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading contourpy-1.4.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+Collecting cycler>=0.10 (from matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.22.0 (from matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading fonttools-4.67.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (137 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.2/137.2 kB 75.3 MB/s eta 0:00:00
+Collecting kiwisolver>=1.3.1 (from matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading kiwisolver-1.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+Collecting pyparsing>=3 (from matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+Collecting python-dateutil>=2.7 (from matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading python_dateutil-3.0.0-py2.py3-none-any.whl.metadata (8.2 kB)
+Collecting setuptools>=77.0.3 (from torch==2.13.0+cu130->-r requirements.txt (line 63))
+  Using cached setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+Collecting six>=1.6 (from python-dateutil>=2.7->matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting tzdata (from python-dateutil>=2.7->matplotlib==3.10.8->-r requirements.txt (line 27))
+  Downloading tzdata-2026.5-py2.py3-none-any.whl.metadata (1.4 kB)
+Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+Downloading anyio-4.14.2-py3-none-any.whl (125 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 125.8/125.8 kB 74.5 MB/s eta 0:00:00
+Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.0/137.0 kB 77.4 MB/s eta 0:00:00
+Downloading charset_normalizer-3.4.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (224 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.3/224.3 kB 78.5 MB/s eta 0:00:00
+Downloading click-8.4.2-py3-none-any.whl (119 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 119.2/119.2 kB 71.8 MB/s eta 0:00:00
+Downloading cuda_bindings-13.0.3-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.1/12.1 MB 161.9 MB/s eta 0:00:00
+Downloading cuda_pathfinder-1.2.2-py3-none-any.whl (23 kB)
+Downloading exceptiongroup-1.3.1-py3-none-any.whl (16 kB)
+Downloading filelock-3.29.0-py3-none-any.whl (39 kB)
+Downloading fire-0.7.1-py3-none-any.whl (115 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 115.9/115.9 kB 75.1 MB/s eta 0:00:00
+Downloading fsspec-2026.4.0-py3-none-any.whl (203 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 203.4/203.4 kB 116.0 MB/s eta 0:00:00
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 250.1 MB/s eta 0:00:00
+Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 49.7 MB/s eta 0:00:00
+Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 50.7 MB/s eta 0:00:00
+Downloading huggingface_hub-1.26.1-py3-none-any.whl (780 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 780.8/780.8 kB 254.5 MB/s eta 0:00:00
+Downloading idna-3.18-py3-none-any.whl (65 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.5/65.5 kB 40.4 MB/s eta 0:00:00
+Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl (134 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 86.9 MB/s eta 0:00:00
+Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.7/91.7 kB 61.3 MB/s eta 0:00:00
+Downloading https://download.pytorch.org/whl/markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Downloading matplotlib-3.10.8-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.7/8.7 MB 113.9 MB/s eta 0:00:00
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 205.9 MB/s eta 0:00:00
+Downloading networkx-3.4.2-py3-none-any.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 299.6 MB/s eta 0:00:00
+Downloading numpy-2.2.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.5/16.5 MB 357.8 MB/s eta 0:00:00
+Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pillow-12.2.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 201.5 MB/s eta 0:00:00
+Downloading psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl (155 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.6/155.6 kB 94.8 MB/s eta 0:00:00
+Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 472.3/472.3 kB 174.7 MB/s eta 0:00:00
+Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 287.8 MB/s eta 0:00:00
+Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 252.3 MB/s eta 0:00:00
+Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 231.7 MB/s eta 0:00:00
+Downloading regex-2026.7.19-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.8/801.8 kB 235.4 MB/s eta 0:00:00
+Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.1/73.1 kB 47.3 MB/s eta 0:00:00
+Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 310.7/310.7 kB 151.5 MB/s eta 0:00:00
+Downloading safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (516 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 516.0/516.0 kB 197.7 MB/s eta 0:00:00
+Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 357.4 MB/s eta 0:00:00
+Downloading termcolor-3.3.0-py3-none-any.whl (7.7 kB)
+Downloading tiktoken-0.13.0-cp312-cp312-manylinux_2_28_x86_64.whl (1.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 280.0 MB/s eta 0:00:00
+Downloading tokenizers-0.22.2-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 331.2 MB/s eta 0:00:00
+Downloading https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl (526.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 526.5/526.5 MB 38.8 MB/s eta 0:00:00
+Downloading https://download-r2.pytorch.org/whl/cu130/torchaudio-2.11.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 204.0 MB/s eta 0:00:00
+Downloading https://download-r2.pytorch.org/whl/cu130/torchvision-0.28.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl (7.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.7/7.7 MB 129.0 MB/s eta 0:00:00
+Downloading tqdm-4.68.4-py3-none-any.whl (676 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 676.6/676.6 kB 220.7 MB/s eta 0:00:00
+Downloading transformers-5.14.1-py3-none-any.whl (11.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.6/11.6 MB 187.1 MB/s eta 0:00:00
+Downloading https://download-r2.pytorch.org/whl/triton-3.7.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (197.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 197.1/197.1 MB 85.7 MB/s eta 0:00:00
+Downloading typer-0.27.1-py3-none-any.whl (122 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 122.9/122.9 kB 68.2 MB/s eta 0:00:00
+Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 28.6 MB/s eta 0:00:00
+Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.1/131.1 kB 68.5 MB/s eta 0:00:00
+Downloading contourpy-1.4.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (383 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 383.2/383.2 kB 159.4 MB/s eta 0:00:00
+Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Downloading fonttools-4.67.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 318.7 MB/s eta 0:00:00
+Downloading kiwisolver-1.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 279.0 MB/s eta 0:00:00
+Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 126.4/126.4 kB 79.4 MB/s eta 0:00:00
+Downloading python_dateutil-3.0.0-py2.py3-none-any.whl (94 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.7/94.7 kB 61.6 MB/s eta 0:00:00
+Using cached setuptools-84.2.1-py3-none-any.whl (876 kB)
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading tzdata-2026.5-py2.py3-none-any.whl (347 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 348.0/348.0 kB 161.7 MB/s eta 0:00:00
+Building wheels for collected packages: fairscale, cerium
+  Building wheel for fairscale (pyproject.toml): started
+  Building wheel for fairscale (pyproject.toml): finished with status 'done'
+  Created wheel for fairscale: filename=fairscale-0.4.13-py3-none-any.whl size=332208 sha256=582b241219418a0457ad6ed79441b420e92f15eeb7d4b4eb856cdc7cc9102b7f
+  Stored in directory: /root/.cache/pip/wheels/5a/88/aa/d84b2cf1bad6b273cbf661640141a82c7b9f496e024f80aac0
+  Building editable for cerium (pyproject.toml): started
+  Building editable for cerium (pyproject.toml): finished with status 'done'
+  Created wheel for cerium: filename=cerium-1.0.0-0.editable-cp312-cp312-linux_x86_64.whl size=2740 sha256=c7e5a6eff7314dc18c3c55da355c7c27a85e9916c4ed249f034a77201a81caa1
+  Stored in directory: /tmp/pip-ephem-wheel-cache-z8ra53ve/wheels/7b/01/d1/908584436f54f6ee0f2ae7dabf5997d5468d9208a1b6106a33
+Successfully built fairscale cerium
+Installing collected packages: torchaudio, nvidia-cusparselt-cu13, mpmath, cuda-toolkit, urllib3, tzdata, typing_extensions, triton, tqdm, termcolor, sympy, six, shellingham, setuptools, safetensors, regex, PyYAML, pyparsing, Pygments, psutil, pillow, packaging, nvidia-nvtx, nvidia-nvshmem-cu13, nvidia-nvjitlink, nvidia-nccl-cu13, nvidia-curand, nvidia-cufile, nvidia-cuda-runtime, nvidia-cuda-nvrtc, nvidia-cuda-cupti, numpy, networkx, mdurl, MarkupSafe, kiwisolver, idna, hf-xet, h11, fsspec, fonttools, filelock, cycler, cuda-pathfinder, click, charset-normalizer, certifi, annotated-types, annotated-doc, typing-inspection, requests, python-dateutil, pydantic_core, nvidia-cusparse, nvidia-cufft, nvidia-cublas, markdown-it-py, Jinja2, httpcore, fire, exceptiongroup, cuda-bindings, contourpy, cerium, anyio, tiktoken, rich, pydantic, nvidia-cusolver, nvidia-cudnn-cu13, matplotlib, httpx, typer, huggingface_hub, torch, tokenizers, transformers, torchvision, fairscale
+ERROR: Could not install packages due to an OSError: [Errno 122] Disk quota exceeded
+

@@ -1,0 +1,22 @@
+addition z: scale=56 bits, level=12
+Performing Horizontal Fusion with BLOCK_SIZE: 1024
+Completed Block: 0/0
+make: Entering directory '/workspace/cerium_work/Cerium/examples'
+mkdir -p /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build
+mkdir -p /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output
+
+mkdir -p /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/partition_0
+cp /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/partition_0/ll.functions /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/functions0
+
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/partition_0/function_map.cu -o /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/partition_0/function_map.o
+
+cp /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/partition_0/inputs0 /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/inputs0
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/partition_0/function_map_cugraph.cu -o /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/partition_0/function_map_cugraph.o
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/partition_0/kernels_0.cu -o /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/partition_0/kernels_0.o
+cp /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/program_inputs /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/program_inputs
+cp /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/partition_0/inputs_remapable0 /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/inputs_remapable0
+cp /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/remapable_inputs /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/remapable_inputs
+cp /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/calls /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/calls
+cp /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/compile_config /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/compile_config
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus" -ccbin g++ -gencode=arch=compute_90,code=sm_90 -shared  /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/partition_0/function_map.o /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/partition_0/function_map_cugraph.o /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/partition_0/kernels_0.o /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/build/common_function.o -lcudart -o /workspace/cerium_work/Cerium/examples/addition/outputs/addition/main_1gpus/output/function_map_0.so
+make: Leaving directory '/workspace/cerium_work/Cerium/examples'
