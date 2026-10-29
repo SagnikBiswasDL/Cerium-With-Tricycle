@@ -1,0 +1,26 @@
+== bicyclic 2gpu
+bicyclic_matmul 31x32 @ 32x33 (doubling, 5 rotations): scale=112 bits, level=12
+Running Cerium Reduction Rewriter Pass
+Performing Horizontal Fusion with BLOCK_SIZE: 1024
+Completed Block: 0/0
+make exit 0
+calls
+compile_config
+function_map_0.so
+function_map_1.so
+functions0
+functions1
+inputs0
+inputs1
+inputs_remapable0
+inputs_remapable1
+program_inputs
+remapable_inputs
+== bert 2gpu
+bert_attention_matmul: scale=84 bits, level=5
+Running Cerium Reduction Rewriter Pass
+Performing Horizontal Fusion with BLOCK_SIZE: 256
+Completed Block: 0/7Completed Block: 1/7Completed Block: 2/7Completed Block: 3/7Completed Block: 4/7Completed Block: 5/7Completed Block: 6/7Completed Block: 7/7
+make exit 0
+main_2gpus
+PROBE_DONE

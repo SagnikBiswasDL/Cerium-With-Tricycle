@@ -1,0 +1,1 @@
+COMPILE bert_attention_matmul CERIUM_BLOCK_SIZE=256 8234 ms

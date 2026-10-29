@@ -39,7 +39,7 @@ Each is its own folder under `Cerium/examples/`, laid out like `addition/` (`pro
 
 ## Matrix packing proof of concept
 
-Latency measurements for both methods across sizes (up to 31×32 @ 32×33 and 128×128) are in [`LATENCY.md`](LATENCY.md). Headline: bicyclic 31×32 @ 32×33, encrypted × encrypted, takes 0.49 ms per multiply on one H200 with the doubling rotation schedule.
+Latency measurements for both methods across sizes (up to 31×32 @ 32×33 and 128×128) are in [`LATENCY.md`](LATENCY.md). Headline: bicyclic 31×32 @ 32×33, encrypted × encrypted, takes 0.49 ms per multiply on one H200 with the doubling rotation schedule. For comparison, Cerium's own BERT attention kernel (two heads of 128×128 @ 128×64, run standalone as `bert_attention_matmul`) takes 12.7 ms, about 2.5× more multiply-adds per millisecond.
 
 How a matrix is "linearized" into a ciphertext is not a Cerium feature. The runner packs the matrix into the 32,768-slot vector with NumPy (CKKS then encodes that vector as a polynomial), and `program.py` performs the matching rotations, masks and additions.
 

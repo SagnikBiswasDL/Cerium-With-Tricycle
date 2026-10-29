@@ -1,0 +1,3 @@
+== bert_attention_matmul CERIUM_BLOCK_SIZE=256
+COMPILE bert_attention_matmul CERIUM_BLOCK_SIZE=256 8234 ms
+Done: /workspace/cerium_work/logs/latency_results_bert.jsonl

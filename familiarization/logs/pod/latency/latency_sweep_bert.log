@@ -1,0 +1,147 @@
+== bert_attention_matmul CERIUM_BLOCK_SIZE=256
+bert_attention_matmul: scale=84 bits, level=5
+Performing Horizontal Fusion with BLOCK_SIZE: 256
+Completed Block: 0/6Completed Block: 1/6Completed Block: 2/6Completed Block: 3/6Completed Block: 4/6Completed Block: 5/6Completed Block: 6/6
+make: Entering directory '/workspace/cerium_work/Cerium/examples'
+mkdir -p /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build
+mkdir -p /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output
+
+
+mkdir -p /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0
+
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/function_map.cu -o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/function_map.o
+
+
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/function_map_cugraph.cu -o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/function_map_cugraph.o
+/workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/common_function.o
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/kernels_0.cu -o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/kernels_0.o
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/kernels_2.cu -o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/kernels_2.o
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus"  -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177  /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/kernels_1.cu -o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/kernels_1.o
+cp /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/ll.functions /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/functions0
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus" -ccbin g++ -gencode=arch=compute_90,code=sm_90 -I/workspace/cerium_work/Cerium/cerium/compiler/backend/kernels  -Xcompiler -fPIC -pg -g -c -O3  -Xcudafe --diag_suppress=177 /workspace/cerium_work/Cerium/cerium/compiler/backend/kernels/function.cu -o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/common_function.o
+cp /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/inputs0 /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/inputs0
+cp /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/program_inputs /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/program_inputs
+cp /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/partition_0/inputs_remapable0 /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/inputs_remapable0
+cp /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/remapable_inputs /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/remapable_inputs
+cp /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/calls /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/calls
+cp /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/compile_config /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/compile_config
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_sud_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+ptxas warning : Value of threads per SM for entry _ZN6Cerium10main_1gpus13_kernel_ntt_0EPPjPPKjS4_S4_PK5uint2 is out of range. .minnctapersm will be ignored
+/usr/local/cuda-13.3/bin/nvcc -D__FNAME__="main_1gpus" -ccbin g++ -gencode=arch=compute_90,code=sm_90 -shared  /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/function_map.o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/function_map_cugraph.o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/kernels_0.o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/kernels_1.o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/partition_0/kernels_2.o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/build/common_function.o -lcudart -o /workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/main_1gpus/output/function_map_0.so
+make: Leaving directory '/workspace/cerium_work/Cerium/examples'
+COMPILE bert_attention_matmul CERIUM_BLOCK_SIZE=256 8234 ms
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:379][IOGenerator]: Generating Evalkeys:/workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:613][IOGenerator]: Generating Plaintext Inputs:/workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:208][Program]: Making CeriumFunction: main_1gpus: vregs=3096 bcus=128 num_gpus_compiled=1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:261][Program]: [0]: Allocating Register File Memory: size = 3096 vregs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:265][Program]: [0]: Allocating BCUs: size = 128 bcus
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:291][CeriumFunction:main_1gpus]: Generating Inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:729][CeriumFunction:main_1gpus]: Copying Inputs to Device
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:887][CeriumFunction:main_1gpus]: Launching Threadfn 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1098][CeriumFunction:main_1gpus]: Calculating Remapable Size for tid: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1133][CeriumFunction:main_1gpus]: Calculated Remapable Size for tid: 0 size: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:427][Program]: main_1gpus: Create Cudagraph = True
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:679][CeriumFunction:main_1gpus]: Created Register File:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:681][CeriumFunction:main_1gpus]: Created BCU Units:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:640][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:650][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:684][CeriumFunction:main_1gpus]: Creating Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:687][CeriumFunction:main_1gpus]: Created Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:689][CeriumFunction:main_1gpus]: Loaded Function Map:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:699][CeriumFunction:main_1gpus]: Creating Cuda Graphs tid:0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1095][CeriumFunction:main_1gpus]: Completed CUDA Graph Creation:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:438][Program]: Returning CeriumFunctions
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:299][IOGenerator]: Generating Ciphertexts:/workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:961][CeriumFunction:main_1gpus]: Copying Ciphertext Inputs To GPU
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+------------------ Completed -------------------------
+Iterations Run = 1
+Total Execution Time = 12 milliseconds
+Average Execution Time = 12 milliseconds
+RESULT {"example": "bert_attention_matmul", "shape": "2x(128x128 @ 128x64)", "schedule": "-", "graph_launches_per_run": 1, "run_calls": 50, "run_median_ms": 12.773383525200188, "run_min_ms": 12.73890899028629, "per_launch_ms": 12.773383525200188, "max_abs_error": 1.2371546953215205e-07, "passed": true, "context_and_secret_key_ms": 497.331645921804, "eval_keys_ms": 513.0084509728476, "plaintexts_ms": 270.83293499890715, "load_program_and_build_cuda_graph_ms": 1233.313265023753, "encrypt_ms": 81.93719293922186, "copy_inputs_to_gpu_ms": 2.5555609026923776, "first_run_ms": 12.95002200640738, "fetch_output_ms": 0.5694830324500799, "decrypt_ms": 25.331857963465154}
+------------------------------------------------------
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:379][IOGenerator]: Generating Evalkeys:/workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:613][IOGenerator]: Generating Plaintext Inputs:/workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:208][Program]: Making CeriumFunction: main_1gpus: vregs=3096 bcus=128 num_gpus_compiled=1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:261][Program]: [0]: Allocating Register File Memory: size = 3096 vregs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:265][Program]: [0]: Allocating BCUs: size = 128 bcus
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:291][CeriumFunction:main_1gpus]: Generating Inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:729][CeriumFunction:main_1gpus]: Copying Inputs to Device
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:887][CeriumFunction:main_1gpus]: Launching Threadfn 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1098][CeriumFunction:main_1gpus]: Calculating Remapable Size for tid: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1133][CeriumFunction:main_1gpus]: Calculated Remapable Size for tid: 0 size: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:427][Program]: main_1gpus: Create Cudagraph = True
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:679][CeriumFunction:main_1gpus]: Created Register File:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:681][CeriumFunction:main_1gpus]: Created BCU Units:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:640][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:650][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:684][CeriumFunction:main_1gpus]: Creating Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:687][CeriumFunction:main_1gpus]: Created Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:689][CeriumFunction:main_1gpus]: Loaded Function Map:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:699][CeriumFunction:main_1gpus]: Creating Cuda Graphs tid:0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1095][CeriumFunction:main_1gpus]: Completed CUDA Graph Creation:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:438][Program]: Returning CeriumFunctions
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:299][IOGenerator]: Generating Ciphertexts:/workspace/cerium_work/Cerium/examples/bert_attention_matmul/outputs/bert_attention_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:961][CeriumFunction:main_1gpus]: Copying Ciphertext Inputs To GPU
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+------------------ Completed -------------------------
+Iterations Run = 100
+Total Execution Time = 1273 milliseconds
+Average Execution Time = 12.73 milliseconds
+RESULT {"example": "bert_attention_matmul", "shape": "2x(128x128 @ 128x64)", "schedule": "-", "graph_launches_per_run": 100, "run_calls": 5, "run_median_ms": 1272.3218830069527, "run_min_ms": 1272.105070995167, "per_launch_ms": 12.723218830069527, "max_abs_error": 1.2346282367115904e-07, "passed": true, "context_and_secret_key_ms": 507.5019879732281, "eval_keys_ms": 560.2660280419514, "plaintexts_ms": 253.67126194760203, "load_program_and_build_cuda_graph_ms": 1244.5415611146018, "encrypt_ms": 75.5751229589805, "copy_inputs_to_gpu_ms": 1.8642590148374438, "first_run_ms": 1270.4287680098787, "fetch_output_ms": 1.0709268972277641, "decrypt_ms": 22.86198898218572}
+------------------------------------------------------

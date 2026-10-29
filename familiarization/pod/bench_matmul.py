@@ -36,13 +36,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("example")
     parser.add_argument("--calls", type=int, default=50, help="timed program.run() calls")
+    parser.add_argument("--gpus", type=int, default=1)
     args = parser.parse_args()
 
-    gpus = 1
+    gpus = args.gpus
     name = main_name(gpus)
     compiled = output_root(args.example) / "compiled"
-    raw_inputs, expected, output_scale = importlib.import_module(
-        f"examples.{args.example}.runner").make_case(verbose=False)
+    runner = importlib.import_module(f"examples.{args.example}.runner")
+    raw_inputs, expected, output_scale = runner.make_case(verbose=False)
     ms = {}
 
     def setup_context():
@@ -81,8 +82,9 @@ def main():
     iters = int(os.environ.get("CERIUM_RUNTIME_NUM_ITERS", "1"))
     result = {
         "example": args.example,
-        "shape": os.environ.get("BICYCLIC_SHAPE") if args.example == "bicyclic_matmul"
-        else os.environ.get("DIAGONAL_SIZE", "16"),
+        "shape": getattr(runner, "SHAPE", None) or (
+            os.environ.get("BICYCLIC_SHAPE") if args.example == "bicyclic_matmul"
+            else os.environ.get("DIAGONAL_SIZE", "16")),
         "schedule": os.environ.get("BICYCLIC_SCHEDULE", "linear") if args.example == "bicyclic_matmul" else "-",
         "graph_launches_per_run": iters,
         "run_calls": args.calls,
