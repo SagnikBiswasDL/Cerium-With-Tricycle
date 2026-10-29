@@ -39,6 +39,8 @@ Each is its own folder under `Cerium/examples/`, laid out like `addition/` (`pro
 
 ## Matrix packing proof of concept
 
+Latency measurements for both methods across sizes (up to 31×32 @ 32×33 and 128×128) are in [`LATENCY.md`](LATENCY.md). Headline: bicyclic 31×32 @ 32×33, encrypted × encrypted, takes 0.49 ms per multiply on one H200 with the doubling rotation schedule.
+
 How a matrix is "linearized" into a ciphertext is not a Cerium feature. The runner packs the matrix into the 32,768-slot vector with NumPy (CKKS then encodes that vector as a polynomial), and `program.py` performs the matching rotations, masks and additions.
 
 - `bicyclic_matmul` (encrypted × encrypted). Entry (i, j) of an r×c matrix with gcd(r, c) = 1 goes into every slot k with k % r == i and k % c == j (Chinese remainder theorem; see `bicyclic_matmul/encoding.py`). For C = A·B with M, N, P pairwise coprime (3, 4, 5), slot k of `a * b` holds `A[k%M, k%N] * B[k%N, k%P]`. Adding N − 1 left rotations by multiples of M·P (15, 30, 45) sums over j, so slot k holds `C[k%M, k%P]`, which is C in bicyclic layout. Cost: 1 ciphertext×ciphertext multiply, 1 relinearization, 3 rotations, and 1 level of scale growth (56 → 112 bits).

@@ -1,0 +1,26 @@
+== bicyclic_matmul BICYCLIC_SHAPE=3,4,5 BICYCLIC_SCHEDULE=linear
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=3,4,5 BICYCLIC_SCHEDULE=linear 3009 ms
+== bicyclic_matmul BICYCLIC_SHAPE=3,4,5 BICYCLIC_SCHEDULE=doubling
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=3,4,5 BICYCLIC_SCHEDULE=doubling 3066 ms
+== bicyclic_matmul BICYCLIC_SHAPE=7,8,9 BICYCLIC_SCHEDULE=linear
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=7,8,9 BICYCLIC_SCHEDULE=linear 3524 ms
+== bicyclic_matmul BICYCLIC_SHAPE=7,8,9 BICYCLIC_SCHEDULE=doubling
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=7,8,9 BICYCLIC_SCHEDULE=doubling 3359 ms
+== bicyclic_matmul BICYCLIC_SHAPE=15,16,17 BICYCLIC_SCHEDULE=linear
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=15,16,17 BICYCLIC_SCHEDULE=linear 4301 ms
+== bicyclic_matmul BICYCLIC_SHAPE=15,16,17 BICYCLIC_SCHEDULE=doubling
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=15,16,17 BICYCLIC_SCHEDULE=doubling 3565 ms
+== bicyclic_matmul BICYCLIC_SHAPE=31,32,33 BICYCLIC_SCHEDULE=linear
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=31,32,33 BICYCLIC_SCHEDULE=linear 4786 ms
+== bicyclic_matmul BICYCLIC_SHAPE=31,32,33 BICYCLIC_SCHEDULE=doubling
+COMPILE bicyclic_matmul BICYCLIC_SHAPE=31,32,33 BICYCLIC_SCHEDULE=doubling 3724 ms
+== diagonal_matvec DIAGONAL_SIZE=16
+COMPILE diagonal_matvec DIAGONAL_SIZE=16 4253 ms
+== diagonal_matvec DIAGONAL_SIZE=32
+COMPILE diagonal_matvec DIAGONAL_SIZE=32 4479 ms
+== diagonal_matvec DIAGONAL_SIZE=64
+COMPILE diagonal_matvec DIAGONAL_SIZE=64 5477 ms
+== diagonal_matvec DIAGONAL_SIZE=128
+COMPILE diagonal_matvec DIAGONAL_SIZE=128 6914 ms
+Done: /workspace/cerium_work/logs/latency_results.jsonl
+ALL_DONE

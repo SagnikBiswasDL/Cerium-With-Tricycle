@@ -2,11 +2,15 @@
 
 """Plaintext matrix times encrypted vector with diagonal packing: y = W @ x."""
 
+import argparse
+import os
+
 from cerium.dsl import CeriumFunction, CeriumProgram, CiphertextInput, Output, PeriodicPlaintextInput
-from examples.common import LEVEL, RNS_BITS, compile_cli, main_name
+from examples.common import LEVEL, RNS_BITS, SLOTS, SUPPORTED_GPUS, main_name, output_root
 
 # Must divide the slot count so that x repeats exactly across all slots.
-SIZE = 16
+SIZE = int(os.environ.get("DIAGONAL_SIZE", "16"))
+assert SLOTS % SIZE == 0
 
 
 def build_program(gpus):
@@ -28,4 +32,14 @@ def build_program(gpus):
 
 
 if __name__ == "__main__":
-    compile_cli("diagonal_matvec", build_program, __doc__)
+    # Same as examples.common.compile_cli, but the GPU register (vregs) and
+    # base-conversion-unit (bcus) counts are configurable: larger sizes exceed
+    # common.py's 1024 and 128.
+    from cerium.compiler import cerium_compile
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--gpus", type=int, choices=SUPPORTED_GPUS, default=1)
+    parser.add_argument("--vregs", type=int, default=int(os.environ.get("CERIUM_VREGS", "1024")))
+    parser.add_argument("--bcus", type=int, default=int(os.environ.get("CERIUM_BCUS", "128")))
+    args = parser.parse_args()
+    cerium_compile(build_program(args.gpus), args.gpus, args.vregs, args.bcus, str(output_root("diagonal_matvec")))
