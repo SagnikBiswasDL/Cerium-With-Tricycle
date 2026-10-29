@@ -33,6 +33,10 @@ def build_program(gpus):
                 # a packs A (M x N) and b packs B (N x P); see encoding.py.
                 a = CiphertextInput(f"a{i or ''}", scale=56, level=LEVEL)
                 b = CiphertextInput(f"b{i or ''}", scale=56, level=LEVEL)
+                if SCHEDULE == "add":
+                    z = a + b
+                    Output(output_name(i), z)
+                    continue
                 # One ciphertext-ciphertext product forms every A[i,j] * B[j,l].
                 # Rotate at the doubled 112-bit scale so key-switching noise stays small.
                 product = (a * b).relinearize()
