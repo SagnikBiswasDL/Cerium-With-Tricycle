@@ -6,13 +6,15 @@
 # Writes RESULT JSON lines to $WORK/logs/latency_results.jsonl.
 # SWEEP=bert instead times BERT's 128x128 attention matmul with the compiler
 # settings bert_cerium.py uses for it (3096 vregs, 128 bcus, block size 256).
+# SWEEP=extra times the hoisted and rotacc bicyclic schedules and batches of
+# independent 31x32 @ 32x33 products.
 set -euo pipefail
 
 WORK="${CERIUM_WORK:-/workspace/cerium_work}"
 source "${WORK}/env.sh"
 python="${CERIUM_REPO}/venv_cerium/bin/python3"
 SWEEP="${SWEEP:-matrix}"
-suffix=$([[ "${SWEEP}" == bert ]] && echo "_bert" || true)
+suffix=$([[ "${SWEEP}" != matrix ]] && echo "_${SWEEP}" || true)
 results="${WORK}/logs/latency_results${suffix}.jsonl"
 # Compiler resources for every configuration. examples/common.py uses 1024
 # vregs and 128 bcus, which is too few for the largest shapes; Cerium's own
@@ -52,6 +54,18 @@ measure() {  # example, then env assignments
 : > "${results}.compile"
 if [[ "${SWEEP}" == bert ]]; then
     measure bert_attention_matmul CERIUM_BLOCK_SIZE=256
+    echo "Done: ${results}"
+    exit 0
+fi
+if [[ "${SWEEP}" == extra ]]; then
+    for shape in 15,16,17 31,32,33; do
+        for schedule in hoisted rotacc; do
+            measure bicyclic_matmul "BICYCLIC_SHAPE=${shape}" "BICYCLIC_SCHEDULE=${schedule}"
+        done
+    done
+    for batch in 2 4 8 16; do
+        measure bicyclic_matmul BICYCLIC_SHAPE=31,32,33 BICYCLIC_SCHEDULE=doubling "BICYCLIC_BATCH=${batch}"
+    done
     echo "Done: ${results}"
     exit 0
 fi

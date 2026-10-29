@@ -74,10 +74,13 @@ def main():
     _, ms["first_run"] = timed(program.run)
     runs = [timed(program.run)[1] for _ in range(args.calls)]
 
-    output, ms["fetch_output"] = timed(lambda: functions[name].get_program_outputs()["z"])
-    actual, ms["decrypt"] = timed(lambda: np.asarray(encryptor.decrypt_and_decode(output, output_scale)))
-    error = float(np.max(np.abs(actual - np.asarray(expected))))
-    passed = bool(np.allclose(actual, expected, rtol=1e-5, atol=1e-4))
+    if not isinstance(expected, dict):
+        expected = {"z": expected}
+    outputs, ms["fetch_output"] = timed(functions[name].get_program_outputs)
+    actual, ms["decrypt"] = timed(lambda: {
+        key: np.asarray(encryptor.decrypt_and_decode(outputs[key], output_scale)) for key in expected})
+    error = max(float(np.max(np.abs(actual[k] - np.asarray(expected[k])))) for k in expected)
+    passed = all(np.allclose(actual[k], expected[k], rtol=1e-5, atol=1e-4) for k in expected)
 
     iters = int(os.environ.get("CERIUM_RUNTIME_NUM_ITERS", "1"))
     result = {
@@ -86,6 +89,7 @@ def main():
             os.environ.get("BICYCLIC_SHAPE") if args.example == "bicyclic_matmul"
             else os.environ.get("DIAGONAL_SIZE", "16")),
         "schedule": os.environ.get("BICYCLIC_SCHEDULE", "linear") if args.example == "bicyclic_matmul" else "-",
+        "batch": len(expected),
         "graph_launches_per_run": iters,
         "run_calls": args.calls,
         "run_median_ms": statistics.median(runs),

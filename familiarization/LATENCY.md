@@ -45,6 +45,35 @@ Cerium's BERT benchmark has a hand-tuned encrypted × encrypted kernel, `matmul_
 - **Larger matrices with bicyclic would need block decomposition** across several ciphertexts. That is the natural next experiment if we want a like-for-like 128×128 comparison.
 - One-time costs for the BERT kernel: compile 8.2 s, evaluation keys 0.5 s (about 0.5 GB on disk), load 1.2 s, encrypt about 80 ms, decrypt about 25 ms.
 
+## Rotation strategies and batching (bicyclic, 31×32 @ 32×33)
+
+A follow-up run on a second H200 pod (`1a7b2e145fjhab`) tested where BERT's advantage comes from. All 16 runs passed. Raw data: [`latency_results_extra.jsonl`](logs/pod/latency/latency_results_extra.jsonl).
+
+| How the N partial products are summed | Rotations | 15×16 @ 16×17 | 31×32 @ 32×33 |
+| --- | --- | --- | --- |
+| Linear: one rotate-and-add at a time | N − 1 | 1.01 ms | 2.03 ms |
+| Hoisted: `HoistedRotate`, sharing one key-switch decomposition | N − 1 | 0.77 ms | 1.52 ms |
+| Fused: `RotateAccumulateMany`, one fused kernel | N − 1 | 0.46 ms | 0.82 ms |
+| Doubling: log₂ N rotate-and-adds | log₂ N | 0.41 ms | **0.49 ms** |
+
+- **Cerium's fused rotate-and-sum operation gives a 2.5× speedup with the same 31 rotations** (2.03 ms down to 0.82 ms). Hoisting alone gives 1.3×.
+- **Doubling remains fastest for this shape,** because 5 rotations beat even well-optimized 31 rotations. When N is not a power of two, the fused operation is the best option.
+- **`RotateAccumulate` (the single-operand form) crashes the compiler** with a segfault at this Cerium commit, with or without a zero shift. `RotateAccumulateMany` with the same ciphertext repeated works and is what BERT uses.
+
+**Batching independent products in one program** (doubling schedule, 31×32 @ 32×33 each):
+
+| Products per program | GPU latency | Per product | Encrypted multiply-adds per ms |
+| --- | --- | --- | --- |
+| 1 | 0.49 ms | 0.49 ms | ≈67,000 |
+| 2 | 0.79 ms | 0.40 ms | ≈83,000 |
+| 4 | 1.48 ms | 0.37 ms | ≈89,000 |
+| 8 | 3.11 ms | 0.39 ms | ≈84,000 |
+| 16 | 6.33 ms | 0.40 ms | ≈83,000 |
+
+- **One product does not fill the H200.** Running 2–4 at once improves throughput by about 30%, and it plateaus by 4 at about 85,000–89,000 multiply-adds per ms.
+- **BERT's kernel still does about 1.9× better (≈165,000 per ms).** So its advantage is mostly algorithmic (baby-step giant-step rotations, hoisting, and vectorized operations sharing work), not just better GPU utilization.
+- **Client-side costs scale with the batch.** Encryption takes about 95 ms per pair of input ciphertexts, and decryption about 62 ms per output, both on the CPU. Evaluation keys are shared, so key generation stays at about 0.24 s.
+
 ## One-time and client-side costs (not GPU compute)
 
 | Step | Time |
@@ -74,6 +103,7 @@ On the pod (after `bash setup_pod.sh 90`):
 cd /workspace/cerium_work
 bash sweep_latency.sh          # all 12 configurations, about 4 minutes
 SWEEP=bert bash sweep_latency.sh   # BERT attention matmul, about 1 minute
+SWEEP=extra bash sweep_latency.sh  # rotation strategies and batching, about 4 minutes
 ```
 
 The sweep builds into `/root/cerium_scratch` (container disk) because the BERT kernel's evaluation keys alone are about 0.5 GB and `/workspace` is near its quota.

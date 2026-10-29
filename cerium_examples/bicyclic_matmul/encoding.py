@@ -12,6 +12,9 @@ Environment overrides (read by both program.py and runner.py):
   BICYCLIC_SHAPE=M,N,P       default 3,4,5
   BICYCLIC_SCHEDULE=linear   N - 1 rotations (default)
   BICYCLIC_SCHEDULE=doubling log2(N) rotations; N must be a power of two
+  BICYCLIC_SCHEDULE=hoisted  the linear rotations as one HoistedRotate
+  BICYCLIC_SCHEDULE=rotacc   the linear rotations as one RotateAccumulateMany
+  BICYCLIC_BATCH=K           K independent products in one program (default 1)
 """
 
 import os
@@ -22,9 +25,15 @@ import numpy as np
 # C (M x P) = A (M x N) @ B (N x P). M, N, P must be pairwise coprime.
 M, N, P = (int(v) for v in os.environ.get("BICYCLIC_SHAPE", "3,4,5").split(","))
 SCHEDULE = os.environ.get("BICYCLIC_SCHEDULE", "linear")
+BATCH = int(os.environ.get("BICYCLIC_BATCH", "1"))
 assert gcd(M, N) == gcd(N, P) == gcd(M, P) == 1
-assert SCHEDULE in ("linear", "doubling")
+assert SCHEDULE in ("linear", "doubling", "hoisted", "rotacc")
+assert BATCH >= 1
 assert SCHEDULE == "linear" or N & (N - 1) == 0, "doubling needs N to be a power of two"
+
+
+def output_name(index):
+    return f"z{index or ''}"
 
 
 def encode(matrix, length):
@@ -45,16 +54,17 @@ def rotations():
 
     linear:   z = p + (p << MP) + (p << 2MP) + ... + (p << (N-1)MP)
     doubling: z = p; z = z + (z << MP); z = z + (z << 2MP); ... (log2 N steps)
-    Both give the same sum of shifts 0, MP, ..., (N-1)MP.
+    Both give the same sum of shifts 0, MP, ..., (N-1)MP. hoisted and rotacc
+    use the linear shifts.
     """
-    if SCHEDULE == "linear":
+    if SCHEDULE != "doubling":
         return [t * M * P for t in range(1, N)]
     return [step * M * P for step in (1 << i for i in range(N.bit_length() - 1))]
 
 
 def accumulate(product, rotate):
     """Apply the rotation schedule; rotate(x, s) is a left rotation by s."""
-    if SCHEDULE == "linear":
+    if SCHEDULE != "doubling":
         total = product
         for shift in rotations():
             total = total + rotate(product, shift)
