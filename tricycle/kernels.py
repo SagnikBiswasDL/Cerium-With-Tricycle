@@ -62,7 +62,7 @@ class NumpyBackend:
         self.num_slots = num_slots
         self.counts = Counter()
 
-    def cipher(self, name):
+    def cipher(self, name, level=None):
         return np.asarray(self.inputs[name])
 
     def plain(self, name, like):
@@ -83,9 +83,21 @@ class NumpyBackend:
     def add(self, a, b):
         return a + b
 
+    def sub(self, a, b):
+        return a - b
+
     def mul(self, a, b):
         self.counts["multiplies"] += 1
         return a * b
+
+    def scalar(self, name, value, level, bits):
+        return value
+
+    def vector_plain(self, name, values, level, bits):
+        return np.asarray(values)
+
+    def modswitch(self, x):
+        return x
 
     def relinearize(self, x):
         self.counts["relinearizations"] += 1
