@@ -105,4 +105,23 @@ Caveats:
 - Both now use block size 32 for these products. Cerium's other settings for them are 8192 vregs and 128 BCUs; ours are the same except 16384 vregs for QKV.
 - These are matrix multiplications only. Bootstrapping is 51% of Cerium's BERT time, and the Tricycle layer does not yet include nonlinear operations or bootstrapping.
 
+### Toward a full layer: how many bootstraps Tricycle needs
+
+Read from the source of `refs/tricycle-sst2-checkpoint` (128-token configuration from its README; not run, since it needs the HEaaN SDK). Every bootstrap is a full-slot HEaaN `Bootstrapper::bootstrap`, mostly complex-packed (two real ciphertexts per bootstrap), and the code's own counter (`GetBootstrapInvocationCount`, incremented before each call) would report the same numbers:
+
+| Layers | Softmax normalization | Wide GELU features | Bootstraps per layer |
+| --- | --- | --- | --- |
+| 1, 2, 12 | direct reciprocal | no | 16 |
+| 3 | reciprocal, then two inverse square roots | no | 20 |
+| 4–9 | two inverse square roots | no | 18 |
+| 10 | direct reciprocal | yes | 22 |
+| 11 | two inverse square roots | yes | 24 |
+
+That is 222 for the 12 layers, 18.5 per layer on average. Per layer: 4 for the softmax exponential (16 score ciphertexts, 4 per bootstrap), 2 to 6 for softmax normalization, 2 after softmax·V, 1 + 2 for each of the two LayerNorms (variance, then output), and 2 after FF2, or 8 after GELU instead in layers 10 and 11.
+
+Cerium spends 1.75 s per layer bootstrapping in its BERT (kernel time, same profile as above). One Cerium bootstrap took 17.4 ms on the October H200 run (`benchmarks/results/2026-10-29_h200/`). 18.5 × 17.4 ms ≈ 0.32 s per layer is only a rough first estimate, not a measurement:
+
+- The GPUs differ (H200 against H100). The cost per bootstrap still has to be measured on the H100.
+- Levels may not line up. Tricycle assumes 12 levels after each bootstrap under HEaaN's FGb parameters, while Cerium's 32K bootstrap returns 18 limbs at scale 2^56. If that leaves fewer usable levels, the nonlinear functions need more bootstraps.
+
 On a Runpod Pod (Ubuntu 24.04, x86_64), `cerium_examples/tricycle_matmul/bootstrap_pod.sh` builds Cerium at `6b48704` with `familiarization/pod/setup_pod.sh` and runs `run_pod.sh` for each shape; `run_base_split.sh` does BERT-Base.
