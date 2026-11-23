@@ -136,7 +136,7 @@ Wall time is the median of 10 warm runs. "Error vs NumPy program" is the CKKS er
 Two Cerium constraints shaped the programs:
 
 - A rotation adds about 2^52 of absolute key-switching noise: 0.1 at a 2^55 scale, 8e-10 at 2^83 (`probe` kernel). Every value that gets rotated is therefore kept one prime higher (~2^83): the multiply that produces it rescales one prime instead of two, and the multiply that consumes it rescales three, so no level is spent. With all rotations at 2^55, LayerNorm's error was 0.08 and the softmax's row sums were off by 0.09.
-- 19 limbs are 9 levels at 2 primes per level, where Tricycle plans for HEaaN's 12. Three exact changes make the kernels fit: GELU's input map onto [-1, 1] is folded into FF1's weights and bias; a series' last multiplies rescale one prime, so its output lands one prime higher, at the rotation scale; and LayerNorm's per-row masks are multiplied into the inverse square root's leaf coefficients instead of costing a level.
+- 19 limbs are 9 levels at 2 primes per level, where Tricycle plans for HEaaN's 12. GELU's input map onto [-1, 1] is folded into FF1's weights and bias, as Tricycle itself does. Two exact changes make the rest fit: a series' last multiplies rescale one prime, so its output lands one prime higher, at the rotation scale; and LayerNorm's per-row masks are multiplied into the inverse square root's leaf coefficients instead of costing a level (Tricycle's decoalescing spends a level on them).
 
 Adding up one layer with the direct softmax (layers 1, 2 and 12, 16 bootstraps), in kernel time per layer:
 
@@ -155,6 +155,7 @@ This is a sum of separately measured programs, not a run of a fused layer:
 - The matmuls were timed at input level 5 (12 for QKV). In a fused layer, the attention-output and FF2 products must deliver LayerNorm's input at 13 limbs, which costs more than at level 5.
 - Layers 3–9 and 11 normalize the softmax with inverse square roots (18–24 bootstraps per layer). That variant is not implemented yet.
 - GELU uses layer 1's range. Layers 10 and 11 split wide features into 8 more bootstraps, which is not modelled.
+- HEaaN multiplies by i for free (`multImagUnit`), and Tricycle uses that to pack and unpack complex ciphertexts around bootstraps and FF1/GELU. Cerium has no such operation: each one costs a level unless the i is folded into a neighbouring plaintext multiply. These packing steps are not in the kernels above.
 - Cerium's LayerNorm costs 15 ms. Ours is mostly the four masked degree-119 inverse square roots plus 182 rotations per LayerNorm.
 
 To reproduce on the pod: `bash cerium_examples/tricycle_nonlinear/stage2.sh "gelu|gelu:vector=4|2|19" "ln|layernorm|2|13" "sm|softmax|2|21"` (logs in `/workspace/cerium_work/logs/nonlinear`; the ones above are in `benchmarks/results/2026-11-23_h100_nonlinear`), and `CERIUM_BOOT_REFRESH=19 bash benchmarks/cerium_bench/run_bootstrap.sh <dir>` for the bootstrap.
