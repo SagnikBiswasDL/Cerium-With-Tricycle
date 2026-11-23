@@ -16,7 +16,7 @@ for group in "${groups[@]}"; do
     done_ok=0
     for vregs in 16384 24576; do
         echo "== base ${group}: ${vregs} vregs"
-        if TRICYCLE_MATMULS="${group}" CERIUM_VREGS="${vregs}" CERIUM_BCUS="${CERIUM_BCUS:-1024}" \
+        if TRICYCLE_MATMULS="${group}" CERIUM_VREGS="${vregs}" CERIUM_BCUS="${CERIUM_BCUS:-128}" \
             bash "${SCRIPT_DIR}/run_pod.sh" base "${gpus}"; then
             done_ok=1
             break

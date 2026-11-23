@@ -18,7 +18,7 @@ gpus="${2:-1}"
 case "${TRICYCLE_SHAPE}" in
     mini) : "${CERIUM_VREGS:=8192}" "${CERIUM_BCUS:=256}" ;;
     tiny) : "${CERIUM_VREGS:=16384}" "${CERIUM_BCUS:=1024}" ;;
-    base) : "${CERIUM_VREGS:=32768}" "${CERIUM_BCUS:=2048}" ;;
+    base) : "${CERIUM_VREGS:=16384}" "${CERIUM_BCUS:=128}" ;;
     *) echo "SHAPE must be mini, tiny or base" >&2; exit 2 ;;
 esac
 export CERIUM_VREGS CERIUM_BCUS

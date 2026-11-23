@@ -1,0 +1,81 @@
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:379][IOGenerator]: Generating Evalkeys:/workspace/cerium_work/Cerium/examples/tricycle_matmul/outputs/tricycle_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:613][IOGenerator]: Generating Plaintext Inputs:/workspace/cerium_work/Cerium/examples/tricycle_matmul/outputs/tricycle_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:208][Program]: Making CeriumFunction: main_1gpus: vregs=8192 bcus=128 num_gpus_compiled=1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:261][Program]: [0]: Allocating Register File Memory: size = 8192 vregs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:265][Program]: [0]: Allocating BCUs: size = 128 bcus
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:291][CeriumFunction:main_1gpus]: Generating Inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:729][CeriumFunction:main_1gpus]: Copying Inputs to Device
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:887][CeriumFunction:main_1gpus]: Launching Threadfn 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1098][CeriumFunction:main_1gpus]: Calculating Remapable Size for tid: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1133][CeriumFunction:main_1gpus]: Calculated Remapable Size for tid: 0 size: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:427][Program]: main_1gpus: Create Cudagraph = True
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:679][CeriumFunction:main_1gpus]: Created Register File:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:681][CeriumFunction:main_1gpus]: Created BCU Units:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:640][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:650][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:684][CeriumFunction:main_1gpus]: Creating Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:687][CeriumFunction:main_1gpus]: Created Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:689][CeriumFunction:main_1gpus]: Loaded Function Map:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:699][CeriumFunction:main_1gpus]: Creating Cuda Graphs tid:0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1095][CeriumFunction:main_1gpus]: Completed CUDA Graph Creation:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:438][Program]: Returning CeriumFunctions
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:299][IOGenerator]: Generating Ciphertexts:/workspace/cerium_work/Cerium/examples/tricycle_matmul/outputs/tricycle_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:961][CeriumFunction:main_1gpus]: Copying Ciphertext Inputs To GPU
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+------------------ Completed -------------------------
+Iterations Run = 1
+Total Execution Time = 52 milliseconds
+Average Execution Time = 52 milliseconds
+reshape: 8 output block(s), 34 plaintexts, output level 11
+qk: 16 output block(s), 4 plaintexts, output level 10
+pv: 4 output block(s), 7 plaintexts, output level 10
+attn_out: 4 output block(s), 768 plaintexts, output level 4
+program.run(): 53.8 ms (first, cold)
+program.run() warm: median 52.7 ms, p95 52.7 ms, min 52.6 ms (3 warmup, 10 timed)
+reshape_out_0_0: max abs error 2.591e-06 (largest slot 1.906)
+reshape_out_0_1: max abs error 2.450e-06 (largest slot 1.982)
+reshape_out_0_2: max abs error 2.754e-06 (largest slot 1.913)
+reshape_out_0_3: max abs error 2.588e-06 (largest slot 1.814)
+reshape_out_0_4: max abs error 2.518e-06 (largest slot 1.931)
+reshape_out_0_5: max abs error 2.777e-06 (largest slot 1.856)
+reshape_out_0_6: max abs error 2.629e-06 (largest slot 2.074)
+reshape_out_0_7: max abs error 2.634e-06 (largest slot 1.738)
+qk_out_0_0: max abs error 1.108e-06 (largest slot 0.373)
+qk_out_0_1: max abs error 9.489e-07 (largest slot 0.363)
+qk_out_0_2: max abs error 1.535e-06 (largest slot 0.327)
+qk_out_0_3: max abs error 1.169e-06 (largest slot 0.377)
+qk_out_1_0: max abs error 8.834e-07 (largest slot 0.316)
+qk_out_1_1: max abs error 1.057e-06 (largest slot 0.369)
+qk_out_1_2: max abs error 1.100e-06 (largest slot 0.326)
+qk_out_1_3: max abs error 1.098e-06 (largest slot 0.349)
+qk_out_2_0: max abs error 9.802e-07 (largest slot 0.338)
+qk_out_2_1: max abs error 1.011e-06 (largest slot 0.387)
+qk_out_2_2: max abs error 1.060e-06 (largest slot 0.333)
+qk_out_2_3: max abs error 1.098e-06 (largest slot 0.325)
+qk_out_3_0: max abs error 1.131e-06 (largest slot 0.322)
+qk_out_3_1: max abs error 1.017e-06 (largest slot 0.346)
+qk_out_3_2: max abs error 9.330e-07 (largest slot 0.367)
+qk_out_3_3: max abs error 1.139e-06 (largest slot 0.341)
+pv_out_0_0: max abs error 1.776e-06 (largest slot 4.159)
+pv_out_1_0: max abs error 1.888e-06 (largest slot 3.917)
+pv_out_2_0: max abs error 2.114e-06 (largest slot 3.981)
+pv_out_3_0: max abs error 1.793e-06 (largest slot 4.005)
+attn_out_out_0_0: max abs error 1.237e-05 (largest slot 8.121)
+attn_out_out_1_0: max abs error 1.078e-05 (largest slot 7.247)
+attn_out_out_2_0: max abs error 1.135e-05 (largest slot 7.782)
+attn_out_out_3_0: max abs error 1.192e-05 (largest slot 7.470)
+all 32 outputs match
+------------------------------------------------------

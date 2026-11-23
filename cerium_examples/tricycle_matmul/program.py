@@ -91,6 +91,10 @@ if __name__ == "__main__":
     parser.add_argument("--emit-only", action="store_true",
                         help="build the DSL graph (checks scales and levels) without compiling")
     args = parser.parse_args()
+    # Cerium's BERT-Base compiles its weight matmuls with block size 32
+    # (benchmarks/bert_base/bert_cerium.py). The default 1024 makes the
+    # plaintext multiply-accumulates ~10x slower here (README, v3_blocksize logs).
+    os.environ.setdefault("CERIUM_BLOCK_SIZE", "32")
     program = build_program(args.gpus)
     if not args.emit_only:
         from cerium.compiler import cerium_compile
