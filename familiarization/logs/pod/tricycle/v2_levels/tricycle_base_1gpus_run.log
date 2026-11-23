@@ -1,0 +1,28 @@
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:379][IOGenerator]: Generating Evalkeys:/workspace/cerium_work/Cerium/examples/tricycle_matmul/outputs/tricycle_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:613][IOGenerator]: Generating Plaintext Inputs:/workspace/cerium_work/Cerium/examples/tricycle_matmul/outputs/tricycle_matmul/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:208][Program]: Making CeriumFunction: main_1gpus: vregs=32768 bcus=2048 num_gpus_compiled=1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:261][Program]: [0]: Allocating Register File Memory: size = 32768 vregs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:265][Program]: [0]: Allocating BCUs: size = 2048 bcus
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:291][CeriumFunction:main_1gpus]: Generating Inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:729][CeriumFunction:main_1gpus]: Copying Inputs to Device
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:887][CeriumFunction:main_1gpus]: Launching Threadfn 0
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/cerium_work/Cerium/examples/tricycle_matmul/runner.py", line 103, in <module>
+    run_cli(main, __doc__)
+  File "/workspace/cerium_work/Cerium/examples/common.py", line 61, in run_cli
+    run_example(parser.parse_args().gpus)
+  File "/workspace/cerium_work/Cerium/examples/tricycle_matmul/runner.py", line 77, in main
+    functions = program.make_program(gpus, {name: {"use_cudagraph": "True"}}, inputs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA Runtime Error at: /workspace/cerium_work/Cerium/cerium/runtime/cuda/cuda_ops.cu:71 function_id: -1
+out of memory
+
+qkv: 12 output block(s), 3630 plaintexts, output level 11
+reshape: 8 output block(s), 34 plaintexts, output level 11
+qk: 16 output block(s), 5 plaintexts, output level 10
+pv: 4 output block(s), 5 plaintexts, output level 10
+attn_out: 4 output block(s), 768 plaintexts, output level 11
+ff1: 8 output block(s), 3074 plaintexts, output level 11
+ff2: 4 output block(s), 3074 plaintexts, output level 11

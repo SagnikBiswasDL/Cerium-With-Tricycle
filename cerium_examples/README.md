@@ -10,6 +10,7 @@ Six small programs written while learning Cerium ([CMU-CAOS/Cerium](https://gith
 | `square` | `relinearize(x * x)` |
 | `bicyclic_matmul` | encrypted `A (3×4) @ B (4×5)` with bicyclic packing (see `encoding.py`) |
 | `diagonal_matvec` | plaintext `W (16×16) @` encrypted `x` with the diagonal method |
+| `tricycle_matmul` | the seven matrix products of one Tricycle encoder layer (see the top-level README); uses `tricycle/` from this repository, so compile and run it with its own `tricycle.sh` |
 
 They import `examples.common`, so copy them into a Cerium checkout before running:
 

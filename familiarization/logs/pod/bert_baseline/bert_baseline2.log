@@ -1,0 +1,22 @@
+[setup_pod] Done. Environment written to /workspace/cerium_work/env.sh
+bert_torch_rte.pt: OK
+== Building CUDA for 14 functions
+== Compiled in 504s
+== Running 5 samples on 1 GPU
+Bert Execution time: 37.965599060058594 seconds
+Prediction :  1
+Actual     :  1
+Bert Execution time: 37.93244671821594 seconds
+Prediction :  1
+Actual     :  0
+Bert Execution time: 37.92878437042236 seconds
+Prediction :  1
+Actual     :  1
+Bert Execution time: 37.91655158996582 seconds
+Prediction :  1
+Actual     :  1
+Bert Execution time: 37.95904040336609 seconds
+Prediction :  0
+Actual     :  0
+Final Accuracy: 4/5 = 0.800000
+== Average execution time over 5 samples: 37.940 s
