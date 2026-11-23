@@ -8,9 +8,9 @@
 \setbeamertemplate{footline}[frame number]
 
 \title{Tricycle Integration with Cerium}
-\subtitle{Experiments and results, week of November 9}
+\subtitle{Experiments and results, weeks of November 9 and 16}
 \author{Sagnik Biswas}
-\date{November 16, 2026}
+\date{November 23, 2026}
 
 \begin{document}
 
@@ -18,17 +18,17 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{This week}
+\begin{frame}{Summary}
 \small
 \begin{enumerate}\small
   \item \textbf{Ran every Tricycle matrix multiplication encrypted on a GPU} through Cerium, at three layer sizes. All outputs correct.
-  \item \textbf{Ran the baseline:} Cerium's own encrypted BERT-Base, end to end.
-  \item \textbf{Profiled the baseline} per function, to see where its time goes.
-  \item \textbf{Cut our matrix-multiplication time} for one BERT-Base layer from 2.81 s to 1.82 s, and compared it with Cerium's, layer for layer.
+  \item \textbf{Ran and profiled the baseline:} Cerium's own encrypted BERT-Base, end to end.
+  \item \textbf{Found why Tricycle's weight multiplications were slow:} a Cerium compiler setting, not the algorithm.
+  \item \textbf{Cut our matrix-multiplication time} for one BERT-Base layer from 2.81 s to 0.20 s.
 \end{enumerate}
 \vspace{0.6em}
 \begin{block}{Headline}
-Tricycle's attention multiplications are 1.9$\times$ faster than Cerium's; its weight multiplications are still 2.4--3.8$\times$ slower; 1.6$\times$ slower overall.
+Every Tricycle matrix multiplication is now faster than Cerium's own: 4.6$\times$ faster per layer in total (2.2$\times$ for QKV up to 8.2$\times$ for attention).
 \end{block}
 \end{frame}
 
@@ -62,14 +62,14 @@ BERT-Base & 4 $\times$ 33 & 769, 13 $\times$ 34\\
 \bottomrule
 \end{tabular}
 \end{center}
-\textbf{Baseline:} Cerium's BERT-Base benchmark (RTE task, all 12 layers, bootstrapping), 5 samples. Same CKKS encryption and runtime, but Cerium's own packing and matrix multiplications, not Tricycle's.
+\textbf{Baseline:} Cerium's BERT-Base benchmark (RTE task, all 12 layers, bootstrapping), 5 samples. Same CKKS encryption and runtime, but Cerium's own packing and matrix multiplications.
 \vspace{0.3em}
 
 \textbf{Measured}
 \begin{itemize}\footnotesize
-  \item GPU time of one program execution.
+  \item GPU time: median of 10 runs after 3 warmups.
+  \item GPU kernel time per function (Nsight Systems), both sides.
   \item Max error against the unencrypted result.
-  \item Baseline: GPU kernel time per Cerium function (Nsight Systems).
 \end{itemize}
 \end{column}
 \end{columns}
@@ -82,17 +82,18 @@ BERT-Base & 4 $\times$ 33 & 769, 13 $\times$ 34\\
 \toprule
 \textbf{Layer shape} & \textbf{Products} & \textbf{Weight plaintexts} & \textbf{GPU time} & \textbf{Max error}\\
 \midrule
-Small test & all 7 & 78 & 10.9 ms & $1.6\times10^{-6}$\\
-BERT-Tiny & all 7 & 1{,}084 & 210.6 ms & $6.6\times10^{-6}$\\
-BERT-Base & all 7 & 10{,}590 & 1.82 s & $2.5\times10^{-5}$\\
+Small test & all 7 & 78 & 10.8 ms & $1.3\times10^{-6}$\\
+BERT-Tiny & all 7 & 1{,}084 & 210.6 ms$^{*}$ & $6.6\times10^{-6}$\\
+BERT-Base & all 7 & 10{,}591 & 0.20 s & $2.4\times10^{-5}$\\
 \bottomrule
 \end{tabular}
 \end{center}
+{\footnotesize $^{*}$ Measured before the compiler-setting fix below; not rerun.}
 \vspace{0.3em}
 \begin{itemize}\small
   \item Every encrypted output matches the unencrypted result; output values reach about 5.
   \item At scale $2^{56}$ errors were about $10^{-2}$: each rotation adds noise of about $2^{52}$. Scale $2^{84}$ fixed it.
-  \item BERT-Base does not fit in 80 GB as one program (32 GB of weights plus a 66 GB register file), so it runs as four programs; its time is their sum.
+  \item BERT-Base runs as four programs; its time is their sum.
 \end{itemize}
 \end{frame}
 
@@ -117,43 +118,64 @@ Weight matrix multiplications (QKV, output, FF1, FF2) & \rule{1.5cm}{1.4ex} & 15
 \small Matrix multiplications are about a third of the time: 1.13 s per layer.
 \end{frame}
 
-\begin{frame}{Result 3: Tricycle versus Cerium, matrix multiplications per layer}
+\begin{frame}{Result 3: why Tricycle's weight multiplications were slow}
+\small
+Profiling Tricycle's QKV (BERT-Base, one layer) with Nsight Systems:
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Kernel time} & \textbf{Key switching} & \textbf{Plaintext multiply-accumulate} & \textbf{Total}\\
+\midrule
+Cerium's default fusion block size (1024) & 28 ms & 923 ms & 951 ms\\
+Block size 32 (what Cerium's BERT uses) & 16 ms & 90 ms & 106 ms\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{itemize}\small
+  \item Rotations were never the problem. The time was in the element-wise multiply-accumulate kernels.
+  \item With block size 1024 those kernels reached about 3\% of the GPU's memory bandwidth.
+  \item Cerium's BERT sets block size 32 for its weight multiplications; our programs had the default. Same change, about 10$\times$ less multiply-accumulate time.
+  \item Earlier guesses (compressed plaintexts, fused rotations) were not the cause. Compressed plaintexts cannot work with Tricycle's encoding anyway.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Result 4: Tricycle versus Cerium, matrix multiplications per layer}
 \small
 \begin{center}\footnotesize
-\begin{tabular}{@{}lrrrl@{}}
+\begin{tabular}{@{}lrrrrl@{}}
 \toprule
-\textbf{BERT-Base, one layer} & \textbf{Cerium} & \textbf{Tricycle, first} & \textbf{Tricycle, now} & \textbf{Now vs Cerium}\\
+\textbf{BERT-Base, one layer} & \textbf{Cerium} & \textbf{Tricycle, first} & \textbf{Nov 16} & \textbf{Now} & \textbf{Now vs Cerium}\\
 \midrule
-Attention ($QK^{\mathsf T}$, $PV$, output) & 637 ms & 426 ms & 327 ms & \textbf{1.9$\times$ faster}\\
-Queries, keys, values & 229 ms & 891 ms & 868 ms & 3.8$\times$ slower\\
-Feed-forward 1 & 128 ms & 740 ms & 311 ms & 2.4$\times$ slower\\
-Feed-forward 2 & 131 ms & 749 ms & 311 ms & 2.4$\times$ slower\\
+Attention ($QK^{\mathsf T}$, $PV$, output) & 637 ms & 426 ms & 327 ms & 77 ms & \textbf{8.2$\times$ faster}\\
+Queries, keys, values & 229 ms & 891 ms & 868 ms & 106 ms & \textbf{2.2$\times$ faster}\\
+Feed-forward 1 & 128 ms & 740 ms & 311 ms & 37 ms & \textbf{3.4$\times$ faster}\\
+Feed-forward 2 & 131 ms & 749 ms & 311 ms & 25 ms & \textbf{5.3$\times$ faster}\\
 \midrule
-All matrix multiplications & 1{,}125 ms & 2{,}805 ms & 1{,}817 ms & 1.6$\times$ slower\\
+All matrix multiplications & 1{,}125 ms & 2{,}805 ms & 1{,}817 ms & 245 ms & \textbf{4.6$\times$ faster}\\
 \bottomrule
 \end{tabular}
 \end{center}
 \vspace{0.3em}
 \begin{itemize}\small
-  \item \textbf{First to now:} Tricycle's own rotation-schedule weights, and the attention output and feed-forward products at Cerium's ciphertext level (5 instead of 12).
-  \item \textbf{Remaining gap:} Cerium compresses its weight plaintexts and fuses its rotations; ours multiplies full-size weight plaintexts one at a time.
+  \item \textbf{First to Nov 16:} Tricycle's own rotation-schedule weights; attention output and feed-forward at Cerium's level (5 instead of 12).
+  \item \textbf{Nov 16 to now:} fusion block size 32.
 \end{itemize}
-{\footnotesize Same GPU, about 128 tokens. Cerium's times are profiled kernel time divided by 12 layers. The Tricycle attention row also includes the key/value reshape.}
+{\footnotesize Same GPU, about 128 tokens. ``Now'' and Cerium are both profiled kernel time per layer (warm wall time for ``now'': 204 ms). ``First'' and ``Nov 16'' are wall time of a single run. Packings differ, so the work is not identical; Cerium's numbers include bias additions. The Tricycle attention row also includes the key/value reshape.}
 \end{frame}
 
 \begin{frame}{Takeaways and next steps}
 \small
 \begin{block}{Takeaways}
 \begin{itemize}\small
-  \item All Tricycle matrix multiplications run correctly, encrypted, through Cerium.
-  \item Tricycle already beats Cerium's attention multiplications by 1.9$\times$.
-  \item Bootstrapping is half of Cerium's BERT time, so faster matrix multiplications alone cannot make a layer more than about 1.5$\times$ faster.
+  \item All Tricycle matrix multiplications run correctly, encrypted, through Cerium, and each one beats Cerium's.
+  \item Compiler settings matter as much as the algorithm: one setting was worth 9$\times$.
+  \item Bootstrapping is half of Cerium's BERT time. Swapping in Tricycle's matrix multiplications alone would make a Cerium layer about 1.4$\times$ faster (3.16 s to 2.28 s).
 \end{itemize}
 \end{block}
 \begin{block}{Next}
 \begin{itemize}\small
-  \item Close the weight-product gap: fused rotations, smaller plaintexts, a lower level for QKV.
-  \item Add the nonlinear operations for one complete encrypted Tricycle layer, then compare end to end.
+  \item One complete encrypted Tricycle layer: add softmax, GELU, LayerNorm and bootstrapping, then compare end to end with Cerium's 3.16 s per layer.
+  \item Fairness check: whether Cerium's own BERT matmuls also speed up under other compiler settings.
 \end{itemize}
 \end{block}
 \end{frame}
