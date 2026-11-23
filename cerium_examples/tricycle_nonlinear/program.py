@@ -36,7 +36,7 @@ def build_program(gpus):
             for kernel in kernels:
                 backend = CeriumBackend(28 * limbs, level, 28, SLOTS)
                 ev = Evaluator(backend, Primes, limbs, 28 * limbs, kernel.name)
-                outputs = kernel.emit(backend, ev, level, float(2 ** (28 * limbs)))
+                outputs = kernel.emit(backend, ev, level)
                 for name, value in outputs.items():
                     Output(name, value.handle)
                 sample = next(iter(outputs.values()))

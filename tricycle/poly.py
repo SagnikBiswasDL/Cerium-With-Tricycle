@@ -41,6 +41,8 @@ class Evaluator:
         self.bits = bits
         self.prefix = prefix
         self.scalars = {}
+        self.levels = {}
+        self.inputs = {}
         self.counts = {"ct_ct": 0, "ct_scalar": 0}
 
     # -- primitive bookkeeping ------------------------------------------------
@@ -52,6 +54,17 @@ class Evaluator:
             product *= self.primes[level - 1 - i]
         return product
 
+    def input(self, name, level):
+        """A ciphertext input encrypted at the scale its first rescale removes.
+
+        Starting every value at that prime product keeps the scales of repeated
+        squarings (giant steps, the softmax exponential) near it; any other
+        start doubles its excess with every squaring.
+        """
+        scale = self.dropped(level)
+        self.inputs[name] = scale
+        return Value(self.b.cipher(name, level), scale, level)
+
     def _name(self, tag):
         name = f"{self.prefix}_{tag}_{len(self.scalars)}"
         return name
@@ -59,6 +72,7 @@ class Evaluator:
     def _scalar(self, tag, value, scale, level):
         name = self._name(tag)
         self.scalars[name] = (float(value), float(scale))
+        self.levels[name] = level
         return self.b.scalar(name, float(value), level, self.bits)
 
     def rescale(self, x):
@@ -111,6 +125,7 @@ class Evaluator:
         name = self._name(tag)
         values = np.asarray(values, dtype=float)
         self.scalars[name] = (values, float(scale))
+        self.levels[name] = x.level
         p = self.b.vector_plain(name, values, x.level, self.bits)
         self.counts["ct_scalar"] += 1
         return self.rescale(Value(self.b.mul(x.handle, p), x.scale * scale, x.level))
@@ -119,6 +134,7 @@ class Evaluator:
         name = self._name(tag)
         values = np.asarray(values, dtype=float)
         self.scalars[name] = (values, float(x.scale))
+        self.levels[name] = x.level
         p = self.b.vector_plain(name, values, x.level, self.bits)
         return Value(self.b.add(x.handle, p), x.scale, x.level)
 

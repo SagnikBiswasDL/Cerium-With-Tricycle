@@ -49,15 +49,16 @@ class Gelu:
     def cipher_inputs(self):
         return [f"{self.name}_x{i}" for i in range(self.count)]
 
-    def emit(self, backend, ev, level, scale):
+    def emit(self, backend, ev, level):
         lower, upper = self.interval
         coeffs = chebyshev_fit(gelu, lower, upper, self.degree)
         names = self.cipher_inputs()
         out = {}
         for start in range(0, self.count, self.vector):
             group = names[start:start + self.vector]
-            x = backend.vector([backend.cipher(n) for n in group])
-            y = ev.chebyshev(Value(x, scale, level), coeffs, lower, upper)
+            xs = [ev.input(n, level) for n in group]
+            x = Value(backend.vector([v.handle for v in xs]), xs[0].scale, level)
+            y = ev.chebyshev(x, coeffs, lower, upper)
             for n, h in zip(group, backend.unvector(y.handle, len(group))):
                 out[n.replace("_x", "_y")] = Value(h, y.scale, y.level)
         return out
@@ -171,12 +172,12 @@ class LayerNorm:
         add = -1.0 - lower * mult
         return mult, add
 
-    def emit(self, backend, ev, level, scale):
+    def emit(self, backend, ev, level):
         n = self.features
         mult, add = self._map()
         ones = self._token_mask(1.0)
-        xs = [Value(backend.cipher(f"{self.name}_x{i}", level), scale, level)
-              for i in range(self.rows)]
+        xs = [ev.input(f"{self.name}_x{i}", level) for i in range(self.rows)]
+        scale = xs[0].scale
         diffs, variances = [], []
         for x in xs:
             s1 = sum_part1(ev, x, self.rotations, ones, scale)
@@ -197,12 +198,12 @@ class LayerNorm:
             coalesced = ev.add(ev.rotate(coalesced, -TOKENS_PER_BLOCK), v)
         out = {f"{self.name}_var": coalesced}
 
-        boot = Value(backend.cipher(f"{self.name}_var_boot", self.boot_level), scale, self.boot_level)
+        boot = ev.input(f"{self.name}_var_boot", self.boot_level)
         coeffs = self._inv_sqrt_coeffs()
         inv = ev.chebyshev(boot, coeffs, -1.0, 1.0)
         for j in range(self.rows):
             row = self.rows - 1 - j
-            piece = ev.mul_vector(inv, ones, scale, "demask")
+            piece = ev.mul_vector(inv, ones, inv.scale, "demask")
             inv_row = sum_part2(ev, piece, self.rotations)
             y = ev.mul(diffs[row], inv_row)
             out[f"{self.name}_y{row}"] = ev.add_vector(y, self._block_vector(self.beta), "beta")
@@ -258,7 +259,262 @@ class LayerNorm:
         return out
 
 
-KERNELS = {"gelu": Gelu, "layernorm": LayerNorm}
+HEADS = 13
+KEY_DIM = 35
+SCORE_DIMS = (HEADS, TOKENS_PER_BLOCK, KEY_DIM)
+SCORE_SLOTS = HEADS * TOKENS_PER_BLOCK * KEY_DIM
+# configs/bert_base_softmax_128/layer1.txt: inverse interval, then per-head
+# (y intercept, slope) of the max estimate; the 13th (padding) head keeps
+# softmax_patch's defaults.
+SOFTMAX_LAYER1 = {
+    "inverse": (0.65386292885478059, 12.271508273663168),
+    "heads": [(1.2343408395303446, 0.12944402995983414), (1.2929836866789246, 0.11691981024872976),
+              (1.654407398058098, 0.12104710442444402), (1.0177349536454126, 0.21301689896110862),
+              (1.1771101547185165, 0.22051445633382644), (1.3294663321520297, 0.12131507174231135),
+              (1.0782124752185727, 0.2204501208034112), (1.3009164561463809, 0.069303970814902499),
+              (1.4011011549102417, 0.14297172475466191), (1.1707610632799224, 0.26070312883685176),
+              (1.572036892130352, 0.14679916180793046), (1.4508370684923215, 0.087037368141924032),
+              (1.25, 0.1)],
+}
+
+
+def score_rotations(num_slots=SLOTS):
+    """``sum_preprocess(35, 13 * 33)``: sums over the key axis of a score block."""
+    every_other, n = HEADS * TOKENS_PER_BLOCK, KEY_DIM
+    rounds = int(np.floor(np.log2(n)))
+    left_tail = n - (1 << rounds)
+    right_tail = left_tail - 1
+    ceil_log2 = lambda v: int(np.ceil(np.log2(v)))
+    steps = [(1 << i) * every_other % num_slots for i in range(rounds)]
+    reverse = -every_other * (1 << rounds) % num_slots
+    left = (ceil_log2(left_tail), (1 << rounds) * every_other % num_slots) if left_tail > 0 else None
+    right = None
+    if right_tail > 0:
+        loop = ceil_log2(right_tail)
+        right = (loop, -every_other * ((n - right_tail) + (1 << loop) - 1) % num_slots)
+    return steps, reverse, left, right
+
+
+def sum_keys(ev, cts, rotations):
+    """``sum_multiple``: add the column blocks, then sum over keys in place."""
+    steps, reverse, left, right = rotations
+    c = cts[0]
+    for ct in cts[1:]:
+        c = ev.add(c, ct)
+    saved = {0: c}
+    for i, r in enumerate(steps, start=1):
+        c = ev.add(c, ev.rotate(c, r))
+        saved[i] = c
+    c = ev.add(c, ev.rotate(c, reverse))
+    if left:
+        c = ev.add(c, ev.rotate(saved[left[0]], left[1]))
+    if right:
+        c = ev.add(c, ev.rotate(saved[right[0]], right[1]))
+    return c
+
+
+def score_mask(per_head, keys_only=True):
+    """A tricyclic (13, 33, 35) mask: ``per_head[h]`` on real keys, 0 on padding keys."""
+    k = np.arange(SCORE_SLOTS)
+    values = np.asarray(per_head, dtype=float)[k % HEADS]
+    if keys_only:
+        values = np.where(k % KEY_DIM < TOKENS_PER_BLOCK, values, 0.0)
+    v = np.zeros(SLOTS)
+    v[:SCORE_SLOTS] = values
+    return v
+
+
+@dataclass
+class Softmax:
+    """Direct-reciprocal ``softmax`` (layers 1, 2, 10, 12) on the 4 x 4 score blocks.
+
+    Before the 4-way bootstrap (inputs ``s*`` at ``level``): the max estimate
+    from row sums and sums of squares, ``1 + x / 256`` and ``before`` of the 8
+    squarings. After it (inputs ``e*_boot`` at ``boot_level``): the remaining
+    squarings, the row sums mapped onto [-1, 1]; that is the 2-way bootstrap's
+    input. After that (``d*_boot``): the degree-``degree`` reciprocal and the
+    product with every exponential.
+    """
+
+    rows: int = 4
+    before: int = 3
+    degree: int = 119
+    boot_level: int = 21
+    name: str = "sm"
+    iterations: int = 8
+
+    def __post_init__(self):
+        self.rotations = score_rotations()
+        self.config = SOFTMAX_LAYER1
+        self.n_size = KEY_DIM * self.rows
+
+    def cipher_inputs(self):
+        grid = [f"{i}{j}" for i in range(self.rows) for j in range(self.rows)]
+        return ([f"{self.name}_s{g}" for g in grid] + [f"{self.name}_e{g}_boot" for g in grid]
+                + [f"{self.name}_d{i}_boot" for i in range(self.rows)])
+
+    def _coefficients(self):
+        inv = 1.0 / 2 ** self.iterations
+        f = np.sqrt(2 * np.log(self.n_size))
+        intercepts = [y for y, _ in self.config["heads"]]
+        slopes = [s for _, s in self.config["heads"]]
+        sum_coeff = inv / self.n_size
+        sos = [s * f * inv / self.n_size for s in slopes]
+        sts = [-c / self.n_size for c in sos]
+        shift = [y * f * inv for y in intercepts]
+        return inv, sum_coeff, sos, sts, shift
+
+    def _prescale(self):
+        lower, upper = self.config["inverse"]
+        mult = 2.0 / (upper - lower)
+        add = -(upper + lower) / (upper - lower)
+        k = np.arange(SCORE_SLOTS)
+        real = k % KEY_DIM < TOKENS_PER_BLOCK
+        m = np.zeros(SLOTS)
+        m[:SCORE_SLOTS] = np.where(real, mult, 0.0)
+        a = np.full(SLOTS, 1.1 * mult + add)
+        a[:SCORE_SLOTS] = np.where(real, add, 1.1 * mult + add)
+        return m, a
+
+    def _reciprocal_coeffs(self):
+        lower, upper = self.config["inverse"]
+        return chebyshev_fit(lambda y: 1.0 / (lower + (y + 1.0) * (upper - lower) / 2.0),
+                             -1.0, 1.0, self.degree)
+
+    def emit(self, backend, ev, level):
+        inv, sum_coeff, sos, sts, shift = self._coefficients()
+        heads = np.ones(HEADS)
+        out = {}
+        n = self.rows
+        for i in range(n):
+            s = [ev.input(f"{self.name}_s{i}{j}", level) for j in range(n)]
+            scale = s[0].scale
+            total = sum_keys(ev, s, self.rotations)
+            mean_sq = ev.square(ev.mul_vector(total, score_mask(heads / self.n_size), scale, "cmean"))
+            squares = [ev.square(x) for x in s]
+            total_sq = sum_keys(ev, squares, self.rotations)
+            target = mean_sq.scale
+            shift_v = ev.add(ev.mul_vector(total, score_mask(heads * sum_coeff), target, "scoef"),
+                             ev.mul_vector(total_sq, score_mask(sos), target, "sscoef"))
+            sts_term = ev.mul_vector(ev.square(total), score_mask(sts), target, "stscoef")
+            shift_v = ev.add_vector(ev.add(shift_v, sts_term), score_mask(shift), "shift")
+            for j, x in enumerate(s):
+                u = ev.sub(ev.mul_vector(x, score_mask(heads * inv), target, "inv2k"), shift_v)
+                e = ev.add_vector(u, score_mask(heads), "one")
+                for _ in range(self.before):
+                    e = ev.square(e)
+                out[f"{self.name}_e{i}{j}"] = e
+
+        boot = self.boot_level
+        mult, add = self._prescale()
+        exps = {}
+        for i in range(n):
+            row = []
+            for j in range(n):
+                e = ev.input(f"{self.name}_e{i}{j}_boot", boot)
+                for _ in range(self.iterations - self.before):
+                    e = ev.square(e)
+                row.append(e)
+            exps[i] = row
+            total = sum_keys(ev, row, self.rotations)
+            pre = ev.add_vector(ev.mul_vector(total, mult, total.scale, "pmul"), add, "padd")
+            out[f"{self.name}_d{i}"] = pre
+
+        coeffs = self._reciprocal_coeffs()
+        for i in range(n):
+            d = ev.input(f"{self.name}_d{i}_boot", boot)
+            r = ev.chebyshev(d, coeffs, -1.0, 1.0)
+            for j in range(n):
+                out[f"{self.name}_p{i}{j}"] = ev.mul(exps[i][j], r)
+        return out
+
+    # -- test data ------------------------------------------------------------
+
+    def _scores(self, rng):
+        """Per-row scores (heads x 132 queries x 132 keys) whose exp-sum fits the interval."""
+        lower, upper = self.config["inverse"]
+        q = self.rows * TOKENS_PER_BLOCK
+        scores = np.zeros((HEADS, q, q))
+        for h in range(HEADS - 1):
+            for t in range(q):
+                for _ in range(100):
+                    row = rng.normal(0, rng.uniform(0.5, 3.0), q) + rng.uniform(-5, 5)
+                    total = np.sum(self._exp_approx(row, h))
+                    if lower * 1.05 < total < upper * 0.95:
+                        break
+                else:
+                    raise RuntimeError("could not draw a score row inside the inverse interval")
+                scores[h, t] = row
+        return scores
+
+    def _exp_approx(self, row, h):
+        """What the program computes for one row of 132 real keys (padding keys are zero)."""
+        inv, sum_coeff, sos, sts, shift = self._coefficients()
+        total, total_sq = row.sum(), (row ** 2).sum()
+        s = sum_coeff * total + sos[h] * total_sq + sts[h] * total ** 2 + shift[h]
+        return (1.0 + row * inv - s) ** (2 ** self.iterations)
+
+    def _blocks(self, scores):
+        """Encode (heads, 132, 132) into the 4 x 4 grid of (13, 33, 35) blocks."""
+        k = np.arange(SCORE_SLOTS)
+        h, t, key = k % HEADS, k % TOKENS_PER_BLOCK, k % KEY_DIM
+        real = key < TOKENS_PER_BLOCK
+        blocks = {}
+        for i in range(self.rows):
+            for j in range(self.rows):
+                v = np.zeros(SLOTS)
+                vals = scores[h, i * TOKENS_PER_BLOCK + t, j * TOKENS_PER_BLOCK + np.minimum(key, 32)]
+                v[:SCORE_SLOTS] = np.where(real, vals, 0.0)
+                blocks[(i, j)] = v
+        return blocks
+
+    def sample(self, rng):
+        scores = self._scores(rng)
+        self._scores_cache = scores
+        inv, sum_coeff, sos, sts, shift = self._coefficients()
+        q = self.rows * TOKENS_PER_BLOCK
+        partial = np.zeros_like(scores)
+        exps = np.zeros_like(scores)
+        for h in range(HEADS):
+            for t in range(q):
+                row = scores[h, t]
+                total, total_sq = row.sum(), (row ** 2).sum()
+                s = sum_coeff * total + sos[h] * total_sq + sts[h] * total ** 2 + shift[h]
+                base = 1.0 + row * inv - s
+                partial[h, t] = base ** (2 ** self.before)
+                exps[h, t] = base ** (2 ** self.iterations)
+        inputs = {}
+        for (i, j), v in self._blocks(scores).items():
+            inputs[f"{self.name}_s{i}{j}"] = v
+        for (i, j), v in self._blocks(partial).items():
+            inputs[f"{self.name}_e{i}{j}_boot"] = v
+        mult, add = self._prescale()
+        sums = exps.sum(axis=2, keepdims=True) * np.ones_like(exps)
+        for i in range(self.rows):
+            d = self._blocks(sums)[(i, 0)] * mult + add
+            inputs[f"{self.name}_d{i}_boot"] = d
+        self._exps = exps
+        self._partial = partial
+        return inputs
+
+    def reference(self, inputs):
+        from tricycle.nonlinear import softmax
+
+        out = {}
+        probs = softmax(self._scores_cache, axis=-1)
+        exps = self._exps
+        mult, add = self._prescale()
+        for (i, j), v in self._blocks(probs).items():
+            out[f"{self.name}_p{i}{j}"] = v
+        for (i, j), v in self._blocks(self._partial).items():
+            out[f"{self.name}_e{i}{j}"] = v
+        sums = exps.sum(axis=2, keepdims=True) * np.ones_like(exps)
+        for i in range(self.rows):
+            out[f"{self.name}_d{i}"] = self._blocks(sums)[(i, 0)] * mult + add
+        return out
+
+
+KERNELS = {"gelu": Gelu, "layernorm": LayerNorm, "softmax": Softmax}
 
 
 def make_kernel(spec):
@@ -277,5 +533,5 @@ def run_numpy(kernel, inputs, primes, limbs, level):
 
     backend = NumpyBackend(inputs, SLOTS)
     ev = Evaluator(backend, primes, limbs, 28 * limbs, kernel.name)
-    outputs = kernel.emit(backend, ev, level, float(2 ** (28 * limbs)))
+    outputs = kernel.emit(backend, ev, level)
     return outputs, ev

@@ -22,12 +22,11 @@ def make_case(seed=11):
     limbs, level, kernels = settings()
     rng = np.random.default_rng(seed)
     raw_inputs, expected, exact, output_scales = {}, {}, {}, {}
-    scale = float(2 ** (28 * limbs))
     for kernel in kernels:
         inputs = kernel.sample(rng)
         outputs, ev = run_numpy(kernel, inputs, Primes, limbs, level)
         for name, vector in inputs.items():
-            raw_inputs[name] = (vector, scale)
+            raw_inputs[name] = (vector, ev.inputs[name])
         for name, (value, s) in ev.scalars.items():
             raw_inputs[name] = (value, s)
         reference = kernel.reference(inputs)
