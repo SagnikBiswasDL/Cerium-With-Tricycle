@@ -40,7 +40,7 @@ start=$(date +%s)
 make -C "${examples}" -j"${MAKE_JOBS:-16}" all "FNAME=main_${gpus}gpus" \
     "DIRNAME=tricycle_matmul/outputs/tricycle_matmul" >> "${logs}/tricycle_${tag}_compile.log" 2>&1
 mkdir -p "${out}/compiled/main_${gpus}gpus"
-cp -a "${out}/main_${gpus}gpus/output/." "${out}/compiled/main_${gpus}gpus/"
+cp -r "${out}/main_${gpus}gpus/output/." "${out}/compiled/main_${gpus}gpus/"
 echo "== Compiled in $(( $(date +%s) - start ))s"
 
 echo "== Running ${tag}"

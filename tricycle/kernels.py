@@ -534,12 +534,15 @@ class Matmul:
             return [[b.cipher(self.input_name(side, a, c)) for c in range(cols)]
                     for a in range(rows)]
 
-        if self.fused and self.kind == "ct_pt":
+        # BsgsMultiplyAccumulate needs a rotated giant step (one ModDown to
+        # aggregate into); a single unrotated chunk fails in Cerium's compiler.
+        fused = self.fused and len(self.plan.chunks) > 1
+        if fused and self.kind == "ct_pt":
             products = emit_fused_bsgs(b, self.plan, grid("left"), self.plain_name,
                                        self.zero_name, "right", num_slots)
             columns = [products(k) for k in range(self.right_grid[1])]
             out = [list(row) for row in zip(*columns)]
-        elif self.fused and self.kind == "pt_ct":
+        elif fused and self.kind == "pt_ct":
             products = emit_fused_bsgs(b, self.plan, grid("right"), self.plain_name,
                                        self.zero_name, "left", num_slots)
             out = [products(i) for i in range(self.left_grid[0])]
@@ -579,7 +582,7 @@ class Matmul:
                     values[self.input_name(side, a, c)] = slots
         if self.kind != "ct_ct":
             values.update(ct_pt_plaintexts(self.plan, plain_blocks, self.plain_name, num_slots))
-            if self.fused and any(len(e) < self.plan.num_baby_steps for _, e in self.plan.chunks):
+            if self.fused and len(self.plan.chunks) > 1 and any(len(e) < self.plan.num_baby_steps for _, e in self.plan.chunks):
                 values[self.zero_name] = np.zeros(num_slots)
         else:
             values.update(mask_plaintexts(self.plan, self.mask_name, num_slots))
