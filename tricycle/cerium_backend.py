@@ -30,10 +30,11 @@ class CeriumBackend:
     def _norm(self, k):
         return int(k) % self.num_slots
 
-    def cipher(self, name, level=None):
+    def cipher(self, name, level=None, bits=None):
         if name not in self._ciphertexts:
             level = self.cipher_level if level is None else level
-            self._ciphertexts[name] = CiphertextInput(name, self.cipher_bits, level)
+            bits = self.cipher_bits if bits is None else bits
+            self._ciphertexts[name] = CiphertextInput(name, bits, level)
         return self._ciphertexts[name]
 
     def plain(self, name, like):

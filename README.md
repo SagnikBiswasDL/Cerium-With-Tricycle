@@ -119,9 +119,44 @@ Read from the source of `refs/tricycle-sst2-checkpoint` (128-token configuration
 
 That is 222 for the 12 layers, 18.5 per layer on average. Per layer: 4 for the softmax exponential (16 score ciphertexts, 4 per bootstrap), 2 to 6 for softmax normalization, 2 after softmax·V, 1 + 2 for each of the two LayerNorms (variance, then output), and 2 after FF2, or 8 after GELU instead in layers 10 and 11.
 
-Cerium spends 1.75 s per layer bootstrapping in its BERT (kernel time, same profile as above). One Cerium bootstrap took 17.4 ms on the October H200 run (`benchmarks/results/2026-10-29_h200/`). 18.5 × 17.4 ms ≈ 0.32 s per layer is only a rough first estimate, not a measurement:
+### Bootstrapping and the nonlinear layers on Cerium (H100), measured separately
 
-- The GPUs differ (H200 against H100). The cost per bootstrap still has to be measured on the H100.
-- Levels may not line up. Tricycle assumes 12 levels after each bootstrap under HEaaN's FGb parameters, while Cerium's 32K bootstrap returns 18 limbs at scale 2^56. If that leaves fewer usable levels, the nonlinear functions need more bootstraps.
+Cerium's 32K-slot bootstrap (`benchmarks/bootstrap_32K`, run by `benchmarks/cerium_bench/run_bootstrap.sh`) returns at most 19 limbs: `bootstrap_values.py` caps the mod-raise at 52 limbs (19 + 33), and the stock benchmark uses 18. At 19 (`CERIUM_BOOT_REFRESH=19`) one bootstrap takes 21.3 ms wall (median of 30) and 22.3 ms of kernel time (Nsight), and adds at most 3.3e-6 of error (`benchmarks/results/2026-11-23_h100_nonlinear/bootstrap_h100_r19`). At 18 it is 19.9 ms wall and 20.8 ms kernel time.
+
+Tricycle's GELU, LayerNorm and direct-reciprocal softmax (`tricycle/nonlinear_kernels.py`, BERT-Base shapes, layer-1 constants) are CKKS programs emitted through the same evaluator for NumPy and Cerium (`cerium_examples/tricycle_nonlinear`). They keep Tricycle's algorithms and degree-119 Chebyshev series and use 2 primes per level (2^55 scale), as Cerium's BERT does:
+
+| Kernel | Levels (limbs) | Wall time | Kernel time | Error vs NumPy program | Error vs exact function |
+| --- | --- | --- | --- | --- | --- |
+| GELU, 16 FF1 blocks | 19 → 6 | 111.4 ms | 144.2 ms | 1.7e-8 | 5.6e-5 |
+| LayerNorm, 4 blocks, incl. its variance bootstrap's input and output sides | 13 → 6; 19 → 3 | 39.4 ms | 69.9 ms | 3.7e-9 | 3.7e-9 |
+| Softmax (direct reciprocal), 4 × 4 score blocks | 21 → 9; 19 → 7; 19 → 3 | 68.5 ms | 114.8 ms | 1.9e-8 | 1.2e-2 |
+
+Wall time is the median of 10 warm runs. "Error vs NumPy program" is the CKKS error. The softmax's 1.2e-2 against exact softmax is Tricycle's own (1 + x/256)^256 exponential. Each multi-stage kernel takes its post-bootstrap inputs as fresh ciphertexts at 19 limbs, so the bootstraps themselves are not in these times.
+
+Two Cerium constraints shaped the programs:
+
+- A rotation adds about 2^52 of absolute key-switching noise: 0.1 at a 2^55 scale, 8e-10 at 2^83 (`probe` kernel). Every value that gets rotated is therefore kept one prime higher (~2^83): the multiply that produces it rescales one prime instead of two, and the multiply that consumes it rescales three, so no level is spent. With all rotations at 2^55, LayerNorm's error was 0.08 and the softmax's row sums were off by 0.09.
+- 19 limbs are 9 levels at 2 primes per level, where Tricycle plans for HEaaN's 12. Three exact changes make the kernels fit: GELU's input map onto [-1, 1] is folded into FF1's weights and bias; a series' last multiplies rescale one prime, so its output lands one prime higher, at the rotation scale; and LayerNorm's per-row masks are multiplied into the inverse square root's leaf coefficients instead of costing a level.
+
+Adding up one layer with the direct softmax (layers 1, 2 and 12, 16 bootstraps), in kernel time per layer:
+
+| Part | Cerium BERT-Base | Tricycle on Cerium |
+| --- | --- | --- |
+| Matrix multiplications | 1,125 ms | 245 ms |
+| Bootstrapping | 1,747 ms | 357 ms (16 × 22.3 ms) |
+| GELU | 276 ms | 144 ms |
+| Softmax | 234 ms | 115 ms |
+| LayerNorm (two) | 15 ms | 140 ms |
+| Total | 3,403 ms | about 1,000 ms |
+
+This is a sum of separately measured programs, not a run of a fused layer:
+
+- One level gap remains. The softmax probabilities land at 3 limbs at 2^56, but softmax·V rotates both operands and was measured with inputs at 2^84. Closing it needs one more bootstrap round on the probabilities or normalizing after softmax·V; neither is in the total.
+- The matmuls were timed at input level 5 (12 for QKV). In a fused layer, the attention-output and FF2 products must deliver LayerNorm's input at 13 limbs, which costs more than at level 5.
+- Layers 3–9 and 11 normalize the softmax with inverse square roots (18–24 bootstraps per layer). That variant is not implemented yet.
+- GELU uses layer 1's range. Layers 10 and 11 split wide features into 8 more bootstraps, which is not modelled.
+- Cerium's LayerNorm costs 15 ms. Ours is mostly the four masked degree-119 inverse square roots plus 182 rotations per LayerNorm.
+
+To reproduce on the pod: `bash cerium_examples/tricycle_nonlinear/stage2.sh "gelu|gelu:vector=4|2|19" "ln|layernorm|2|13" "sm|softmax|2|21"` (logs in `/workspace/cerium_work/logs/nonlinear`; the ones above are in `benchmarks/results/2026-11-23_h100_nonlinear`), and `CERIUM_BOOT_REFRESH=19 bash benchmarks/cerium_bench/run_bootstrap.sh <dir>` for the bootstrap.
 
 On a Runpod Pod (Ubuntu 24.04, x86_64), `cerium_examples/tricycle_matmul/bootstrap_pod.sh` builds Cerium at `6b48704` with `familiarization/pod/setup_pod.sh` and runs `run_pod.sh` for each shape; `run_base_split.sh` does BERT-Base.

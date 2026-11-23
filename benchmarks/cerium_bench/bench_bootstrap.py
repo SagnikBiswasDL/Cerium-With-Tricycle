@@ -7,8 +7,10 @@ evaluation keys are several GB).
     python bench_bootstrap.py compile [--vregs 4096 --bcus 128]
     python bench_bootstrap.py run [--warmup 3 --reps 30]
 
-The program is bootstrap_32K/bootstrap.py unchanged (function
-bootstrap_32Kslots_33levels_1gpus); the run step reproduces
+The program is bootstrap_32K/bootstrap.py (function
+bootstrap_32Kslots_33levels_1gpus), unchanged except that CERIUM_BOOT_REFRESH
+(default 18, the file's value) sets its refreshLevel: the output limb count
+(the mod-raise goes to refreshLevel + 33 limbs). The run step reproduces
 bootstrap_runner.py (same seeds, keys and input) with per-phase timing.
 Phases are defined as in bench_bmm.py. The input is 32768 complex numbers of
 modulus 1 with uniform random phase, encrypted at 2 limbs.
@@ -41,14 +43,30 @@ from bench_bmm import latency_stats, timed  # noqa: E402
 FUNCTION = "bootstrap_32Kslots_33levels_1gpus"
 SLOTS = 32 * 1024
 INPUT_LEVEL = 2
+REFRESH = int(os.environ.get("CERIUM_BOOT_REFRESH", "18"))
+
+
+def load_program():
+    """bootstrap_32K/bootstrap.py with ``refreshLevel = REFRESH``."""
+    import types
+
+    source = Path("bootstrap.py").read_text()
+    if source.count("refreshLevel = 18") != 2:
+        raise SystemExit("bootstrap.py no longer sets refreshLevel = 18 in both functions")
+    module = types.ModuleType("bootstrap")
+    module.__file__ = str(Path("bootstrap.py").resolve())
+    sys.modules["bootstrap"] = module
+    exec(compile(source.replace("refreshLevel = 18", f"refreshLevel = {REFRESH}"),
+                 module.__file__, "exec"), module.__dict__)
+    return module
 
 
 def cmd_compile(args):
     sys.path.insert(0, os.getcwd())
-    import bootstrap as program_module
+    program_module = load_program()
     from cerium.compiler import cerium_compile
 
-    record = {"vregs": args.vregs, "bcus": args.bcus}
+    record = {"vregs": args.vregs, "bcus": args.bcus, "refresh_level": REFRESH}
     original_output = program_module.Output
 
     def output(name, expr):
@@ -113,7 +131,7 @@ def cmd_run(args):
     random.seed(10)
     np.random.seed(10)
     ms = {}
-    raw_inputs, ms["bootstrap_constants_ms"] = timed(lambda: get_bootstrap_runner_inputs("b33", 18))
+    raw_inputs, ms["bootstrap_constants_ms"] = timed(lambda: get_bootstrap_runner_inputs("b33", REFRESH))
 
     def setup_context():
         secret = generate_secret_key(SLOTS, HammingWeight=SLOTS)
@@ -182,7 +200,7 @@ def cmd_run(args):
             "input_level_limbs": INPUT_LEVEL,
             "input_scale_log2_declared": 56,
             "input_scale_log2_encoded": float(np.log2(input_scale)),
-            "mod_raise_to_limbs": 18 + 33,
+            "mod_raise_to_limbs": REFRESH + 33,
             "output": record.get("output"),
             "output_decode_scale_log2": float(np.log2(input_scale)),
             "secret_key_hamming_weight": SLOTS,

@@ -62,7 +62,7 @@ class NumpyBackend:
         self.num_slots = num_slots
         self.counts = Counter()
 
-    def cipher(self, name, level=None):
+    def cipher(self, name, level=None, bits=None):
         return np.asarray(self.inputs[name])
 
     def plain(self, name, like):

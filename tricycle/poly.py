@@ -47,23 +47,34 @@ class Evaluator:
 
     # -- primitive bookkeeping ------------------------------------------------
 
-    def dropped(self, level):
-        """Product of the primes a rescale from ``level`` removes."""
+    def dropped(self, level, primes=None):
+        """Product of the ``primes`` (default ``limbs``) primes a rescale from ``level`` removes."""
         product = 1.0
-        for i in range(self.limbs):
+        for i in range(self.limbs if primes is None else primes):
             product *= self.primes[level - 1 - i]
         return product
 
-    def input(self, name, level):
+    def input(self, name, level, primes=None):
         """A ciphertext input encrypted at the scale its first rescale removes.
 
         Starting every value at that prime product keeps the scales of repeated
         squarings (giant steps, the softmax exponential) near it; any other
-        start doubles its excess with every squaring.
+        start doubles its excess with every squaring. ``primes=limbs + 1`` gives
+        a high-scale input for rotations (see ``high``).
         """
-        scale = self.dropped(level)
+        scale = self.dropped(level, primes)
         self.inputs[name] = scale
-        return Value(self.b.cipher(name, level), scale, level)
+        return Value(self.b.cipher(name, level, self._bits(scale)), scale, level)
+
+    def _bits(self, scale):
+        """The DSL's bit count for ``scale``: 28 per prime the scale amounts to.
+
+        Cerium's DSL tracks scales as bit counts (a rescale subtracts 28 and
+        additions need equal counts), so every input is declared at the number
+        of primes its numeric scale is worth.
+        """
+        prime_bits = np.mean(np.log2(self.primes))
+        return 28 * max(1, int(round(np.log2(scale) / prime_bits)))
 
     def _name(self, tag):
         name = f"{self.prefix}_{tag}_{len(self.scalars)}"
@@ -73,15 +84,32 @@ class Evaluator:
         name = self._name(tag)
         self.scalars[name] = (float(value), float(scale))
         self.levels[name] = level
-        return self.b.scalar(name, float(value), level, self.bits)
+        return self.b.scalar(name, float(value), level, self._bits(scale))
 
-    def rescale(self, x):
-        if x.level - self.limbs < 1:
+    @property
+    def high(self):
+        """Primes the multiply consuming a rotated value rescales.
+
+        Cerium's rotations add ~2^52 of absolute key-switch noise, 0.1 at a
+        2^55 scale. Values that get rotated are therefore kept one prime higher
+        (~2^83): the multiply producing them rescales ``limbs - 1`` primes and
+        the multiply consuming them ``limbs + 1``, so no level is spent.
+        """
+        return self.limbs + 1
+
+    @property
+    def low(self):
+        """Primes the multiply producing a value for rotation rescales."""
+        return self.limbs - 1
+
+    def rescale(self, x, primes=None):
+        primes = self.limbs if primes is None else primes
+        if x.level - primes < 1:
             raise ValueError(f"{self.prefix}: out of levels (rescale at level {x.level})")
         h = x.handle
-        for _ in range(self.limbs):
+        for _ in range(primes):
             h = self.b.rescale(h)
-        return Value(h, x.scale / self.dropped(x.level), x.level - self.limbs)
+        return Value(h, x.scale / self.dropped(x.level, primes), x.level - primes)
 
     def down(self, x, level):
         if level > x.level:
@@ -112,45 +140,45 @@ class Evaluator:
         c = self._scalar("c", value, x.scale, x.level)
         return Value(self.b.add(x.handle, c), x.scale, x.level)
 
-    def mul_const(self, x, value, target_scale):
-        """``value * x``, rescaled, at exactly ``target_scale``."""
-        scale = target_scale * self.dropped(x.level) / x.scale
+    def mul_const(self, x, value, target_scale, primes=None):
+        """``value * x``, rescaled by ``primes`` primes, at exactly ``target_scale``."""
+        scale = target_scale * self.dropped(x.level, primes) / x.scale
         c = self._scalar("k", value, scale, x.level)
         self.counts["ct_scalar"] += 1
-        return self.rescale(Value(self.b.mul(x.handle, c), x.scale * scale, x.level))
+        return self.rescale(Value(self.b.mul(x.handle, c), x.scale * scale, x.level), primes)
 
-    def mul_vector(self, x, values, target_scale, tag="m"):
+    def mul_vector(self, x, values, target_scale, tag="m", primes=None):
         """Slot-wise ``values * x`` (a plaintext vector), rescaled to ``target_scale``."""
-        scale = target_scale * self.dropped(x.level) / x.scale
+        scale = target_scale * self.dropped(x.level, primes) / x.scale
         name = self._name(tag)
         values = np.asarray(values, dtype=float)
         self.scalars[name] = (values, float(scale))
         self.levels[name] = x.level
-        p = self.b.vector_plain(name, values, x.level, self.bits)
+        p = self.b.vector_plain(name, values, x.level, self._bits(scale))
         self.counts["ct_scalar"] += 1
-        return self.rescale(Value(self.b.mul(x.handle, p), x.scale * scale, x.level))
+        return self.rescale(Value(self.b.mul(x.handle, p), x.scale * scale, x.level), primes)
 
     def add_vector(self, x, values, tag="a"):
         name = self._name(tag)
         values = np.asarray(values, dtype=float)
         self.scalars[name] = (values, float(x.scale))
         self.levels[name] = x.level
-        p = self.b.vector_plain(name, values, x.level, self.bits)
+        p = self.b.vector_plain(name, values, x.level, self._bits(x.scale))
         return Value(self.b.add(x.handle, p), x.scale, x.level)
 
     def rotate(self, x, k):
         self.counts["rotations"] = self.counts.get("rotations", 0) + (1 if k % len_slots(self) else 0)
         return Value(self.b.rotate(x.handle, k), x.scale, x.level)
 
-    def mul(self, a, b):
+    def mul(self, a, b, primes=None):
         level = min(a.level, b.level)
         a, b = self.down(a, level), self.down(b, level)
         self.counts["ct_ct"] += 1
         h = self.b.relinearize(self.b.mul(a.handle, b.handle))
-        return self.rescale(Value(h, a.scale * b.scale, level))
+        return self.rescale(Value(h, a.scale * b.scale, level), primes)
 
-    def square(self, a):
-        return self.mul(a, a)
+    def square(self, a, primes=None):
+        return self.mul(a, a, primes)
 
     # -- Chebyshev series -------------------------------------------------------
 
@@ -181,51 +209,76 @@ class Evaluator:
         levels = [T[i].level - self.limbs for i in range(1, len(coeffs)) if coeffs[i] != 0]
         return min(levels) if levels else None
 
-    def _plan_level(self, coeffs, T, G):
+    def _plan_level(self, coeffs, T, G, primes=None):
         """Output level of ``_series`` for these coefficients (no ops emitted)."""
         if not G or len(coeffs) <= len(T):
             return self._leaf_level(coeffs, T)
         g = G[-1]
         n = len(T) << (len(G) - 1)
         if len(coeffs) <= n:
-            return self._plan_level(coeffs, T, G[:-1])
+            return self._plan_level(coeffs, T, G[:-1], primes)
         q, r = chebyshev_divide(coeffs, n)
         lq = self._plan_level(q, T, G[:-1])
-        product = (min(lq, g.level) if lq is not None else g.level) - self.limbs
-        lr = self._plan_level(r, T, G[:-1])
+        drop = self.limbs if primes is None else primes
+        product = (min(lq, g.level) if lq is not None else g.level) - drop
+        lr = self._plan_level(r, T, G[:-1], primes)
         return product if lr is None else min(product, lr)
 
-    def _series(self, coeffs, T, G, target, level):
-        """Sum c_i T_i at exactly ``target`` scale and ``level``."""
+    def _scaled(self, x, c, target, mask):
+        if mask is None:
+            return self.mul_const(x, c, target)
+        return self.mul_vector(x, mask * c, target, "mk")
+
+    def _plus(self, x, c, mask):
+        if mask is None:
+            return self.add_const(x, c)
+        return self.add_vector(x, mask * c, "mc")
+
+    def _series(self, coeffs, T, G, target, level, mask=None, primes=None):
+        """Sum c_i T_i at exactly ``target`` scale and ``level``.
+
+        ``mask`` multiplies the result slot-wise at no level cost (it scales
+        the leaf coefficients); ``primes`` is the rescale of the products that
+        end at the output (the top one and those of the remainders).
+        """
         if not G or len(coeffs) <= len(T):
-            terms = [self.mul_const(T[i], c, target) for i, c in enumerate(coeffs) if i and c != 0]
+            terms = [self._scaled(T[i], c, target, mask) for i, c in enumerate(coeffs) if i and c != 0]
             if not terms:
                 raise ValueError("constant-only series")
             total = terms[0]
             for term in terms[1:]:
                 total = self.add(total, term)
             total = self.down(total, level)
-            return self.add_const(total, coeffs[0]) if coeffs[0] != 0 else total
+            return self._plus(total, coeffs[0], mask) if coeffs[0] != 0 else total
         n = len(T) << (len(G) - 1)
         if len(coeffs) <= n:
-            return self._series(coeffs, T, G[:-1], target, level)
+            return self._series(coeffs, T, G[:-1], target, level, mask, primes)
         g = G[-1]
         q, r = chebyshev_divide(coeffs, n)
         if len(q) == 1 or not any(q[1:]):
-            product = self.down(self.mul_const(g, q[0], target), level)
+            if mask is None:
+                product = self.mul_const(g, q[0], target, primes)
+            else:
+                product = self.mul_vector(g, mask * q[0], target, "mk", primes)
+            product = self.down(product, level)
         else:
             lq = self._plan_level(q, T, G[:-1])
             product_level = min(lq, g.level)
-            q_target = target * self.dropped(product_level) / g.scale
-            qv = self._series(q, T, G[:-1], q_target, lq)
-            product = self.down(self.mul(qv, g), level)
+            q_target = target * self.dropped(product_level, primes) / g.scale
+            qv = self._series(q, T, G[:-1], q_target, lq, mask)
+            product = self.down(self.mul(qv, g, primes), level)
         if not any(r[1:]):
-            return self.add_const(product, r[0]) if r[0] != 0 else product
-        rv = self._series(r, T, G[:-1], target, level)
+            return self._plus(product, r[0], mask) if r[0] != 0 else product
+        rv = self._series(r, T, G[:-1], target, level, mask, primes)
         return self.add(product, rv)
 
-    def chebyshev(self, x, coeffs, lower, upper, baby=8):
-        """Evaluate ``sum c_i T_i((2x - lower - upper) / (upper - lower))``."""
+    def chebyshev(self, x, coeffs, lower, upper, baby=8, masks=None, high=False):
+        """Evaluate ``sum c_i T_i((2x - lower - upper) / (upper - lower))``.
+
+        With ``masks``, returns one series per mask, each multiplied slot-wise
+        by its mask, sharing the basis. ``high`` puts the result at the high
+        scale (``Evaluator.high``) one prime above the usual output level.
+        """
         coeffs = np.asarray(coeffs, dtype=float)
         a = 2.0 / (upper - lower)
         b = -(lower + upper) / (upper - lower)
@@ -240,8 +293,14 @@ class Evaluator:
         if giants:
             h = T[baby // 2]
             G = self.giant_steps(self.add_const(self.mul(self.double(h), h), -1.0), giants)
-        level = self._plan_level(coeffs, T, G)
-        return self._series(coeffs, T, G, x.scale, level)
+        primes = self.low if high else None
+        level = self._plan_level(coeffs, T, G, primes)
+        target = x.scale
+        if high:
+            target = x.scale * self.dropped(level + self.low) / self.dropped(level + self.low, self.low)
+        if masks is None:
+            return self._series(coeffs, T, G, target, level, None, primes)
+        return [self._series(coeffs, T, G, target, level, m, primes) for m in masks]
 
 
 def len_slots(ev):

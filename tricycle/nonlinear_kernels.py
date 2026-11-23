@@ -31,8 +31,12 @@ GELU_RANGES = [(-30, 30), (-30, 30), (-27, 64), (-65, 15), (-65, 15), (-55, 15),
 class Gelu:
     """GELU on FF1's real output blocks, one degree-``degree`` Chebyshev series.
 
-    ``count`` ciphertexts are evaluated as one Cerium vector of width
-    ``vector`` at a time (MakeVector), so independent blocks share kernels.
+    The inputs are FF1's outputs already mapped from the layer's GELU range
+    onto [-1, 1]: the map is affine, so FF1's weights and bias absorb it and
+    the series spends no level on it. The outputs are at the high scale
+    (``Evaluator.high``), ready for FF2's rotations. ``count`` ciphertexts are
+    evaluated as one Cerium vector of width ``vector`` at a time (MakeVector),
+    so independent blocks share kernels.
     """
 
     layer: int = 1
@@ -58,22 +62,23 @@ class Gelu:
             group = names[start:start + self.vector]
             xs = [ev.input(n, level) for n in group]
             x = Value(backend.vector([v.handle for v in xs]), xs[0].scale, level)
-            y = ev.chebyshev(x, coeffs, lower, upper)
+            y = ev.chebyshev(x, coeffs, -1.0, 1.0, high=True)
             for n, h in zip(group, backend.unvector(y.handle, len(group))):
                 out[n.replace("_x", "_y")] = Value(h, y.scale, y.level)
         return out
 
     def sample(self, rng):
         lower, upper = self.interval
-        inputs = {}
+        inputs, self._x = {}, {}
         for n in self.cipher_inputs():
-            v = np.zeros(SLOTS)
-            v[:BLOCK_SLOTS] = rng.uniform(lower, upper, BLOCK_SLOTS)
-            inputs[n] = v
+            x = np.zeros(SLOTS)
+            x[:BLOCK_SLOTS] = rng.uniform(lower, upper, BLOCK_SLOTS)
+            self._x[n] = x
+            inputs[n] = (2.0 * x - lower - upper) / (upper - lower)
         return inputs
 
     def reference(self, inputs):
-        return {n.replace("_x", "_y"): gelu(v) for n, v in inputs.items()}
+        return {n.replace("_x", "_y"): gelu(x) for n, x in self._x.items()}
 
 
 def sum_rotations(num_summations, every_other, num_slots=SLOTS):
@@ -91,8 +96,11 @@ def sum_rotations(num_summations, every_other, num_slots=SLOTS):
     return forward, fixup, backward, redistribute
 
 
-def sum_part1(ev, x, rotations, mask, target):
-    """``sum_inplace2_part1``: per-group sums land in the first ``every_other`` slots."""
+def sum_part1(ev, x, rotations, mask):
+    """``sum_inplace2_part1``: per-group sums land in the first ``every_other`` slots.
+
+    The masking multiply keeps ``x``'s scale, so a high-scale ``x`` stays high.
+    """
     forward, fixup, _, _ = rotations
     U = [x]
     u = x
@@ -102,7 +110,7 @@ def sum_part1(ev, x, rotations, mask, target):
     s = U[-1]
     for i, r in fixup:
         s = ev.add(s, ev.rotate(U[i], r))
-    return ev.mul_vector(s, mask, target, "mask")
+    return ev.mul_vector(s, mask, s.scale, "mask")
 
 
 def sum_part2(ev, x, rotations):
@@ -140,7 +148,7 @@ class LayerNorm:
 
     rows: int = 4
     degree: int = 119
-    boot_level: int = 21
+    boot_level: int = 19
     features: int = 768
     name: str = "ln"
 
@@ -176,20 +184,23 @@ class LayerNorm:
         n = self.features
         mult, add = self._map()
         ones = self._token_mask(1.0)
-        xs = [ev.input(f"{self.name}_x{i}", level) for i in range(self.rows)]
-        scale = xs[0].scale
+        hi, lo = ev.high, ev.low
+        xs = [ev.input(f"{self.name}_x{i}", level, hi) for i in range(self.rows)]
         diffs, variances = [], []
         for x in xs:
-            s1 = sum_part1(ev, x, self.rotations, ones, scale)
-            remapped_mean = ev.mul_vector(s1, self._token_mask(np.sqrt(mult) / n), scale, "rmean")
-            mean_square = ev.square(remapped_mean)
+            s1 = sum_part1(ev, x, self.rotations, ones)
+            rm_level = s1.level - hi
+            remapped_mean = ev.mul_vector(s1, self._token_mask(np.sqrt(mult) / n),
+                                          ev.dropped(rm_level), "rmean", hi)
+            mean_square = ev.square(remapped_mean, lo)
             division = np.zeros(SLOTS)
             division[:BLOCK_SLOTS] = 1.0 / n
-            mean = ev.mul_vector(sum_part2(ev, s1, self.rotations), division, scale, "mdiv")
-            squares = ev.square(x)
+            mean = ev.mul_vector(sum_part2(ev, s1, self.rotations), division, x.scale, "mdiv")
+            squares = ev.square(x, hi)
             diff = ev.sub(x, mean)
-            diffs.append(ev.mul_vector(diff, self._block_vector(self.gamma), scale, "gamma"))
-            ss = sum_part1(ev, squares, self.rotations, ones, scale)
+            diffs.append(ev.mul_vector(diff, self._block_vector(self.gamma),
+                                       ev.dropped(diff.level - hi), "gamma", hi))
+            ss = sum_part1(ev, squares, self.rotations, ones)
             p = ev.mul_vector(ss, self._token_mask(mult / n), mean_square.scale, "coefP")
             var = ev.sub(p, mean_square)
             variances.append(ev.add_vector(var, self._token_mask(add + mult * LN_EPSILON), "rconst"))
@@ -199,16 +210,14 @@ class LayerNorm:
         out = {f"{self.name}_var": coalesced}
 
         boot = ev.input(f"{self.name}_var_boot", self.boot_level)
-        coeffs = self._inv_sqrt_coeffs()
-        inv = ev.chebyshev(boot, coeffs, -1.0, 1.0)
-        for j in range(self.rows):
+        masks = [np.roll(ones, j * TOKENS_PER_BLOCK) for j in range(self.rows)]
+        pieces = ev.chebyshev(boot, self._inv_sqrt_coeffs(), -1.0, 1.0, masks=masks, high=True)
+        for j, piece in enumerate(pieces):
             row = self.rows - 1 - j
-            piece = ev.mul_vector(inv, ones, inv.scale, "demask")
+            piece = ev.rotate(piece, j * TOKENS_PER_BLOCK)
             inv_row = sum_part2(ev, piece, self.rotations)
-            y = ev.mul(diffs[row], inv_row)
+            y = ev.mul(diffs[row], inv_row, hi)
             out[f"{self.name}_y{row}"] = ev.add_vector(y, self._block_vector(self.beta), "beta")
-            if j + 1 < self.rows:
-                inv = ev.rotate(inv, TOKENS_PER_BLOCK)
         return out
 
     def _inv_sqrt_coeffs(self):
@@ -339,7 +348,7 @@ class Softmax:
     rows: int = 4
     before: int = 3
     degree: int = 119
-    boot_level: int = 21
+    boot_level: int = 19
     name: str = "sm"
     iterations: int = 8
 
@@ -386,20 +395,22 @@ class Softmax:
         heads = np.ones(HEADS)
         out = {}
         n = self.rows
+        hi, lo = ev.high, ev.low
         for i in range(n):
-            s = [ev.input(f"{self.name}_s{i}{j}", level) for j in range(n)]
-            scale = s[0].scale
+            s = [ev.input(f"{self.name}_s{i}{j}", level, hi) for j in range(n)]
             total = sum_keys(ev, s, self.rotations)
-            mean_sq = ev.square(ev.mul_vector(total, score_mask(heads / self.n_size), scale, "cmean"))
-            squares = [ev.square(x) for x in s]
+            mean = ev.mul_vector(total, score_mask(heads / self.n_size),
+                                 ev.dropped(total.level - hi), "cmean", hi)
+            mean_sq = ev.square(mean)
+            squares = [ev.square(x, hi) for x in s]
             total_sq = sum_keys(ev, squares, self.rotations)
             target = mean_sq.scale
-            shift_v = ev.add(ev.mul_vector(total, score_mask(heads * sum_coeff), target, "scoef"),
-                             ev.mul_vector(total_sq, score_mask(sos), target, "sscoef"))
-            sts_term = ev.mul_vector(ev.square(total), score_mask(sts), target, "stscoef")
+            shift_v = ev.add(ev.mul_vector(total, score_mask(heads * sum_coeff), target, "scoef", hi),
+                             ev.mul_vector(total_sq, score_mask(sos), target, "sscoef", hi))
+            sts_term = ev.mul_vector(ev.square(total, hi), score_mask(sts), target, "stscoef", hi)
             shift_v = ev.add_vector(ev.add(shift_v, sts_term), score_mask(shift), "shift")
             for j, x in enumerate(s):
-                u = ev.sub(ev.mul_vector(x, score_mask(heads * inv), target, "inv2k"), shift_v)
+                u = ev.sub(ev.mul_vector(x, score_mask(heads * inv), target, "inv2k", hi), shift_v)
                 e = ev.add_vector(u, score_mask(heads), "one")
                 for _ in range(self.before):
                     e = ev.square(e)
@@ -412,20 +423,21 @@ class Softmax:
             row = []
             for j in range(n):
                 e = ev.input(f"{self.name}_e{i}{j}_boot", boot)
-                for _ in range(self.iterations - self.before):
+                for _ in range(self.iterations - self.before - 1):
                     e = ev.square(e)
-                row.append(e)
-            exps[i] = row
-            total = sum_keys(ev, row, self.rotations)
-            pre = ev.add_vector(ev.mul_vector(total, mult, total.scale, "pmul"), add, "padd")
+                row.append((ev.square(e), ev.square(e, lo)))
+            exps[i] = [low for low, _ in row]
+            total = sum_keys(ev, [high for _, high in row], self.rotations)
+            pre = ev.add_vector(ev.mul_vector(total, mult, ev.dropped(total.level - hi), "pmul", hi),
+                                add, "padd")
             out[f"{self.name}_d{i}"] = pre
 
         coeffs = self._reciprocal_coeffs()
         for i in range(n):
             d = ev.input(f"{self.name}_d{i}_boot", boot)
-            r = ev.chebyshev(d, coeffs, -1.0, 1.0)
+            r = ev.chebyshev(d, coeffs, -1.0, 1.0, high=True)
             for j in range(n):
-                out[f"{self.name}_p{i}{j}"] = ev.mul(exps[i][j], r)
+                out[f"{self.name}_p{i}{j}"] = ev.mul(exps[i][j], r, hi)
         return out
 
     # -- test data ------------------------------------------------------------
@@ -514,7 +526,44 @@ class Softmax:
         return out
 
 
-KERNELS = {"gelu": Gelu, "layernorm": LayerNorm, "softmax": Softmax}
+@dataclass
+class Probe:
+    """One of each operation the kernels use, on one ciphertext, to attribute CKKS error."""
+
+    level: int = 21
+    name: str = "probe"
+
+    def cipher_inputs(self):
+        return [f"{self.name}_x"]
+
+    def _mask(self):
+        return np.random.default_rng(3).uniform(-1, 1, SLOTS)
+
+    def emit(self, backend, ev, level):
+        x = ev.input(f"{self.name}_x", level)
+        mask = self._mask()
+        return {
+            f"{self.name}_rot": ev.rotate(x, 33),
+            f"{self.name}_rot_neg": ev.rotate(x, -429),
+            f"{self.name}_mask": ev.mul_vector(x, mask, x.scale, "mask"),
+            f"{self.name}_mask_low": ev.mul_vector(x, mask, x.scale / 2 ** 27, "masklow"),
+            f"{self.name}_const": ev.mul_const(x, 0.37, x.scale),
+            f"{self.name}_square": ev.square(x),
+            f"{self.name}_rot_mask": ev.mul_vector(ev.rotate(x, 33), mask, x.scale, "rmask"),
+        }
+
+    def sample(self, rng):
+        return {f"{self.name}_x": rng.uniform(-1, 1, SLOTS)}
+
+    def reference(self, inputs):
+        x, mask = inputs[f"{self.name}_x"], self._mask()
+        return {f"{self.name}_rot": np.roll(x, -33), f"{self.name}_rot_neg": np.roll(x, 429),
+                f"{self.name}_mask": x * mask, f"{self.name}_mask_low": x * mask,
+                f"{self.name}_const": 0.37 * x, f"{self.name}_square": x * x,
+                f"{self.name}_rot_mask": np.roll(x, -33) * mask}
+
+
+KERNELS = {"gelu": Gelu, "layernorm": LayerNorm, "softmax": Softmax, "probe": Probe}
 
 
 def make_kernel(spec):

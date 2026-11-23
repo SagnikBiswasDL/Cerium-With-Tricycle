@@ -41,16 +41,17 @@ def test_gelu_kernel_matches_gelu_on_the_data_slots():
 def test_layernorm_kernel_matches_layer_norm():
     kernel = make_kernel("layernorm")
     inputs = kernel.sample(np.random.default_rng(0))
-    outputs, ev = run_numpy(kernel, inputs, Primes, 2, 12)
+    outputs, ev = run_numpy(kernel, inputs, Primes, 2, 13)
     reference = kernel.reference(inputs)
     for name, value in outputs.items():
         assert np.max(np.abs(value.handle[:BLOCK_SLOTS] - reference[name][:BLOCK_SLOTS])) < 1e-8
     assert ev.counts["rotations"] == 182
 
 
-@pytest.mark.parametrize("spec,level", [("gelu:vector=4", 21), ("layernorm", 12), ("softmax", 21)])
+@pytest.mark.parametrize("spec,level", [("gelu:vector=4", 21), ("layernorm", 13), ("softmax", 21)])
 def test_constants_stay_near_the_nominal_scale(spec, level):
     kernel = make_kernel(spec)
-    _, ev = run_numpy(kernel, kernel.sample(np.random.default_rng(0)), Primes, 2, level)
+    outputs, ev = run_numpy(kernel, kernel.sample(np.random.default_rng(0)), Primes, 2, level)
     exponents = [np.log2(scale) for _, scale in ev.scalars.values()]
-    assert 48 < min(exponents) and max(exponents) < 64
+    assert 48 < min(exponents) and max(exponents) < 85
+    assert all(v.level >= 3 for v in outputs.values())
