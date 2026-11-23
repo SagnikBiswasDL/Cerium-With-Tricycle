@@ -31,10 +31,15 @@ cd "${examples}"
 echo "== Compiling ${tag}: ${TRICYCLE_NONLINEAR:-gelu} (limbs ${TRICYCLE_LIMBS:-2}, level ${TRICYCLE_INPUT_LEVEL:-21}, vregs ${CERIUM_VREGS}, bcus ${CERIUM_BCUS})"
 start=$(date +%s)
 "${python}" -m examples.tricycle_nonlinear.program --gpus "${gpus}" 2>&1 | tee "${logs}/${tag}_compile.log"
-make -C "${examples}" -j"${MAKE_JOBS:-16}" all "FNAME=main_${gpus}gpus" \
-    "DIRNAME=tricycle_nonlinear/outputs/tricycle_nonlinear" >> "${logs}/${tag}_compile.log" 2>&1
-mkdir -p "${out}/compiled/main_${gpus}gpus"
-cp -r "${out}/main_${gpus}gpus/output/." "${out}/compiled/main_${gpus}gpus/"
+# Every compiled function: main and, for fused kernels, Cerium BERT's bootstrap.
+for fdir in "${out}"/*/; do
+    fname="$(basename "${fdir}")"
+    [[ "${fname}" == compiled || "${fname}" == graphs ]] && continue
+    make -C "${examples}" -j"${MAKE_JOBS:-16}" all "FNAME=${fname}" \
+        "DIRNAME=tricycle_nonlinear/outputs/tricycle_nonlinear" >> "${logs}/${tag}_compile.log" 2>&1
+    mkdir -p "${out}/compiled/${fname}"
+    cp -r "${fdir}/output/." "${out}/compiled/${fname}/"
+done
 echo "== Compiled in $(( $(date +%s) - start ))s"
 
 echo "== Running ${tag}"

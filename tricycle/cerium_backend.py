@@ -73,6 +73,16 @@ class CeriumBackend:
     def vector_plain(self, name, values, level, bits):
         return PlaintextInput(name, bits, level)
 
+    def bootstrap(self, x, level):
+        """Cerium BERT's real 33-level bootstrap (``benchmarks/bert_base/bootstrap.py``,
+        imported as ``bootstrap``), called as a function; returns ``level`` limbs."""
+        from bootstrap import bootstrap
+
+        y = bootstrap(x, "b33", level - 2)
+        if y.level() != level:
+            raise ValueError(f"bootstrap returned level {y.level()}, not {level}")
+        return y
+
     def modswitch(self, x):
         return x.modswitch()
 

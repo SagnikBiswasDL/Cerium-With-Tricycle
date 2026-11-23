@@ -149,7 +149,9 @@ class LayerNorm:
     rows: int = 4
     degree: int = 119
     boot_level: int = 19
+    headroom: int = 5
     features: int = 768
+    fused: int = 0
     name: str = "ln"
 
     def __post_init__(self):
@@ -159,7 +161,8 @@ class LayerNorm:
         self.beta = rng.uniform(-0.2, 0.2, self.features)
 
     def cipher_inputs(self):
-        return [f"{self.name}_x{i}" for i in range(self.rows)] + [f"{self.name}_var_boot"]
+        boot = [] if self.fused else [f"{self.name}_var_boot"]
+        return [f"{self.name}_x{i}" for i in range(self.rows)] + boot
 
     def _block_vector(self, per_feature):
         """A per-feature vector laid out like a hidden block (feature 768 is padding)."""
@@ -207,9 +210,12 @@ class LayerNorm:
         coalesced = variances[0]
         for v in variances[1:]:
             coalesced = ev.add(ev.rotate(coalesced, -TOKENS_PER_BLOCK), v)
-        out = {f"{self.name}_var": coalesced}
+        out = {} if self.fused else {f"{self.name}_var": coalesced}
 
-        boot = ev.input(f"{self.name}_var_boot", self.boot_level)
+        if self.fused:
+            boot = ev.bootstrap(coalesced, self.boot_level, self.headroom)
+        else:
+            boot = ev.input(f"{self.name}_var_boot", self.boot_level)
         masks = [np.roll(ones, j * TOKENS_PER_BLOCK) for j in range(self.rows)]
         pieces = ev.chebyshev(boot, self._inv_sqrt_coeffs(), -1.0, 1.0, masks=masks, high=True)
         for j, piece in enumerate(pieces):
@@ -255,13 +261,15 @@ class LayerNorm:
         for i, h in enumerate(blocks):
             start = (self.rows - 1 - i) * TOKENS_PER_BLOCK
             coalesced[start:start + TOKENS_PER_BLOCK] = mult * (h.var(1) + LN_EPSILON) + add
-        inputs[f"{self.name}_var_boot"] = coalesced
+        self._coalesced = coalesced
+        if not self.fused:
+            inputs[f"{self.name}_var_boot"] = coalesced
         return inputs
 
     def reference(self, inputs):
         from tricycle.nonlinear import layer_norm
 
-        out = {f"{self.name}_var": inputs[f"{self.name}_var_boot"]}
+        out = {} if self.fused else {f"{self.name}_var": self._coalesced}
         for i, h in enumerate(self._blocks):
             y = layer_norm(h, self.gamma, self.beta, eps=LN_EPSILON)
             out[f"{self.name}_y{i}"] = self._encode(y)
@@ -349,6 +357,8 @@ class Softmax:
     before: int = 3
     degree: int = 119
     boot_level: int = 19
+    headroom: int = 5
+    fused: int = 0
     name: str = "sm"
     iterations: int = 8
 
@@ -359,6 +369,8 @@ class Softmax:
 
     def cipher_inputs(self):
         grid = [f"{i}{j}" for i in range(self.rows) for j in range(self.rows)]
+        if self.fused:
+            return [f"{self.name}_s{g}" for g in grid]
         return ([f"{self.name}_s{g}" for g in grid] + [f"{self.name}_e{g}_boot" for g in grid]
                 + [f"{self.name}_d{i}_boot" for i in range(self.rows)])
 
@@ -393,7 +405,7 @@ class Softmax:
     def emit(self, backend, ev, level):
         inv, sum_coeff, sos, sts, shift = self._coefficients()
         heads = np.ones(HEADS)
-        out = {}
+        out, partial, sums = {}, {}, {}
         n = self.rows
         hi, lo = ev.high, ev.low
         for i in range(n):
@@ -414,7 +426,9 @@ class Softmax:
                 e = ev.add_vector(u, score_mask(heads), "one")
                 for _ in range(self.before):
                     e = ev.square(e)
-                out[f"{self.name}_e{i}{j}"] = e
+                partial[i, j] = e
+                if not self.fused:
+                    out[f"{self.name}_e{i}{j}"] = e
 
         boot = self.boot_level
         mult, add = self._prescale()
@@ -422,7 +436,10 @@ class Softmax:
         for i in range(n):
             row = []
             for j in range(n):
-                e = ev.input(f"{self.name}_e{i}{j}_boot", boot)
+                if self.fused:
+                    e = ev.bootstrap(partial[i, j], boot, self.headroom)
+                else:
+                    e = ev.input(f"{self.name}_e{i}{j}_boot", boot)
                 for _ in range(self.iterations - self.before - 1):
                     e = ev.square(e)
                 row.append((ev.square(e), ev.square(e, lo)))
@@ -430,11 +447,16 @@ class Softmax:
             total = sum_keys(ev, [high for _, high in row], self.rotations)
             pre = ev.add_vector(ev.mul_vector(total, mult, ev.dropped(total.level - hi), "pmul", hi),
                                 add, "padd")
-            out[f"{self.name}_d{i}"] = pre
+            sums[i] = pre
+            if not self.fused:
+                out[f"{self.name}_d{i}"] = pre
 
         coeffs = self._reciprocal_coeffs()
         for i in range(n):
-            d = ev.input(f"{self.name}_d{i}_boot", boot)
+            if self.fused:
+                d = ev.bootstrap(sums[i], boot, self.headroom)
+            else:
+                d = ev.input(f"{self.name}_d{i}_boot", boot)
             r = ev.chebyshev(d, coeffs, -1.0, 1.0, high=True)
             for j in range(n):
                 out[f"{self.name}_p{i}{j}"] = ev.mul(exps[i][j], r, hi)
@@ -498,6 +520,10 @@ class Softmax:
         inputs = {}
         for (i, j), v in self._blocks(scores).items():
             inputs[f"{self.name}_s{i}{j}"] = v
+        self._exps = exps
+        self._partial = partial
+        if self.fused:
+            return inputs
         for (i, j), v in self._blocks(partial).items():
             inputs[f"{self.name}_e{i}{j}_boot"] = v
         mult, add = self._prescale()
@@ -505,8 +531,6 @@ class Softmax:
         for i in range(self.rows):
             d = self._blocks(sums)[(i, 0)] * mult + add
             inputs[f"{self.name}_d{i}_boot"] = d
-        self._exps = exps
-        self._partial = partial
         return inputs
 
     def reference(self, inputs):
@@ -518,6 +542,8 @@ class Softmax:
         mult, add = self._prescale()
         for (i, j), v in self._blocks(probs).items():
             out[f"{self.name}_p{i}{j}"] = v
+        if self.fused:
+            return out
         for (i, j), v in self._blocks(self._partial).items():
             out[f"{self.name}_e{i}{j}"] = v
         sums = exps.sum(axis=2, keepdims=True) * np.ones_like(exps)

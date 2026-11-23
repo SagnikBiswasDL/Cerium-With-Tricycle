@@ -158,6 +158,26 @@ This is a sum of separately measured programs, not a run of a fused layer:
 - HEaaN multiplies by i for free (`multImagUnit`), and Tricycle uses that to pack and unpack complex ciphertexts around bootstraps and FF1/GELU. Cerium has no such operation: each one costs a level unless the i is folded into a neighbouring plaintext multiply. These packing steps are not in the kernels above.
 - Cerium's LayerNorm costs 15 ms. Ours is mostly the four masked degree-119 inverse square roots plus 182 rotations per LayerNorm.
 
-To reproduce on the pod: `bash cerium_examples/tricycle_nonlinear/stage2.sh "gelu|gelu:vector=4|2|19" "ln|layernorm|2|13" "sm|softmax|2|21"` (logs in `/workspace/cerium_work/logs/nonlinear`; the ones above are in `benchmarks/results/2026-11-23_h100_nonlinear`), and `CERIUM_BOOT_REFRESH=19 bash benchmarks/cerium_bench/run_bootstrap.sh <dir>` for the bootstrap.
+### LayerNorm and softmax with the bootstraps inside the program
+
+With `fused=1` the kernels bootstrap inside the same Cerium program, using Cerium BERT's own real-valued 33-level bootstrap (`bootstrap_32K_33lvl_t1` from `benchmarks/bert_base`, called as a Cerium function, output at 19 limbs) instead of taking the post-bootstrap values as fresh inputs. Before each bootstrap the value is scaled down by 2^`headroom` and multiplied back afterwards; Cerium's BERT does the same, with up to 2^14.
+
+| Kernel (fused) | Bootstraps | Headroom | Wall time | Kernel time | Error vs NumPy program | Error vs exact function |
+| --- | --- | --- | --- | --- | --- | --- |
+| LayerNorm, 4 blocks | 1 | 2^5 | 63.6 ms | 96 ms | 1.3e-5 | 1.3e-5 |
+| LayerNorm | 1 | 2^9 | 63.7 ms | | 3.3e-4 | 3.3e-4 |
+| Softmax, 4 × 4 score blocks | 20 | 2^5 | 543.2 ms | 627 ms | 3.2e-2 | 2.6e-2 |
+| Softmax | 20 | 2^7 | 542.6 ms | | 2.0e-3 | 1.1e-2 |
+| Softmax | 20 | 2^9 | 543.0 ms | 628 ms | 1.6e-4 | 1.2e-2 |
+| Softmax | 20 | 2^10 | 542.5 ms | | 1.5e-4 | 1.2e-2 |
+| Softmax | 20 | 2^12 | 542.4 ms | | 5.5e-4 | 1.2e-2 |
+
+Wall time is the median of 10 warm runs on the H100; LayerNorm outputs reach about 6 in magnitude, softmax probabilities about 0.95. With too little headroom the bootstrap's input leaves its valid range (2^3 gave 0.32 for the softmax); with too much, its fixed noise becomes relatively larger. The best headroom depends on the input's range: 2^5 for LayerNorm's variance (mapped onto [-1, 1]) and 2^9–2^10 for the softmax. At 2^9 the fused softmax is as close to exact softmax as Tricycle's (1 + x/256)^256 exponential allows (1.2e-2, the same as staged). Bootstrapping after 5 of the 8 squarings instead of Tricycle's 3 changed nothing (3.1e-2 at 2^5), so the error was not amplification by the squarings that follow.
+
+The fused times agree with the staged ones: LayerNorm 39.4 ms + one 21.3 ms bootstrap ≈ 61 ms; softmax 68.5 ms + 20 × 21.3 ms ≈ 495 ms, against 543 ms fused. The fused softmax bootstraps each of its 20 ciphertexts on its own. Tricycle packs them (4 score ciphertexts per complex bootstrap, so 4 + 2 bootstraps), which needs the multiply-by-i packing that Cerium lacks (see above); packing two real ciphertexts per bootstrap is the next step and would halve the softmax's bootstrap time.
+
+Still not done: GELU's bootstrap before FF2, the matmuls, and the two residual LayerNorm inputs in one program; the level gap between softmax and softmax·V; and the inverse-square-root softmax of layers 3–9 and 11.
+
+To reproduce on the pod: `bash cerium_examples/tricycle_nonlinear/stage2.sh "lnf|layernorm:fused=1|2|13" "smf|softmax:fused=1,headroom=9|2|21"`, and for the staged kernels `bash cerium_examples/tricycle_nonlinear/stage2.sh "gelu|gelu:vector=4|2|19" "ln|layernorm|2|13" "sm|softmax|2|21"` (logs in `/workspace/cerium_work/logs/nonlinear`; the ones above are in `benchmarks/results/2026-11-23_h100_nonlinear`), and `CERIUM_BOOT_REFRESH=19 bash benchmarks/cerium_bench/run_bootstrap.sh <dir>` for the bootstrap.
 
 On a Runpod Pod (Ubuntu 24.04, x86_64), `cerium_examples/tricycle_matmul/bootstrap_pod.sh` builds Cerium at `6b48704` with `familiarization/pod/setup_pod.sh` and runs `run_pod.sh` for each shape; `run_base_split.sh` does BERT-Base.

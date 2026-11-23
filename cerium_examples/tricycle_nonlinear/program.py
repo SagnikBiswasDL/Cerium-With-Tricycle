@@ -10,6 +10,8 @@ Cerium's BERT; 3: 2^84). TRICYCLE_INPUT_LEVEL is the ciphertext input level.
 
 import argparse
 import os
+import sys
+from pathlib import Path
 
 from cerium.dsl import CeriumFunction, CeriumProgram, Output
 from examples.common import SLOTS, SUPPORTED_GPUS, main_name, output_root
@@ -19,6 +21,9 @@ from tricycle.nonlinear_kernels import make_kernel
 from tricycle.poly import Evaluator
 
 EXAMPLE = "tricycle_nonlinear"
+# Cerium BERT's bootstrap module; its b33 bootstrap mod-raises to this many limbs.
+BERT_DIR = Path(__file__).resolve().parents[2] / "benchmarks" / "bert_base"
+BOOTSTRAP_LVL = 52
 
 
 def settings():
@@ -28,10 +33,22 @@ def settings():
     return limbs, level, [make_kernel(s.strip()) for s in specs]
 
 
+def load_bootstrap():
+    """Import Cerium BERT's ``bootstrap`` module, configured as BERT configures it."""
+    if str(BERT_DIR) not in sys.path:
+        sys.path.insert(0, str(BERT_DIR))
+    import bootstrap
+
+    bootstrap.configureBootstrapLVL(BOOTSTRAP_LVL)
+    return bootstrap
+
+
 def build_program(gpus):
     limbs, level, kernels = settings()
     program = CeriumProgram(EXAMPLE, rns_bit_size=28, num_gpus=gpus)
     with program:
+        if any(getattr(k, "fused", 0) for k in kernels):
+            load_bootstrap().bootstrap_32K_33lvl_t1_function()
         with CeriumFunction(main_name(gpus), gpus, 0):
             for kernel in kernels:
                 backend = CeriumBackend(28 * limbs, level, 28, SLOTS)

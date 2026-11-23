@@ -74,7 +74,7 @@ class Evaluator:
         of primes its numeric scale is worth.
         """
         prime_bits = np.mean(np.log2(self.primes))
-        return 28 * max(1, int(round(np.log2(scale) / prime_bits)))
+        return 28 * max(0, int(round(np.log2(scale) / prime_bits)))
 
     def _name(self, tag):
         name = f"{self.prefix}_{tag}_{len(self.scalars)}"
@@ -165,6 +165,26 @@ class Evaluator:
         self.levels[name] = x.level
         p = self.b.vector_plain(name, values, x.level, self._bits(x.scale))
         return Value(self.b.add(x.handle, p), x.scale, x.level)
+
+    def bootstrap(self, x, level, headroom=5):
+        """Refresh ``x`` to ``level`` limbs at the scale ``input`` gives that level.
+
+        The bootstrap takes a 2-limb ciphertext and returns its message at the
+        same numeric scale, so the input is brought to ``dropped(level) /
+        2^headroom`` (the headroom keeps the message well below the first
+        modulus) and the output is multiplied by the exact integer
+        2^headroom without rescaling, as Cerium's BERT does.
+        """
+        prime_bits = np.mean(np.log2(self.primes))
+        primes = max(1, int(round(np.log2(x.scale) / prime_bits)))
+        if x.level < 2 + primes:
+            raise ValueError(f"{self.prefix}: bootstrap input at level {x.level} is too low")
+        inner = self.dropped(level) / 2 ** headroom
+        y = self.mul_const(self.down(x, 2 + primes), 1.0, inner, primes)
+        h = self.b.bootstrap(y.handle, level)
+        self.counts["bootstraps"] = self.counts.get("bootstraps", 0) + 1
+        c = self._scalar("bs", 1.0, 2 ** headroom, level)
+        return Value(self.b.mul(h, c), inner * 2 ** headroom, level)
 
     def rotate(self, x, k):
         self.counts["rotations"] = self.counts.get("rotations", 0) + (1 if k % len_slots(self) else 0)

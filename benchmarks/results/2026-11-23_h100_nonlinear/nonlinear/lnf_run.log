@@ -1,0 +1,69 @@
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:379][IOGenerator]: Generating Evalkeys:/workspace/cerium_work/Cerium/examples/tricycle_nonlinear/outputs/tricycle_nonlinear/compiled/bootstrap_32K_33lvl_t1/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:613][IOGenerator]: Generating Plaintext Inputs:/workspace/cerium_work/Cerium/examples/tricycle_nonlinear/outputs/tricycle_nonlinear/compiled/bootstrap_32K_33lvl_t1/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:379][IOGenerator]: Generating Evalkeys:/workspace/cerium_work/Cerium/examples/tricycle_nonlinear/outputs/tricycle_nonlinear/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:613][IOGenerator]: Generating Plaintext Inputs:/workspace/cerium_work/Cerium/examples/tricycle_nonlinear/outputs/tricycle_nonlinear/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:208][Program]: Making CeriumFunction: main_1gpus: vregs=8192 bcus=128 num_gpus_compiled=1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:208][Program]: Making CeriumFunction: bootstrap_32K_33lvl_t1: vregs=8192 bcus=128 num_gpus_compiled=1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:261][Program]: [0]: Allocating Register File Memory: size = 16384 vregs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:265][Program]: [0]: Allocating BCUs: size = 256 bcus
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:291][CeriumFunction:bootstrap_32K_33lvl_t1]: Generating Inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:291][CeriumFunction:main_1gpus]: Generating Inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:729][CeriumFunction:bootstrap_32K_33lvl_t1]: Copying Inputs to Device
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:887][CeriumFunction:bootstrap_32K_33lvl_t1]: Launching Threadfn 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1098][CeriumFunction:bootstrap_32K_33lvl_t1]: Calculating Remapable Size for tid: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1133][CeriumFunction:bootstrap_32K_33lvl_t1]: Calculated Remapable Size for tid: 0 size: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:729][CeriumFunction:main_1gpus]: Copying Inputs to Device
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:887][CeriumFunction:main_1gpus]: Launching Threadfn 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1098][CeriumFunction:main_1gpus]: Calculating Remapable Size for tid: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:1133][CeriumFunction:main_1gpus]: Calculated Remapable Size for tid: 0 size: 0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:427][Program]: bootstrap_32K_33lvl_t1: Create Cudagraph = True
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:679][CeriumFunction:bootstrap_32K_33lvl_t1]: Created Register File:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:681][CeriumFunction:bootstrap_32K_33lvl_t1]: Created BCU Units:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:640][CeriumFunction:bootstrap_32K_33lvl_t1]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:650][CeriumFunction:bootstrap_32K_33lvl_t1]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:684][CeriumFunction:bootstrap_32K_33lvl_t1]: Creating Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:687][CeriumFunction:bootstrap_32K_33lvl_t1]: Created Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:689][CeriumFunction:bootstrap_32K_33lvl_t1]: Loaded Function Map:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:699][CeriumFunction:bootstrap_32K_33lvl_t1]: Creating Cuda Graphs tid:0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1095][CeriumFunction:bootstrap_32K_33lvl_t1]: Completed CUDA Graph Creation:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:427][Program]: main_1gpus: Create Cudagraph = True
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:679][CeriumFunction:main_1gpus]: Created Register File:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:681][CeriumFunction:main_1gpus]: Created BCU Units:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:640][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function.cpp:650][CeriumFunction:main_1gpus]: Creating Evaluators
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:684][CeriumFunction:main_1gpus]: Creating Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:687][CeriumFunction:main_1gpus]: Created Graphs:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:689][CeriumFunction:main_1gpus]: Loaded Function Map:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:699][CeriumFunction:main_1gpus]: Creating Cuda Graphs tid:0
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:946][CeriumFunction:main_1gpus]: [0]: Function Name: bootstrap_32K_33lvl_t1
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1095][CeriumFunction:main_1gpus]: Completed CUDA Graph Creation:
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/program.cpp:438][Program]: Returning CeriumFunctions
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/io/generator.cpp:299][IOGenerator]: Generating Ciphertexts:/workspace/cerium_work/Cerium/examples/tricycle_nonlinear/outputs/tricycle_nonlinear/compiled/main_1gpus/program_inputs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_io.cpp:961][CeriumFunction:main_1gpus]: Copying Ciphertext Inputs To GPU
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+[INFO][/workspace/cerium_work/Cerium/cerium/runtime/execution/function_execution.cpp:1120][CeriumFunction:main_1gpus]: Launching Cuda Graphs
+------------------ Completed -------------------------
+Iterations Run = 1
+Total Execution Time = 63 milliseconds
+Average Execution Time = 63 milliseconds
+ln: NumPy program vs exact function, max abs error 3.788e-11
+program.run(): 64.6 ms (first, cold)
+program.run() warm: median 63.6 ms, p95 63.8 ms, min 63.6 ms (3 warmup, 10 timed)
+ln_y3: vs NumPy program 1.664e-06, vs exact function 1.664e-06 (largest |value| 5.528)
+ln_y2: vs NumPy program 2.814e-06, vs exact function 2.814e-06 (largest |value| 5.198)
+ln_y1: vs NumPy program 1.279e-05, vs exact function 1.279e-05 (largest |value| 6.071)
+ln_y0: vs NumPy program 5.138e-06, vs exact function 5.138e-06 (largest |value| 4.836)
+worst over 4 outputs: vs NumPy program 1.279e-05, vs exact function 1.279e-05
+------------------------------------------------------

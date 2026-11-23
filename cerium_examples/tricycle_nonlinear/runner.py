@@ -14,7 +14,7 @@ import time
 import numpy as np
 from examples.common import SLOTS, _secret_key, main_name, output_root, run_cli
 from examples.primes import Primes
-from examples.tricycle_nonlinear.program import EXAMPLE, settings
+from examples.tricycle_nonlinear.program import EXAMPLE, load_bootstrap, settings
 from tricycle.nonlinear_kernels import BLOCK_SLOTS, run_numpy
 
 
@@ -37,6 +37,8 @@ def make_case(seed=11):
         worst = max(float(np.max(np.abs(expected[n][:BLOCK_SLOTS] - exact[n][:BLOCK_SLOTS])))
                     for n in outputs)
         print(f"{kernel.name}: NumPy program vs exact function, max abs error {worst:.3e}")
+    if any(getattr(k, "fused", 0) for k in kernels):
+        raw_inputs.update(load_bootstrap().get_bootstrap_runner_inputs("b33", 16))
     return raw_inputs, expected, exact, output_scales
 
 
@@ -58,7 +60,7 @@ def main(gpus):
     encryptor = runtime.CKKSEncryptor(encryptor_context, seed)
     inputs = runtime.RawInputsWrapper(raw_inputs)
     generator = runtime.IOGenerator(context)
-    for function_dir in sorted(compiled.glob(f"*_{gpus}gpus")):
+    for function_dir in sorted(p for p in compiled.iterdir() if p.is_dir()):
         function_inputs = function_dir / "program_inputs"
         if not function_inputs.is_file():
             continue

@@ -48,6 +48,23 @@ def test_layernorm_kernel_matches_layer_norm():
     assert ev.counts["rotations"] == 182
 
 
+@pytest.mark.parametrize("spec,level,bootstraps", [("layernorm:fused=1", 13, 1),
+                                                   ("softmax:fused=1", 21, 20)])
+def test_fused_kernels_bootstrap_in_the_program(spec, level, bootstraps):
+    kernel = make_kernel(spec)
+    inputs = kernel.sample(np.random.default_rng(0))
+    assert set(inputs) == set(kernel.cipher_inputs())
+    outputs, ev = run_numpy(kernel, inputs, Primes, 2, level)
+    assert set(outputs) == set(kernel.reference(inputs))
+    assert ev.counts["bootstraps"] == bootstraps
+    staged = make_kernel(spec.split(":")[0])
+    staged_outputs, _ = run_numpy(staged, staged.sample(np.random.default_rng(0)), Primes, 2, level)
+    for name, value in outputs.items():
+        want = staged_outputs[name].handle[:BLOCK_SLOTS]
+        assert np.max(np.abs(value.handle[:BLOCK_SLOTS] - want)) < 1e-9
+        assert value.level >= 3
+
+
 @pytest.mark.parametrize("spec,level", [("gelu:vector=4", 21), ("layernorm", 13), ("softmax", 21)])
 def test_constants_stay_near_the_nominal_scale(spec, level):
     kernel = make_kernel(spec)
