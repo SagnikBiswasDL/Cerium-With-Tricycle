@@ -9,7 +9,8 @@ NumPy tests execute) through ``tricycle.cerium_backend``.
 
 TRICYCLE_SHAPE selects ``mini`` (default), ``tiny`` (BERT-Tiny) or ``base``
 (BERT-Base). TRICYCLE_MATMULS is a comma-separated subset of
-``qkv,reshape,qk,pv,attn_out,ff1,ff2`` (default: all).
+``qkv,reshape,qk,pv,attn_out,ff1,ff2`` (default: all). TRICYCLE_FUSED picks
+the plaintext products emitted with Cerium's BsgsMultiplyAccumulate.
 """
 
 import argparse
@@ -27,8 +28,13 @@ CIPHER_BITS = 3 * RNS_BITS
 
 
 def selected_matmuls():
+    """TRICYCLE_FUSED lists plaintext products to emit as BsgsMultiplyAccumulate
+    over ciphertext vectors (``all`` for every one), e.g. ``qkv,ff1,ff2``."""
     shape = SHAPES[os.environ.get("TRICYCLE_SHAPE", "mini")]
     matmuls = tricycle_layer_matmuls(shape, SLOTS)
+    fused = {name.strip() for name in os.environ.get("TRICYCLE_FUSED", "").split(",")}
+    for matmul in matmuls:
+        matmul.fused = matmul.kind != "ct_ct" and ("all" in fused or matmul.name in fused)
     wanted = os.environ.get("TRICYCLE_MATMULS")
     if not wanted:
         return matmuls

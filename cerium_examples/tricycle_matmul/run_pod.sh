@@ -47,3 +47,20 @@ echo "== Running ${tag}"
 start=$(date +%s)
 "${python}" -m examples.tricycle_matmul.runner --gpus "${gpus}" 2>&1 | tee "${logs}/tricycle_${tag}_run.log"
 echo "== Ran in $(( $(date +%s) - start ))s"
+
+if [[ -n "${TRICYCLE_PROFILE:-}" ]]; then
+    # Same method as familiarization/pod/profile_bert.sh: per-kernel GPU time
+    # inside the CUDA graph, split by primitive with kernel_breakdown.py.
+    nsys="$(command -v nsys || ls /usr/local/cuda*/bin/nsys /opt/nvidia/nsight-systems/*/bin/nsys 2>/dev/null | head -1)"
+    warmup=2 reps=5
+    echo "== Profiling ${tag} with ${nsys}"
+    TRICYCLE_WARMUP="${warmup}" TRICYCLE_REPS="${reps}" "${nsys}" profile --trace=cuda \
+        --cuda-graph-trace=node --force-overwrite=true --output="${logs}/tricycle_${tag}" \
+        "${python}" -m examples.tricycle_matmul.runner --gpus "${gpus}" > /dev/null 2>&1
+    "${nsys}" stats --report cuda_gpu_kern_sum --format csv --force-export=true \
+        --output="${logs}/tricycle_${tag}" "${logs}/tricycle_${tag}.nsys-rep" > /dev/null
+    rm -f "${logs}/tricycle_${tag}.sqlite" "${logs}/tricycle_${tag}.nsys-rep"
+    "${python}" "${ROOT}/benchmarks/cerium_bench/kernel_breakdown.py" \
+        "${logs}/tricycle_${tag}_cuda_gpu_kern_sum.csv" $((1 + warmup + reps)) \
+        | tee "${logs}/tricycle_${tag}_breakdown.json"
+fi

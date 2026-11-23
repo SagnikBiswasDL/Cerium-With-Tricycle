@@ -9,6 +9,7 @@ its product's rescale removes, so the runtime output scales are exact
 (``tricycle.kernels.track_scales``).
 """
 
+import os
 import random
 import time
 
@@ -84,7 +85,21 @@ def main(gpus, atol=1e-3):
     )
     start = time.perf_counter()
     program.run()
-    print(f"program.run(): {(time.perf_counter() - start) * 1e3:.1f} ms")
+    print(f"program.run(): {(time.perf_counter() - start) * 1e3:.1f} ms (first, cold)")
+    # program.run() returns after cudaDeviceSynchronize, so host time covers the GPU work.
+    warmup = int(os.environ.get("TRICYCLE_WARMUP", "3"))
+    reps = int(os.environ.get("TRICYCLE_REPS", "10"))
+    for _ in range(warmup):
+        program.run()
+    runs = []
+    for _ in range(reps):
+        start = time.perf_counter()
+        program.run()
+        runs.append((time.perf_counter() - start) * 1e3)
+    if runs:
+        print(f"program.run() warm: median {np.median(runs):.1f} ms, "
+              f"p95 {np.percentile(runs, 95):.1f} ms, min {min(runs):.1f} ms "
+              f"({warmup} warmup, {reps} timed)")
 
     outputs = functions[name].get_program_outputs()
     failures = []

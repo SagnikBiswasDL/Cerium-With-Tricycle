@@ -112,6 +112,32 @@ class LayerProductTests(unittest.TestCase):
                         np.testing.assert_allclose(decoded[name], expected[name],
                                                    rtol=1e-8, atol=1e-8)
 
+    def test_fused_bsgs_matches_the_unfused_slots(self):
+        rng = np.random.default_rng(9)
+        for shape_name, shape in (("mini", MINI), ("tiny", SHAPES["tiny"]),
+                                  ("base", SHAPES["base"])):
+            for matmul in tricycle_layer_matmuls(shape):
+                if matmul.kind == "ct_ct":
+                    continue
+                with self.subTest(f"{shape_name}/{matmul.name}"):
+                    left, right = matmul.random_blocks(rng)
+                    _, plain_slots, _ = simulate(matmul, left, right)
+                    matmul.fused = True
+                    decoded, fused_slots, counts = simulate(matmul, left, right)
+                    self.assertEqual(set(fused_slots), set(plain_slots))
+                    for name, want in plain_slots.items():
+                        np.testing.assert_allclose(fused_slots[name], want,
+                                                   rtol=1e-9, atol=1e-9)
+                    expected = matmul.reference(left, right)
+                    for name in expected:
+                        np.testing.assert_allclose(decoded[name], expected[name],
+                                                   rtol=1e-8, atol=1e-8)
+                    level = 12
+                    outputs, _ = track_scales(matmul, FAKE_PRIMES, 1 << 84, level)
+                    for value in outputs.values():
+                        self.assertEqual((value.level, value.scale, value.degree),
+                                         (level - 1, 1 << 84, 1))
+
     def test_scales_and_levels_are_exact(self):
         level = 12
         cipher_scale = 1 << 56

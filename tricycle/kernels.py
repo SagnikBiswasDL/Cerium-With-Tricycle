@@ -104,6 +104,25 @@ class NumpyBackend:
             total = term if total is None else total + term
         return total
 
+    def vector(self, xs):
+        return np.stack(xs)
+
+    def unvector(self, x, count):
+        return list(x)
+
+    def bsgs(self, x, plains, babies, giants):
+        babies = [_norm(k, self.num_slots) for k in babies]
+        giants = [_norm(k, self.num_slots) for k in giants]
+        self.counts["hoisted_rotations"] += sum(1 for k in babies if k) * len(x)
+        self.counts["rotations"] += sum(1 for k in giants if k) * len(x)
+        self.counts["multiplies"] += len(plains) * len(x)
+        rotated = [np.roll(x, -k, axis=-1) for k in babies]
+        total = 0
+        for g, giant in enumerate(giants):
+            acc = sum(rotated[y] * plains[g * len(babies) + y] for y in range(len(babies)))
+            total = total + np.roll(acc, -giant, axis=-1)
+        return total
+
 
 @dataclass(frozen=True)
 class Tracked:
@@ -177,6 +196,19 @@ class ScaleBackend:
         for x in xs[1:]:
             total = self.add(total, x)
         return self.rotate(total, 0)
+
+    def vector(self, xs):
+        for x in xs[1:]:
+            self.add(xs[0], x)
+        return xs[0]
+
+    def unvector(self, x, count):
+        return [x] * count
+
+    def bsgs(self, x, plains, babies, giants):
+        if len(plains) != len(babies) * len(giants):
+            raise ValueError("bsgs needs one plaintext per baby and giant step")
+        return self.rotate(_sum(self, [self.mul(x, p) for p in plains]), 0)
 
 
 # ---------------------------------------------------------------------------
@@ -277,6 +309,42 @@ def emit_pt_ct(b, plan, cipher_grid, plain_name, rows, num_slots=DEFAULT_SLOTS):
             row.append(b.rescale(_giant(b, accs, bases)))
         out.append(row)
     return out
+
+
+def emit_fused_bsgs(b, plan, cipher_grid, plain_name, zero_name, plain_side,
+                    num_slots=DEFAULT_SLOTS):
+    """:func:`emit_ct_pt` (``plain_side="right"``) or :func:`emit_pt_ct` (``"left"``)
+    as Cerium's ``BsgsMultiplyAccumulate`` over a ciphertext vector.
+
+    The ciphertext blocks that share a weight block are one vector: the rows
+    ``C[:][j]`` of a ciphertext-plaintext product, the columns ``C[j][:]`` of a
+    plaintext-ciphertext one. Every diagonal multiplies the whole vector, and
+    each vector gets its own hoisted baby steps per output block. Chunks
+    shorter than ``num_baby_steps`` are padded with the zero plaintext.
+    """
+    if plain_side == "right":
+        count, inner = len(cipher_grid), len(cipher_grid[0])
+        blocks = [[cipher_grid[i][j] for i in range(count)] for j in range(inner)]
+    else:
+        inner, count = len(cipher_grid), len(cipher_grid[0])
+        blocks = [list(cipher_grid[j]) for j in range(inner)]
+    vectors = [b.vector([emit_replicate(b, x, plan.cipher_elements, plan.num_repetitions, num_slots)
+                         for x in row]) for row in blocks]
+    babies = [_norm(y * plan.baby_step, num_slots) for y in range(plan.num_baby_steps)]
+    giants = [_norm(base, num_slots) for base, _ in plan.chunks]
+
+    def products(other):
+        total = None
+        for j, vector in enumerate(vectors):
+            a, c = (j, other) if plain_side == "right" else (other, j)
+            names = [plain_name(a, c, g, y) if y < len(extracts) else zero_name
+                     for g, (_, extracts) in enumerate(plan.chunks)
+                     for y in range(plan.num_baby_steps)]
+            term = b.bsgs(vector, [b.plain(name, vector) for name in names], babies, giants)
+            total = term if total is None else b.add(total, term)
+        return b.unvector(b.rescale(total), count)
+
+    return products
 
 
 def emit_ct_ct(b, plan, left_grid, right_grid, mask_name=None, num_slots=DEFAULT_SLOTS):
@@ -428,6 +496,8 @@ class Matmul:
     concatenated: bool = False
     description: str = ""
     mask_value: object = None
+    # Plaintext products only: emit through ``emit_fused_bsgs``.
+    fused: bool = False
 
     @property
     def out_grid(self):
@@ -441,6 +511,10 @@ class Matmul:
 
     def mask_name(self, g):
         return f"{self.name}_mask_g{g}"
+
+    @property
+    def zero_name(self):
+        return f"{self.name}_zero"
 
     def output_name(self, i, k):
         return f"{self.name}_out_{i}_{k}"
@@ -460,7 +534,16 @@ class Matmul:
             return [[b.cipher(self.input_name(side, a, c)) for c in range(cols)]
                     for a in range(rows)]
 
-        if self.kind == "ct_pt":
+        if self.fused and self.kind == "ct_pt":
+            products = emit_fused_bsgs(b, self.plan, grid("left"), self.plain_name,
+                                       self.zero_name, "right", num_slots)
+            columns = [products(k) for k in range(self.right_grid[1])]
+            out = [list(row) for row in zip(*columns)]
+        elif self.fused and self.kind == "pt_ct":
+            products = emit_fused_bsgs(b, self.plan, grid("right"), self.plain_name,
+                                       self.zero_name, "left", num_slots)
+            out = [products(i) for i in range(self.left_grid[0])]
+        elif self.kind == "ct_pt":
             out = emit_ct_pt(b, self.plan, grid("left"), self.plain_name, self.right_grid[1],
                              num_slots)
         elif self.kind == "pt_ct":
@@ -496,6 +579,8 @@ class Matmul:
                     values[self.input_name(side, a, c)] = slots
         if self.kind != "ct_ct":
             values.update(ct_pt_plaintexts(self.plan, plain_blocks, self.plain_name, num_slots))
+            if self.fused and any(len(e) < self.plan.num_baby_steps for _, e in self.plan.chunks):
+                values[self.zero_name] = np.zeros(num_slots)
         else:
             values.update(mask_plaintexts(self.plan, self.mask_name, num_slots))
         return values

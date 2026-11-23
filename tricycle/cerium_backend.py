@@ -7,7 +7,15 @@ ciphertext-plaintext product to its input scale. The numeric scales the
 runtime needs come from ``tricycle.kernels.track_scales``.
 """
 
-from cerium.dsl import CiphertextInput, HoistedRotate, PlaintextInput, RotateAccumulateMany
+from cerium.dsl import (
+    BreakVector,
+    BsgsMultiplyAccumulate,
+    CiphertextInput,
+    HoistedRotate,
+    MakeVector,
+    PlaintextInput,
+    RotateAccumulateMany,
+)
 
 
 class CeriumBackend:
@@ -68,3 +76,13 @@ class CeriumBackend:
         if len(xs) == 1:
             return self.rotate(xs[0], ks[0])
         return RotateAccumulateMany(list(xs), ks)
+
+    def vector(self, xs):
+        return xs[0] if len(xs) == 1 else MakeVector(list(xs))
+
+    def unvector(self, x, count):
+        return [x] if count == 1 else BreakVector(x)
+
+    def bsgs(self, x, plains, babies, giants):
+        return BsgsMultiplyAccumulate(x, list(plains), [self._norm(k) for k in babies],
+                                      [self._norm(k) for k in giants])
